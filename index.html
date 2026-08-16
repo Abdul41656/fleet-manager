@@ -1690,6 +1690,90 @@
         const WA_TEMPLATE_NAME = "maintenance_msg";
 
         // =============================================
+        //  SHAREPOINT CONFIGURATION
+        // =============================================
+
+        // ⚠️ IMPORTANT: Replace the URL below with your actual SharePoint site URL
+        const SHAREPOINT_CONFIG = {
+    siteUrl: 'https://emiratestrans.sharepoint.com',  // ← SharePoint site root
+    listId: 'b1a3f835-3c71-4d1c-9c45-b66ec6cdaca1'
+};
+
+        // =============================================
+        //  SHAREPOINT API FUNCTIONS
+        // =============================================
+
+        async function loadFromSharePoint() {
+            try {
+                // Try to get SharePoint context info first
+                const contextResponse = await fetch(`${SHAREPOINT_CONFIG.siteUrl}/_api/contextinfo`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json;odata=verbose'
+                    },
+                    credentials: 'include'
+                });
+
+                if (!contextResponse.ok) {
+                    console.warn('Cannot connect to SharePoint. Using local data.');
+                    return false;
+                }
+
+                const endpoint = `${SHAREPOINT_CONFIG.siteUrl}/_api/web/lists(guid'${SHAREPOINT_CONFIG.listId}')/items?$top=5000`;
+                
+                const response = await fetch(endpoint, {
+                    headers: {
+                        'Accept': 'application/json;odata=verbose'
+                    },
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    console.warn('Could not load from SharePoint, using local data');
+                    return false;
+                }
+                
+                const data = await response.json();
+                const items = data.d.results;
+                
+                if (!items || items.length === 0) {
+                    console.log('No vehicles found in SharePoint');
+                    return false;
+                }
+                
+                // Convert SharePoint items to vehicle format
+                vehicles = items.map(item => ({
+                    id: item.Id || vehicles.length + 1,
+                    plateNo: item.PlateNo || item.Title || '',
+                    internalNo: item.InternalNo || '',
+                    make: item.Make || 'TOYOTA',
+                    family: item.Family || 'RAV4',
+                    yearModel: parseInt(String(item.YearModel || 2025).replace(/,/g, '')) || 2025,
+                    currentOdometer: parseInt(String(item.CurrentOdometer || 0).replace(/,/g, '')) || 0,
+                    lastOilChangeKM: parseInt(String(item.LastOilChangeKM || 0).replace(/,/g, '')) || 0,
+                    lastCServiceKM: parseInt(String(item.LastCServiceKM || 0).replace(/,/g, '')) || 0,
+                    lastReplacementVehicle: item.LastReplacement || '',
+                    serviceStartDate: item.ServiceStartDate ? new Date(item.ServiceStartDate).toISOString().split('T')[0] : '',
+                    serviceEndDate: item.ServiceEndDate ? new Date(item.ServiceEndDate).toISOString().split('T')[0] : '',
+                    serviceNo: item.ServiceNo || '',
+                    serviceType: item.ServiceType || '',
+                    status: item.Status || '',
+                    username: item.Username || '',
+                    contact: item.Contact || '',
+                    keyHandoverStatus: item.KeyHandover || 'handed',
+                    _spId: item.Id  // Store SharePoint ID for updates
+                }));
+                
+                refreshAll();
+                showToast(`✅ Loaded ${vehicles.length} vehicles from SharePoint`, '#27AE60');
+                return true;
+            } catch (error) {
+                console.error('SharePoint error:', error);
+                return false;
+            }
+        }
+
+        // =============================================
         //  LEAVE MANAGEMENT FUNCTIONS
         // =============================================
         function loadLeaveRecords() {
@@ -4615,9 +4699,27 @@
             refreshAll();
         }
 
+        // =============================================
+        //  INITIALIZE - TRY SHAREPOINT FIRST
+        // =============================================
+
+        async function initializeApp() {
+            // Try loading from SharePoint
+            const loaded = await loadFromSharePoint();
+            
+            if (!loaded) {
+                // Fallback to localStorage
+                console.log('Using local storage as fallback');
+                loadFromLocalStorage();
+                if (!vehicles.length) vehicles = buildDefaultVehicles();
+                refreshAll();
+            }
+        }
+
         // Load all data
         loadReserveVehicles();
-        loadFromLocalStorage();
+        // Comment out the old initialization and use the new one
+        // loadFromLocalStorage();
         loadZeroMovementData();
         loadAccidents();
         loadMessageHistory();
@@ -4649,6 +4751,9 @@
                 }
             }
         }, 60000);
+
+        // Start the app with SharePoint integration
+        initializeApp();
     </script>
 </body>
 </html>
