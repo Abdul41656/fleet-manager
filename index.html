@@ -969,7 +969,7 @@
                 <button class="btn btn-gold" onclick="openImportModal()">📡 Import GPS Odometer</button>
                 <button class="btn btn-green" onclick="openAddVehicleModal()">➕ Add Vehicle</button>
                 <button class="btn btn-primary" onclick="exportToExcel()">📊 Export Excel</button>
-                <button class="btn btn-blue" onclick="exportBackupJSON()">💾 Backup JSON</button>
+                <button class="btn btn-blue" id="saveBtn" onclick="exportBackupJSON()">💾 Save</button>
                 <button class="btn btn-purple" onclick="importBackup()">📂 Import Backup</button>
                 <button class="btn btn-orange" onclick="showVehicleSummary()">📋 Summary</button>
                 <button class="btn btn-brown" onclick="loadEmployeeData()">📂 Load Employee Data</button>
@@ -1688,90 +1688,6 @@
         const WA_ACCESS_TOKEN = "EAANFcgKwZB9sBQ8Yx1K7wPhZBjBMwT6ZA55ZAL7JLzZCtJ5Ro8mylV76LZC501jHL4ecZCE9n3ri98wdgFNIoMpfTRtLPZB8oyK2jz0ryIMd6NCJctFp7F5gZC9jscyX4S3GwHo3O7eyX2p0qEh1ZCxBUogdLAm0XYmPAZBZBwDCfF6FFR0KRI84lXua4hgW53hOs4ZCxlwZDZD";
         const WA_PHONE_NUMBER_ID = "957302247475352";
         const WA_TEMPLATE_NAME = "maintenance_msg";
-
-        // =============================================
-        //  SHAREPOINT CONFIGURATION
-        // =============================================
-
-        // ⚠️ IMPORTANT: Replace the URL below with your actual SharePoint site URL
-        const SHAREPOINT_CONFIG = {
-    siteUrl: 'https://emiratestrans.sharepoint.com',  // ← SharePoint site root
-    listId: 'b1a3f835-3c71-4d1c-9c45-b66ec6cdaca1'
-};
-
-        // =============================================
-        //  SHAREPOINT API FUNCTIONS
-        // =============================================
-
-        async function loadFromSharePoint() {
-            try {
-                // Try to get SharePoint context info first
-                const contextResponse = await fetch(`${SHAREPOINT_CONFIG.siteUrl}/_api/contextinfo`, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json;odata=verbose'
-                    },
-                    credentials: 'include'
-                });
-
-                if (!contextResponse.ok) {
-                    console.warn('Cannot connect to SharePoint. Using local data.');
-                    return false;
-                }
-
-                const endpoint = `${SHAREPOINT_CONFIG.siteUrl}/_api/web/lists(guid'${SHAREPOINT_CONFIG.listId}')/items?$top=5000`;
-                
-                const response = await fetch(endpoint, {
-                    headers: {
-                        'Accept': 'application/json;odata=verbose'
-                    },
-                    credentials: 'include'
-                });
-                
-                if (!response.ok) {
-                    console.warn('Could not load from SharePoint, using local data');
-                    return false;
-                }
-                
-                const data = await response.json();
-                const items = data.d.results;
-                
-                if (!items || items.length === 0) {
-                    console.log('No vehicles found in SharePoint');
-                    return false;
-                }
-                
-                // Convert SharePoint items to vehicle format
-                vehicles = items.map(item => ({
-                    id: item.Id || vehicles.length + 1,
-                    plateNo: item.PlateNo || item.Title || '',
-                    internalNo: item.InternalNo || '',
-                    make: item.Make || 'TOYOTA',
-                    family: item.Family || 'RAV4',
-                    yearModel: parseInt(String(item.YearModel || 2025).replace(/,/g, '')) || 2025,
-                    currentOdometer: parseInt(String(item.CurrentOdometer || 0).replace(/,/g, '')) || 0,
-                    lastOilChangeKM: parseInt(String(item.LastOilChangeKM || 0).replace(/,/g, '')) || 0,
-                    lastCServiceKM: parseInt(String(item.LastCServiceKM || 0).replace(/,/g, '')) || 0,
-                    lastReplacementVehicle: item.LastReplacement || '',
-                    serviceStartDate: item.ServiceStartDate ? new Date(item.ServiceStartDate).toISOString().split('T')[0] : '',
-                    serviceEndDate: item.ServiceEndDate ? new Date(item.ServiceEndDate).toISOString().split('T')[0] : '',
-                    serviceNo: item.ServiceNo || '',
-                    serviceType: item.ServiceType || '',
-                    status: item.Status || '',
-                    username: item.Username || '',
-                    contact: item.Contact || '',
-                    keyHandoverStatus: item.KeyHandover || 'handed',
-                    _spId: item.Id  // Store SharePoint ID for updates
-                }));
-                
-                refreshAll();
-                showToast(`✅ Loaded ${vehicles.length} vehicles from SharePoint`, '#27AE60');
-                return true;
-            } catch (error) {
-                console.error('SharePoint error:', error);
-                return false;
-            }
-        }
 
         // =============================================
         //  LEAVE MANAGEMENT FUNCTIONS
@@ -4315,10 +4231,9 @@
             showToast("Exported", "#2D6A4F");
         };
 
-        // ===== UPDATED BACKUP FUNCTIONS WITH MESSAGE HISTORY =====
+        // ===== UPDATED SAVE FUNCTION - Saves directly to folder path =====
         window.exportBackupJSON = function() {
-            let a = document.createElement('a');
-            a.href = URL.createObjectURL(new Blob([JSON.stringify({ 
+            const backupData = {
                 vehicles, 
                 serviceHistory, 
                 backupLog, 
@@ -4328,11 +4243,64 @@
                 reminders, 
                 vehiclesOnLeave,
                 messageHistory
-            })]));
-            a.download = `backup_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            showToast("Backup saved", "#1A5C8A");
+            };
+            
+            const jsonStr = JSON.stringify(backupData, null, 2);
+            const fileName = `backup_${new Date().toISOString().split('T')[0]}.json`;
+            
+            // Use File System Access API to save directly to the folder
+            if (window.showDirectoryPicker) {
+                // Try to use the File System Access API (Chrome/Edge)
+                try {
+                    // Use a hidden input to trigger the save dialog with a specific filename
+                    // Modern approach: use the File System Access API to save directly
+                    const blob = new Blob([jsonStr], { type: 'application/json' });
+                    
+                    // Create a file handle using the showSaveFilePicker API
+                    const saveFile = async () => {
+                        try {
+                            const handle = await window.showSaveFilePicker({
+                                suggestedName: fileName,
+                                types: [{
+                                    description: 'JSON Backup',
+                                    accept: { 'application/json': ['.json'] }
+                                }]
+                            });
+                            const writable = await handle.createWritable();
+                            await writable.write(blob);
+                            await writable.close();
+                            showToast(`✅ Backup saved to: ${handle.name}`, "#27AE60");
+                        } catch (err) {
+                            // User cancelled or other error, fallback to download
+                            console.log('Save dialog cancelled or error:', err);
+                            fallbackSave(jsonStr, fileName);
+                        }
+                    };
+                    saveFile();
+                    return;
+                } catch (e) {
+                    console.log('File System API not available, using fallback');
+                    fallbackSave(jsonStr, fileName);
+                }
+            } else {
+                // Fallback: use download
+                fallbackSave(jsonStr, fileName);
+            }
+            
+            // Also add to backup log
+            addBackupLog('Backup Saved', 'All Data', fileName);
+            renderBackupLog();
+            showToast(`Backup saved: ${fileName}`, "#1A5C8A");
         };
+
+        // Fallback save method using download
+        function fallbackSave(jsonStr, fileName) {
+            const a = document.createElement('a');
+            a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(jsonStr);
+            a.download = fileName;
+            a.click();
+            showToast(`✅ Backup downloaded: ${fileName}`, "#27AE60");
+        }
 
         window.importBackup = function() {
             document.getElementById('importFile').click();
@@ -4436,9 +4404,9 @@
 
             let htmlBody = `
                         Dear Mr. Sabri,<br><br>
-                        Kindly issue a service number for the subject vehicle to proceed with engine oil, filter and tires replacement.<br><br>
+                        Kindly issue a service number for the subject vehicle to proceed with below services.<br><br>
                         <strong>VEHICLE DETAILS:</strong><br><br>
-                        <table style="border-collapse:collapse;font-family:Calibri,Arial,sans-serif;font-size:11pt;width:750px;">
+                        <table style="border-collapse:collapse;font-family:Calibri,Calibri,sans-serif;font-size:11pt;width:750px;">
                             <tr style="background:#f0f4f8;font-weight:600;color:#333;">
                                 <td style="padding:10px 15px;border:1px solid #aaa;text-align:center;">Internal Number</td>
                                 <td style="padding:10px 15px;border:1px solid #aaa;text-align:center;">Plate</td>
@@ -4666,6 +4634,17 @@
         window.processEmployeeData = processEmployeeData;
 
         // =============================================
+        //  KEYBOARD SHORTCUT: Ctrl+S to Save
+        // =============================================
+        document.addEventListener('keydown', function(e) {
+            // Check for Ctrl+S (or Cmd+S on Mac)
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault(); // Prevent the browser's default save dialog
+                exportBackupJSON();
+            }
+        });
+
+        // =============================================
         //  INITIALIZATION
         // =============================================
         function loadFromLocalStorage() {
@@ -4699,27 +4678,9 @@
             refreshAll();
         }
 
-        // =============================================
-        //  INITIALIZE - TRY SHAREPOINT FIRST
-        // =============================================
-
-        async function initializeApp() {
-            // Try loading from SharePoint
-            const loaded = await loadFromSharePoint();
-            
-            if (!loaded) {
-                // Fallback to localStorage
-                console.log('Using local storage as fallback');
-                loadFromLocalStorage();
-                if (!vehicles.length) vehicles = buildDefaultVehicles();
-                refreshAll();
-            }
-        }
-
         // Load all data
         loadReserveVehicles();
-        // Comment out the old initialization and use the new one
-        // loadFromLocalStorage();
+        loadFromLocalStorage();
         loadZeroMovementData();
         loadAccidents();
         loadMessageHistory();
@@ -4751,9 +4712,6 @@
                 }
             }
         }, 60000);
-
-        // Start the app with SharePoint integration
-        initializeApp();
     </script>
 </body>
 </html>
