@@ -4232,66 +4232,100 @@
         };
 
         // ===== UPDATED SAVE FUNCTION - Saves directly to folder path =====
-        window.exportBackupJSON = function() {
-            const backupData = {
-                vehicles, 
-                serviceHistory, 
-                backupLog, 
-                nextId,
-                accidents, 
-                reserveVehicles, 
-                reminders, 
-                vehiclesOnLeave,
-                messageHistory
-            };
-            
-            const jsonStr = JSON.stringify(backupData, null, 2);
-            const fileName = `backup_${new Date().toISOString().split('T')[0]}.json`;
-            
-            // Use File System Access API to save directly to the folder
-            if (window.showDirectoryPicker) {
-                // Try to use the File System Access API (Chrome/Edge)
-                try {
-                    // Use a hidden input to trigger the save dialog with a specific filename
-                    // Modern approach: use the File System Access API to save directly
-                    const blob = new Blob([jsonStr], { type: 'application/json' });
-                    
-                    // Create a file handle using the showSaveFilePicker API
-                    const saveFile = async () => {
-                        try {
-                            const handle = await window.showSaveFilePicker({
-                                suggestedName: fileName,
-                                types: [{
-                                    description: 'JSON Backup',
-                                    accept: { 'application/json': ['.json'] }
-                                }]
-                            });
-                            const writable = await handle.createWritable();
-                            await writable.write(blob);
-                            await writable.close();
-                            showToast(`✅ Backup saved to: ${handle.name}`, "#27AE60");
-                        } catch (err) {
-                            // User cancelled or other error, fallback to download
-                            console.log('Save dialog cancelled or error:', err);
-                            fallbackSave(jsonStr, fileName);
-                        }
-                    };
-                    saveFile();
+        // ===== UPDATED SAVE FUNCTION - Remembers last folder =====
+let lastDirectoryHandle = null;
+
+window.exportBackupJSON = async function() {
+    const backupData = {
+        vehicles, 
+        serviceHistory, 
+        backupLog, 
+        nextId,
+        accidents, 
+        reserveVehicles, 
+        reminders, 
+        vehiclesOnLeave,
+        messageHistory
+    };
+    
+    const jsonStr = JSON.stringify(backupData, null, 2);
+    const fileName = `backup_${new Date().toISOString().split('T')[0]}.json`;
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    
+    try {
+        // If we have a saved directory handle, try to use it
+        if (lastDirectoryHandle) {
+            try {
+                // Verify permission still exists
+                const opts = { mode: 'readwrite' };
+                if ((await lastDirectoryHandle.requestPermission(opts)) === 'granted') {
+                    const fileHandle = await lastDirectoryHandle.getFileHandle(fileName, { create: true });
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(blob);
+                    await writable.close();
+                    showToast(`✅ Backup saved to: ${fileName}`, "#27AE60");
+                    addBackupLog('Backup Saved', 'All Data', fileName);
                     return;
-                } catch (e) {
-                    console.log('File System API not available, using fallback');
-                    fallbackSave(jsonStr, fileName);
                 }
-            } else {
-                // Fallback: use download
-                fallbackSave(jsonStr, fileName);
+            } catch (e) {
+                // Permission lost or folder changed - fall through to ask again
+                console.log('Saved folder permission lost, asking again');
             }
-            
-            // Also add to backup log
-            addBackupLog('Backup Saved', 'All Data', fileName);
-            renderBackupLog();
-            showToast(`Backup saved: ${fileName}`, "#1A5C8A");
-        };
+        }
+        
+        // If we don't have a saved folder or permission was lost, ask the user
+        // Navigate to the default path if possible
+        let defaultPath = 'C:\\Users\\c.abdulbasit.gul\\OneDrive - Abu Dhabi Municipality\\ADM\\Maintenance\\';
+        
+        // Use showDirectoryPicker to let user select the folder
+        const dirHandle = await window.showDirectoryPicker({
+            // Some browsers support starting path, but not all
+            // We'll just open the picker and the user can navigate
+        });
+        
+        // Save the directory handle for future use
+        lastDirectoryHandle = dirHandle;
+        
+        // Request permission
+        const opts = { mode: 'readwrite' };
+        if ((await dirHandle.requestPermission(opts)) !== 'granted') {
+            showToast("❌ Permission denied to save to this folder", "#C0392B");
+            return;
+        }
+        
+        // Create and write the file
+        const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
+        const writable = await fileHandle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        
+        showToast(`✅ Backup saved to: ${fileName}`, "#27AE60");
+        addBackupLog('Backup Saved', 'All Data', fileName);
+        
+    } catch (err) {
+        // User cancelled or error - fallback to download
+        console.log('Save dialog cancelled or error:', err);
+        fallbackSave(jsonStr, fileName);
+    }
+};
+
+// Fallback save method using download
+function fallbackSave(jsonStr, fileName) {
+    const a = document.createElement('a');
+    a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(jsonStr);
+    a.download = fileName;
+    a.click();
+    showToast(`✅ Backup downloaded: ${fileName}`, "#27AE60");
+}
+
+
+
+
+
+
+
+
+
 
         // Fallback save method using download
         function fallbackSave(jsonStr, fileName) {
