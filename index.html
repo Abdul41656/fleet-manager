@@ -10,952 +10,184 @@
     </script>
     <style>
         /* ===== ALL STYLES ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: #eef2f7;
-            padding: 16px;
-        }
-        .app-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        .header {
-            background: linear-gradient(135deg, #0B2B40 0%, #1A4A5F 100%);
-            padding: 1rem 1.75rem;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .header h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        .header h1 small {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            display: block;
-        }
-        .header-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 8px 14px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        .btn-primary {
-            background: #2D6A4F;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #1e4d38;
-        }
-        .btn-blue {
-            background: #1A5C8A;
-            color: white;
-        }
-        .btn-blue:hover {
-            background: #124568;
-        }
-        .btn-orange {
-            background: #E67E22;
-            color: white;
-        }
-        .btn-orange:hover {
-            background: #c0392b;
-        }
-        .btn-purple {
-            background: #5B3FA6;
-            color: white;
-        }
-        .btn-purple:hover {
-            background: #4a3390;
-        }
-        .btn-red {
-            background: #C0392B;
-            color: white;
-        }
-        .btn-red:hover {
-            background: #a93226;
-        }
-        .btn-green {
-            background: #27AE60;
-            color: white;
-        }
-        .btn-green:hover {
-            background: #1e8449;
-        }
-        .btn-gold {
-            background: #F39C12;
-            color: white;
-        }
-        .btn-gold:hover {
-            background: #E67E22;
-        }
-        .btn-outline {
-            background: #e0e4e8;
-            color: #333;
-        }
-        .btn-accident {
-            background: #8B0000;
-            color: white;
-        }
-        .btn-accident:hover {
-            background: #a00000;
-        }
-        .btn-teal {
-            background: #008080;
-            color: white;
-        }
-        .btn-teal:hover {
-            background: #006666;
-        }
-        .btn-brown {
-            background: #8B4513;
-            color: white;
-        }
-        .btn-brown:hover {
-            background: #6B3410;
-        }
-        .btn-reserve {
-            background: #6C3483;
-            color: white;
-        }
-        .btn-reserve:hover {
-            background: #4A235A;
-        }
-        .btn-reset-reserve {
-            background: #E67E22;
-            color: white;
-        }
-        .btn-reset-reserve:hover {
-            background: #D35400;
-        }
-        .btn-whatsapp {
-            background: #25D366;
-            color: white;
-        }
-        .btn-whatsapp:hover {
-            background: #1DA851;
-        }
-        .btn-email-copy {
-            background: #1A5C8A;
-            color: white;
-        }
-        .btn-email-copy:hover {
-            background: #124568;
-        }
-        .btn-maintenance-msg {
-            background: #008080;
-            color: white;
-        }
-        .btn-maintenance-msg:hover {
-            background: #006666;
-        }
-        .btn-general {
-            background: #F39C12;
-            color: white;
-        }
-        .btn-general:hover {
-            background: #E67E22;
-        }
-        .btn-reminder {
-            background: #E67E22;
-            color: white;
-        }
-        .btn-reminder:hover {
-            background: #D35400;
-        }
-        .btn-reminder-due {
-            background: #C0392B;
-            color: white;
-        }
-        .btn-reminder-due:hover {
-            background: #A93226;
-        }
-        .btn-leave {
-            background: #8B4513;
-            color: white;
-        }
-        .btn-leave:hover {
-            background: #6B3410;
-        }
-        .btn-leave-return {
-            background: #2D6A4F;
-            color: white;
-        }
-        .btn-leave-return:hover {
-            background: #1e4d38;
-        }
-        .btn-key-handover {
-            background: #5B3FA6;
-            color: white;
-        }
-        .btn-key-handover:hover {
-            background: #4a3390;
-        }
-        .btn-no-replacement {
-            background: #95a5a6;
-            color: white;
-        }
-        .btn-no-replacement:hover {
-            background: #7f8c8d;
-        }
-        .tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e0e4e8;
-            padding: 0 1.5rem;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-        .tab {
-            padding: 12px 24px;
-            font-size: 13px;
-            cursor: pointer;
-            border: none;
-            background: none;
-            color: #6c757d;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s;
-        }
-        .tab.active {
-            color: #1A5C8A;
-            border-bottom-color: #1A5C8A;
-            background: white;
-        }
-        .panel {
-            display: none;
-            padding: 1.5rem;
-        }
-        .panel.active {
-            display: block;
-        }
-        .service-panel,
-        .import-panel {
-            background: #f0f4f8;
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: flex-end;
-        }
-        .service-field {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .service-field label {
-            font-size: 10px;
-            font-weight: 600;
-            color: #555;
-            text-transform: uppercase;
-        }
-        .service-field input,
-        .service-field select {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 13px;
-            width: 140px;
-        }
-        .search-container {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .search-input {
-            flex: 1;
-            min-width: 250px;
-            padding: 10px 15px;
-            border: 2px solid #e0e4e8;
-            border-radius: 25px;
-            font-size: 14px;
-            outline: none;
-        }
-        .search-input:focus {
-            border-color: #1A5C8A;
-        }
-        .search-clear {
-            padding: 8px 16px;
-            background: #e0e4e8;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid #e0e4e8;
-            background: white;
-            max-height: 580px;
-            overflow-y: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-        }
-        th {
-            background: #1A5C8A;
-            color: white;
-            padding: 10px 8px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        td {
-            padding: 8px 6px;
-            text-align: center;
-            border-bottom: 1px solid #e0e4e8;
-            white-space: nowrap;
-        }
-        tr:hover {
-            background: #f5f9ff;
-        }
-        .status-overdue {
-            background: #f8d7da;
-            color: #721c24;
-            font-weight: bold;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-        }
-        .status-underprocess {
-            background: #fff3cd;
-            color: #856404;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-        }
-        .status-due-soon {
-            background: #ffe0b2;
-            color: #e65100;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-        }
-        .status-cservice {
-            background: #cce5ff;
-            color: #004085;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-        }
-        .status-done {
-            background: #d4edda;
-            color: #155724;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-        }
-        .status-reserve {
-            background: #D5B8FF;
-            color: #4A235A;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-        }
-        .status-assigned {
-            background: #FFB6C1;
-            color: #8B0000;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-        }
-        .status-unavailable {
-            background: #f8d7da;
-            color: #721c24;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-        }
-        .status-reminder-due {
-            background: #C0392B;
-            color: white;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        .status-on-leave {
-            background: #FFD700;
-            color: #8B4513;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-            font-weight: bold;
-        }
-        .status-key-not-handed {
-            background: #FF6B6B;
-            color: #800000;
-            border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-            font-weight: bold;
-        }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-        .warning-badge {
-            background: #ff9800;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .zero-badge {
-            background: #8B0000;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .action-btns {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-        }
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 4px 6px;
-            border-radius: 6px;
-        }
-        .icon-btn:hover {
-            background: #e0e4e8;
-        }
-        .summary-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .stat-card {
-            background: #f0f4f8;
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-        }
-        .stat-number {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1A5C8A;
-        }
-        .stat-number.reminder-due {
-            color: #C0392B;
-        }
-        .stat-number.leave {
-            color: #8B4513;
-        }
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #2D6A4F;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 13px;
-            display: none;
-            z-index: 1000;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            max-width: 950px;
-            width: 95%;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #6C3483;
-            padding-bottom: 10px;
-            margin-bottom: 16px;
-        }
-        .modal-header span {
-            font-size: 18px;
-            font-weight: 600;
-            color: #6C3483;
-        }
-        .dashboard-container {
-            width: 100%;
-        }
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        .kpi-card {
-            background: #f0f4f8;
-            border-radius: 20px;
-            padding: 15px;
-            text-align: center;
-        }
-        .kpi-value {
-            font-size: 32px;
-            font-weight: bold;
-        }
-        .kpi-label {
-            font-size: 11px;
-            color: #666;
-            margin-top: 8px;
-            text-transform: uppercase;
-        }
-        .charts-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        .chart-card {
-            background: #f0f4f8;
-            border-radius: 20px;
-            padding: 20px;
-        }
-        .chart-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1A5C8A;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e0e4e8;
-            padding-bottom: 8px;
-        }
-        canvas {
-            max-height: 250px;
-            width: 100%;
-        }
-        .progress-section {
-            background: #f0f4f8;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-        .progress-bar-container {
-            background: #e0e4e8;
-            border-radius: 10px;
-            height: 30px;
-            overflow: hidden;
-            margin: 15px 0;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #2D6A4F, #1A5C8A);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 12px;
-            font-weight: bold;
-            transition: width 0.5s;
-        }
-        .legend {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-        }
-        .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-        }
-        .data-tables {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        .data-card {
-            background: #f0f4f8;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-        .data-header {
-            background: #1A5C8A;
-            color: #fff;
-            padding: 12px 20px;
-            font-weight: 600;
-        }
-        .dashboard-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-        .dashboard-table th {
-            background: #e2e8f0;
-            color: #1A5C8A;
-            padding: 10px 12px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .dashboard-table td {
-            padding: 8px 12px;
-            border-bottom: 1px solid #e0e4e8;
-            text-align: left;
-            font-size: 12px;
-        }
-        .service-category-section {
-            margin-bottom: 25px;
-        }
-        .service-category-title {
-            font-size: 16px;
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .service-category-title.overdue {
-            background: #f8d7da;
-            color: #721c24;
-            border-left: 5px solid #C0392B;
-        }
-        .service-category-title.process {
-            background: #fff3cd;
-            color: #856404;
-            border-left: 5px solid #F39C12;
-        }
-        .service-category-title.nearly {
-            background: #ffe0b2;
-            color: #e65100;
-            border-left: 5px solid #E67E22;
-        }
-        .service-category-title.cservice {
-            background: #cce5ff;
-            color: #004085;
-            border-left: 5px solid #1A5C8A;
-        }
-        .badge-count {
-            background: rgba(0, 0, 0, 0.1);
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 12px;
-        }
-        .row-overdue {
-            background: #fff0f0;
-        }
-        .row-underprocess {
-            background: #fffcf0;
-        }
-        .row-due-soon {
-            background: #fff8f2;
-        }
-        .row-reserve {
-            background: #f5ecff;
-        }
-        .row-assigned {
-            background: #fff0f5;
-        }
-        .row-unavailable {
-            background: #f8d7da;
-        }
-        .row-on-leave {
-            background: #FFF8DC;
-        }
-        .row-key-not-handed {
-            background: #FFE4E1;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .form-group label {
-            font-size: 11px;
-            font-weight: 600;
-            color: #555;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 13px;
-        }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-        .service-category-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            margin-top: 10px;
-        }
-        .service-category-table th {
-            background: #e2e8f0;
-            color: #1A5C8A;
-            padding: 10px 12px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 600;
-            position: static;
-        }
-        .service-category-table td {
-            padding: 8px 12px;
-            border-bottom: 1px solid #e0e4e8;
-            text-align: left;
-            font-size: 12px;
-        }
-        .history-header-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-        .history-header-actions .left {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .reserve-badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
-            background: #D5B8FF;
-            color: #4A235A;
-        }
-        .assigned-badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
-            background: #FFB6C1;
-            color: #8B0000;
-        }
-        .unavailable-badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
-            background: #f8d7da;
-            color: #721c24;
-        }
-        .manual-entry-hint {
-            font-size: 10px;
-            color: #999;
-            margin-top: 2px;
-        }
-        .driver-name-label {
-            font-size: 9px;
-            color: #888;
-            font-style: italic;
-        }
-        .action-row {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-            width: 100%;
-            padding: 4px 0;
-        }
-        .action-row .btn {
-            padding: 8px 18px;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .action-row .service-field {
-            flex: 1;
-            min-width: 140px;
-        }
-        .action-row .service-field label {
-            font-size: 10px;
-            font-weight: 600;
-            color: #555;
-            text-transform: uppercase;
-        }
-        .action-row .service-field input {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 13px;
-            width: 100%;
-        }
-        .action-row .btn-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .service-type-hint {
-            font-size: 9px;
-            color: #999;
-            margin-top: 2px;
-            font-style: italic;
-        }
-        .reminder-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 9px;
-            font-weight: 600;
-            background: #E67E22;
-            color: white;
-            margin-left: 4px;
-        }
-        .reminder-badge.due {
-            background: #C0392B;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        .reminder-sub-panel {
-            background: linear-gradient(135deg, #fff8f0, #ffe8d5);
-            border-radius: 16px;
-            padding: 1rem;
-            margin-top: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .reminder-sub-panel .reminder-header {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-            width: 100%;
-            margin-bottom: 12px;
-        }
-        .reminder-sub-panel .reminder-header span {
-            font-weight: 600;
-            color: #E67E22;
-        }
-        .tab-backup {
-            display: none !important;
-        }
-        .key-handover-container {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .key-handover-container select {
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 12px;
-        }
-        .leave-action-icon {
-            color: #8B4513;
-        }
-        .leave-action-icon:hover {
-            background: #FFF8DC;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #eef2f7; padding: 16px; }
+        .app-container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 24px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #0B2B40 0%, #1A4A5F 100%); padding: 1rem 1.75rem; color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .header h1 { font-size: 1.5rem; font-weight: 600; }
+        .header h1 small { font-size: 0.7rem; opacity: 0.8; display: block; }
+        .header-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn { padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer; font-size: 12px; font-weight: 500; transition: all 0.2s; }
+        .btn-primary { background: #2D6A4F; color: white; }
+        .btn-primary:hover { background: #1e4d38; }
+        .btn-blue { background: #1A5C8A; color: white; }
+        .btn-blue:hover { background: #124568; }
+        .btn-orange { background: #E67E22; color: white; }
+        .btn-orange:hover { background: #c0392b; }
+        .btn-purple { background: #5B3FA6; color: white; }
+        .btn-purple:hover { background: #4a3390; }
+        .btn-red { background: #C0392B; color: white; }
+        .btn-red:hover { background: #a93226; }
+        .btn-green { background: #27AE60; color: white; }
+        .btn-green:hover { background: #1e8449; }
+        .btn-gold { background: #F39C12; color: white; }
+        .btn-gold:hover { background: #E67E22; }
+        .btn-outline { background: #e0e4e8; color: #333; }
+        .btn-accident { background: #8B0000; color: white; }
+        .btn-accident:hover { background: #a00000; }
+        .btn-teal { background: #008080; color: white; }
+        .btn-teal:hover { background: #006666; }
+        .btn-brown { background: #8B4513; color: white; }
+        .btn-brown:hover { background: #6B3410; }
+        .btn-reserve { background: #6C3483; color: white; }
+        .btn-reserve:hover { background: #4A235A; }
+        .btn-reset-reserve { background: #E67E22; color: white; }
+        .btn-reset-reserve:hover { background: #D35400; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-whatsapp:hover { background: #1DA851; }
+        .btn-email-copy { background: #1A5C8A; color: white; }
+        .btn-email-copy:hover { background: #124568; }
+        .btn-maintenance-msg { background: #008080; color: white; }
+        .btn-maintenance-msg:hover { background: #006666; }
+        .btn-general { background: #F39C12; color: white; }
+        .btn-general:hover { background: #E67E22; }
+        .btn-reminder { background: #E67E22; color: white; }
+        .btn-reminder:hover { background: #D35400; }
+        .btn-reminder-due { background: #C0392B; color: white; }
+        .btn-reminder-due:hover { background: #A93226; }
+        .btn-leave { background: #8B4513; color: white; }
+        .btn-leave:hover { background: #6B3410; }
+        .btn-leave-return { background: #2D6A4F; color: white; }
+        .btn-leave-return:hover { background: #1e4d38; }
+        .btn-key-handover { background: #5B3FA6; color: white; }
+        .btn-key-handover:hover { background: #4a3390; }
+        .btn-no-replacement { background: #95a5a6; color: white; }
+        .btn-no-replacement:hover { background: #7f8c8d; }
+        .tabs { display: flex; background: #f8f9fa; border-bottom: 1px solid #e0e4e8; padding: 0 1.5rem; gap: 4px; flex-wrap: wrap; }
+        .tab { padding: 12px 24px; font-size: 13px; cursor: pointer; border: none; background: none; color: #6c757d; border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .tab.active { color: #1A5C8A; border-bottom-color: #1A5C8A; background: white; }
+        .panel { display: none; padding: 1.5rem; }
+        .panel.active { display: block; }
+        .service-panel, .import-panel { background: #f0f4f8; border-radius: 16px; padding: 1rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+        .service-field { display: flex; flex-direction: column; gap: 4px; }
+        .service-field label { font-size: 10px; font-weight: 600; color: #555; text-transform: uppercase; }
+        .service-field input, .service-field select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; width: 140px; }
+        .search-container { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+        .search-input { flex: 1; min-width: 250px; padding: 10px 15px; border: 2px solid #e0e4e8; border-radius: 25px; font-size: 14px; outline: none; }
+        .search-input:focus { border-color: #1A5C8A; }
+        .search-clear { padding: 8px 16px; background: #e0e4e8; border: none; border-radius: 20px; cursor: pointer; }
+        .table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid #e0e4e8; background: white; max-height: 580px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th { background: #1A5C8A; color: white; padding: 10px 8px; text-align: center; position: sticky; top: 0; z-index: 10; }
+        td { padding: 8px 6px; text-align: center; border-bottom: 1px solid #e0e4e8; white-space: nowrap; }
+        tr:hover { background: #f5f9ff; }
+        .status-overdue { background: #f8d7da; color: #721c24; font-weight: bold; border-radius: 20px; padding: 2px 8px; display: inline-block; }
+        .status-underprocess { background: #fff3cd; color: #856404; border-radius: 20px; padding: 2px 8px; display: inline-block; }
+        .status-due-soon { background: #ffe0b2; color: #e65100; border-radius: 20px; padding: 2px 8px; display: inline-block; }
+        .status-cservice { background: #cce5ff; color: #004085; border-radius: 20px; padding: 2px 8px; display: inline-block; }
+        .status-done { background: #d4edda; color: #155724; border-radius: 20px; padding: 2px 8px; display: inline-block; }
+        .status-reserve { background: #D5B8FF; color: #4A235A; border-radius: 20px; padding: 2px 8px; display: inline-block; }
+        .status-assigned { background: #FFB6C1; color: #8B0000; border-radius: 20px; padding: 2px 8px; display: inline-block; }
+        .status-unavailable { background: #f8d7da; color: #721c24; border-radius: 20px; padding: 2px 8px; display: inline-block; }
+        .status-reminder-due { background: #C0392B; color: white; border-radius: 20px; padding: 2px 8px; display: inline-block; animation: pulse 1.5s ease-in-out infinite; }
+        .status-on-leave { background: #FFD700; color: #8B4513; border-radius: 20px; padding: 2px 8px; display: inline-block; font-weight: bold; }
+        .status-key-not-handed { background: #FF6B6B; color: #800000; border-radius: 20px; padding: 2px 8px; display: inline-block; font-weight: bold; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        .warning-badge { background: #ff9800; color: white; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
+        .zero-badge { background: #8B0000; color: white; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
+        .action-btns { display: flex; gap: 6px; justify-content: center; }
+        .icon-btn { background: none; border: none; cursor: pointer; font-size: 16px; padding: 4px 6px; border-radius: 6px; }
+        .icon-btn:hover { background: #e0e4e8; }
+        .summary-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: #f0f4f8; border-radius: 12px; padding: 12px; text-align: center; }
+        .stat-number { font-size: 28px; font-weight: bold; color: #1A5C8A; }
+        .stat-number.reminder-due { color: #C0392B; }
+        .stat-number.leave { color: #8B4513; }
+        .toast { position: fixed; bottom: 20px; right: 20px; background: #2D6A4F; color: white; padding: 12px 24px; border-radius: 30px; font-size: 13px; display: none; z-index: 1000; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; border-radius: 16px; padding: 20px; max-width: 950px; width: 95%; max-height: 85vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #6C3483; padding-bottom: 10px; margin-bottom: 16px; }
+        .modal-header span { font-size: 18px; font-weight: 600; color: #6C3483; }
+        .dashboard-container { width: 100%; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .kpi-card { background: #f0f4f8; border-radius: 20px; padding: 15px; text-align: center; }
+        .kpi-value { font-size: 32px; font-weight: bold; }
+        .kpi-label { font-size: 11px; color: #666; margin-top: 8px; text-transform: uppercase; }
+        .charts-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .chart-card { background: #f0f4f8; border-radius: 20px; padding: 20px; }
+        .chart-title { font-size: 16px; font-weight: 600; color: #1A5C8A; margin-bottom: 15px; border-bottom: 2px solid #e0e4e8; padding-bottom: 8px; }
+        canvas { max-height: 250px; width: 100%; }
+        .progress-section { background: #f0f4f8; border-radius: 20px; padding: 20px; margin-bottom: 25px; }
+        .progress-bar-container { background: #e0e4e8; border-radius: 10px; height: 30px; overflow: hidden; margin: 15px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #2D6A4F, #1A5C8A); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: bold; transition: width 0.5s; }
+        .legend { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+        .legend-color { width: 16px; height: 16px; border-radius: 4px; }
+        .data-tables { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .data-card { background: #f0f4f8; border-radius: 20px; overflow: hidden; }
+        .data-header { background: #1A5C8A; color: #fff; padding: 12px 20px; font-weight: 600; }
+        .dashboard-table { width: 100%; border-collapse: collapse; background: white; }
+        .dashboard-table th { background: #e2e8f0; color: #1A5C8A; padding: 10px 12px; text-align: left; font-size: 12px; font-weight: 600; }
+        .dashboard-table td { padding: 8px 12px; border-bottom: 1px solid #e0e4e8; text-align: left; font-size: 12px; }
+        .service-category-section { margin-bottom: 25px; }
+        .service-category-title { font-size: 16px; font-weight: bold; padding: 10px 15px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .service-category-title.overdue { background: #f8d7da; color: #721c24; border-left: 5px solid #C0392B; }
+        .service-category-title.process { background: #fff3cd; color: #856404; border-left: 5px solid #F39C12; }
+        .service-category-title.nearly { background: #ffe0b2; color: #e65100; border-left: 5px solid #E67E22; }
+        .service-category-title.cservice { background: #cce5ff; color: #004085; border-left: 5px solid #1A5C8A; }
+        .badge-count { background: rgba(0, 0, 0, 0.1); padding: 2px 10px; border-radius: 30px; font-size: 12px; }
+        .row-overdue { background: #fff0f0; }
+        .row-underprocess { background: #fffcf0; }
+        .row-due-soon { background: #fff8f2; }
+        .row-reserve { background: #f5ecff; }
+        .row-assigned { background: #fff0f5; }
+        .row-unavailable { background: #f8d7da; }
+        .row-on-leave { background: #FFF8DC; }
+        .row-key-not-handed { background: #FFE4E1; }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 12px; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .form-group label { font-size: 11px; font-weight: 600; color: #555; }
+        .form-group input, .form-group select, .form-group textarea { padding: 8px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+        .service-category-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
+        .service-category-table th { background: #e2e8f0; color: #1A5C8A; padding: 10px 12px; text-align: left; font-size: 12px; font-weight: 600; position: static; }
+        .service-category-table td { padding: 8px 12px; border-bottom: 1px solid #e0e4e8; text-align: left; font-size: 12px; }
+        .history-header-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; }
+        .history-header-actions .left { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .reserve-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; background: #D5B8FF; color: #4A235A; }
+        .assigned-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; background: #FFB6C1; color: #8B0000; }
+        .unavailable-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; background: #f8d7da; color: #721c24; }
+        .manual-entry-hint { font-size: 10px; color: #999; margin-top: 2px; }
+        .driver-name-label { font-size: 9px; color: #888; font-style: italic; }
+        .action-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%; padding: 4px 0; }
+        .action-row .btn { padding: 8px 18px; font-size: 12px; font-weight: 600; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
+        .action-row .service-field { flex: 1; min-width: 140px; }
+        .action-row .service-field label { font-size: 10px; font-weight: 600; color: #555; text-transform: uppercase; }
+        .action-row .service-field input { padding: 8px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; width: 100%; }
+        .action-row .btn-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .service-type-hint { font-size: 9px; color: #999; margin-top: 2px; font-style: italic; }
+        .reminder-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 9px; font-weight: 600; background: #E67E22; color: white; margin-left: 4px; }
+        .reminder-badge.due { background: #C0392B; animation: pulse 1.5s ease-in-out infinite; }
+        .reminder-sub-panel { background: linear-gradient(135deg, #fff8f0, #ffe8d5); border-radius: 16px; padding: 1rem; margin-top: 1.5rem; margin-bottom: 1.5rem; }
+        .reminder-sub-panel .reminder-header { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%; margin-bottom: 12px; }
+        .reminder-sub-panel .reminder-header span { font-weight: 600; color: #E67E22; }
+        .tab-backup { display: none !important; }
+        .key-handover-container { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .key-handover-container select { padding: 6px 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 12px; }
+        .leave-action-icon { color: #8B4513; }
+        .leave-action-icon:hover { background: #FFF8DC; }
         @media (max-width: 768px) {
-            .service-field input {
-                width: 100px;
-            }
-            th,
-            td {
-                font-size: 10px;
-            }
-            .charts-row {
-                grid-template-columns: 1fr;
-            }
-            .history-header-actions {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .history-header-actions .left {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .modal-content {
-                width: 98%;
-                padding: 12px;
-            }
-            .action-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .action-row .btn-group {
-                justify-content: center;
-            }
-            .reminder-sub-panel .reminder-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .reminder-sub-panel .reminder-header .btn {
-                width: 100%;
-                text-align: center;
-            }
-            .key-handover-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
+            .service-field input { width: 100px; }
+            th, td { font-size: 10px; }
+            .charts-row { grid-template-columns: 1fr; }
+            .history-header-actions { flex-direction: column; align-items: stretch; }
+            .history-header-actions .left { flex-direction: column; align-items: stretch; }
+            .modal-content { width: 98%; padding: 12px; }
+            .action-row { flex-direction: column; align-items: stretch; }
+            .action-row .btn-group { justify-content: center; }
+            .reminder-sub-panel .reminder-header { flex-direction: column; align-items: stretch; }
+            .reminder-sub-panel .reminder-header .btn { width: 100%; text-align: center; }
+            .key-handover-container { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
@@ -969,7 +201,7 @@
                 <button class="btn btn-gold" onclick="openImportModal()">📡 Import GPS Odometer</button>
                 <button class="btn btn-green" onclick="openAddVehicleModal()">➕ Add Vehicle</button>
                 <button class="btn btn-primary" onclick="exportToExcel()">📊 Export Excel</button>
-                <button class="btn btn-blue" id="saveBtn" onclick="exportBackupJSON()">💾 Save</button>
+                <button class="btn btn-blue" onclick="exportBackupJSON()">💾 Backup JSON</button>
                 <button class="btn btn-purple" onclick="importBackup()">📂 Import Backup</button>
                 <button class="btn btn-orange" onclick="showVehicleSummary()">📋 Summary</button>
                 <button class="btn btn-brown" onclick="loadEmployeeData()">📂 Load Employee Data</button>
@@ -1055,7 +287,6 @@
                 </div>
             </div>
 
-            <!-- Reserve Vehicles Button -->
             <div class="service-panel" style="background: linear-gradient(135deg, #f5ecff, #e8d5f5);">
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width:100%;">
                     <span style="font-weight:600; color:#6C3483;">🚗 Reserve Vehicles Management</span>
@@ -1066,7 +297,6 @@
                 </div>
             </div>
 
-            <!-- WhatsApp / Copy Email / Send Maintenance Msg -->
             <div class="service-panel" style="background: linear-gradient(135deg, #e8f0fe, #d4e4f7);">
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width:100%;">
                     <div class="service-field" style="flex:1; min-width:120px;">
@@ -1085,7 +315,6 @@
                 </div>
             </div>
 
-            <!-- ===== REMINDERS SUB-PANEL ===== -->
             <div class="reminder-sub-panel">
                 <div class="reminder-header">
                     <span>⏰ Custom Reminders</span>
@@ -1172,7 +401,7 @@
             </div>
         </div>
 
-        <!-- ===== BACKUP PANEL (Hidden but kept for functionality) ===== -->
+        <!-- ===== BACKUP PANEL ===== -->
         <div class="panel" id="panel-backup">
             <div class="table-wrapper">
                 <table id="backupTable">
@@ -1320,9 +549,11 @@
                     <textarea id="leaveReason" rows="2" placeholder="e.g., Under repairs, Sent for inspection, Driver on leave..."></textarea>
                 </div>
             </div>
-            <div style="display:flex; gap:12px; margin-top:16px;">
+            <!-- ✅ NEW: Leave History button added -->
+            <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
                 <button class="btn btn-outline" onclick="closeLeaveModal()">Cancel</button>
                 <button class="btn btn-leave" onclick="saveLeaveRecord()">🚗 Put on Leave</button>
+                <button class="btn btn-brown" onclick="openLeaveHistoryModal()">🏖️ Leave History</button>
             </div>
             <hr style="margin: 20px 0;">
             <h4 style="margin-bottom: 12px;">📋 Vehicles Currently on Leave</h4>
@@ -1345,6 +576,44 @@
             <div style="margin-top:12px; display:flex; gap:12px;">
                 <button class="btn btn-leave-return" onclick="returnAllVehicles()">🔄 Return All Vehicles</button>
                 <button class="btn btn-outline" onclick="closeLeaveModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ NEW: LEAVE HISTORY MODAL -->
+    <div id="leaveHistoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>🏖️ Vehicle Leave History</span>
+                <button class="icon-btn" onclick="closeLeaveHistoryModal()">&times;</button>
+            </div>
+            <div class="search-container" style="margin-bottom:12px;">
+                <input type="text" id="leaveHistorySearchInput" class="search-input" placeholder="🔍 Search by plate, reason, status..." onkeyup="renderLeaveHistoryModal()" style="min-width:220px;">
+                <button class="search-clear" onclick="document.getElementById('leaveHistorySearchInput').value=''; renderLeaveHistoryModal();">Clear</button>
+                <span id="leaveHistorySearchCount"></span>
+            </div>
+            <div class="summary-stats" id="leaveHistoryStatsContainer" style="margin-bottom:12px;"></div>
+            <div class="table-wrapper" style="max-height:400px;">
+                <table id="leaveHistoryTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date Logged</th>
+                            <th>Plate</th>
+                            <th>Start Date</th>
+                            <th>Expected Return</th>
+                            <th>Duration (Days)</th>
+                            <th>Actual Return</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaveHistoryBody"></tbody>
+                </table>
+            </div>
+            <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="exportLeaveHistoryToExcel()">📊 Export to Excel</button>
+                <button class="btn btn-outline" onclick="closeLeaveHistoryModal()">Close</button>
             </div>
         </div>
     </div>
@@ -1650,6 +919,8 @@
         const EMPLOYEE_STORAGE_KEY = 'employee_data_v2';
         const MSG_HISTORY_KEY = "msg_history_v1";
         const LEAVE_STORAGE_KEY = 'vehicles_on_leave_v1';
+        // ✅ NEW: Leave history storage key
+        const LEAVE_HISTORY_KEY = 'leave_history_v1';
 
         let vehicles = [];
         let reserveVehicles = [];
@@ -1660,6 +931,8 @@
         let employeeData = {};
         let messageHistory = [];
         let vehiclesOnLeave = [];
+        // ✅ NEW: Leave history array
+        let leaveHistory = [];
         let nextId = 300;
         let nextReserveId = 1;
         let nextReminderId = 1;
@@ -1676,6 +949,8 @@
         let currentHistorySearchTerm = '';
         let currentReserveSearchTerm = '';
         let currentReminderSearchTerm = '';
+        // ✅ NEW: leave history search term
+        let currentLeaveHistorySearchTerm = '';
         let zeroMovementHistory = [];
         let currentZeroMovementReport = null;
         let statusChart = null,
@@ -1690,6 +965,151 @@
         const WA_TEMPLATE_NAME = "maintenance_msg";
 
         // =============================================
+        //  SHAREPOINT CONFIGURATION
+        // =============================================
+        const SHAREPOINT_CONFIG = {
+            siteUrl: 'https://emiratestrans.sharepoint.com',
+            listId: 'b1a3f835-3c71-4d1c-9c45-b66ec6cdaca1'
+        };
+
+        const ACCIDENT_LIST_ID = 'Bec002e7c-8e77-47e5-ba96-06afbbeeb772';
+
+        async function getRequestDigest() {
+            try {
+                const response = await fetch(`${SHAREPOINT_CONFIG.siteUrl}/_api/contextinfo`, {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json;odata=verbose' },
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                return data.d.GetContextWebInformation.FormDigestValue;
+            } catch (error) {
+                console.error('Error getting request digest:', error);
+                throw error;
+            }
+        }
+
+        async function loadFromSharePoint() {
+            try {
+                const contextResponse = await fetch(`${SHAREPOINT_CONFIG.siteUrl}/_api/contextinfo`, {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json;odata=verbose' },
+                    credentials: 'include'
+                });
+                if (!contextResponse.ok) { console.warn('Cannot connect to SharePoint. Using local data.'); return false; }
+                const endpoint = `${SHAREPOINT_CONFIG.siteUrl}/_api/web/lists(guid'${SHAREPOINT_CONFIG.listId}')/items?$top=5000`;
+                const response = await fetch(endpoint, {
+                    headers: { 'Accept': 'application/json;odata=verbose' },
+                    credentials: 'include'
+                });
+                if (!response.ok) { console.warn('Could not load from SharePoint, using local data'); return false; }
+                const data = await response.json();
+                const items = data.d.results;
+                if (!items || items.length === 0) { console.log('No vehicles found in SharePoint'); return false; }
+                vehicles = items.map(item => ({
+                    id: item.Id || vehicles.length + 1,
+                    plateNo: item.PlateNo || item.Title || '',
+                    internalNo: item.InternalNo || '',
+                    make: item.Make || 'TOYOTA',
+                    family: item.Family || 'RAV4',
+                    yearModel: parseInt(String(item.YearModel || 2025).replace(/,/g, '')) || 2025,
+                    currentOdometer: parseInt(String(item.CurrentOdometer || 0).replace(/,/g, '')) || 0,
+                    lastOilChangeKM: parseInt(String(item.LastOilChangeKM || 0).replace(/,/g, '')) || 0,
+                    lastCServiceKM: parseInt(String(item.LastCServiceKM || 0).replace(/,/g, '')) || 0,
+                    lastReplacementVehicle: item.LastReplacement || '',
+                    serviceStartDate: item.ServiceStartDate ? new Date(item.ServiceStartDate).toISOString().split('T')[0] : '',
+                    serviceEndDate: item.ServiceEndDate ? new Date(item.ServiceEndDate).toISOString().split('T')[0] : '',
+                    serviceNo: item.ServiceNo || '',
+                    serviceType: item.ServiceType || '',
+                    status: item.Status || '',
+                    username: item.Username || '',
+                    contact: item.Contact || '',
+                    keyHandoverStatus: item.KeyHandover || 'handed',
+                    _spId: item.Id
+                }));
+                refreshAll();
+                showToast(`✅ Loaded ${vehicles.length} vehicles from SharePoint`, '#27AE60');
+                return true;
+            } catch (error) {
+                console.error('SharePoint error:', error);
+                return false;
+            }
+        }
+
+        async function loadAccidents() {
+            try {
+                console.log('🔍 Loading accidents from SharePoint...');
+                const endpoint = `/_api/web/lists(guid'${ACCIDENT_LIST_ID}')/items?$top=5000`;
+                const response = await fetch(endpoint, {
+                    headers: { 'Accept': 'application/json;odata=verbose' },
+                    credentials: 'include'
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    accidents = data.d.results.map(item => ({
+                        id: item.Id, incidentDate: item.IncidentDate || '', plateNo: item.PlateNo || '',
+                        cat: item.Cat || '', internalNo: item.InternalNo || '', claimNo: item.ClaimNo || '',
+                        vehicleType: item.VehicleType || '', classification: item.Classification || '',
+                        location: item.Location || '', checkInDate: item.CheckInDate || '',
+                        description: item.Description || '', notes: item.Notes || ''
+                    }));
+                    console.log(`✅ Loaded ${accidents.length} accidents from SharePoint`);
+                    renderAccidentTable(); updateAccidentStats(); updateDashboard();
+                    return true;
+                }
+                return false;
+            } catch (error) { console.error('❌ Error loading accidents:', error); return false; }
+        }
+
+        function loadAccidentsFromLocal() {
+            let saved = localStorage.getItem(ACCIDENT_STORAGE_KEY);
+            if (saved) {
+                accidents = JSON.parse(saved);
+                nextAccidentId = Math.max(...accidents.map(a => a.id), 0) + 1;
+            } else { accidents = []; nextAccidentId = 1; }
+            renderAccidentTable(); updateAccidentStats(); updateDashboard();
+        }
+
+        async function loadAccidentsWithFallback() {
+            const loaded = await loadAccidents();
+            if (!loaded) { console.log('📦 Using local accident data as fallback'); loadAccidentsFromLocal(); }
+        }
+
+        async function saveAccidents() {
+            for (const accident of accidents) { await saveAccidentToSP(accident); }
+            localStorage.setItem(ACCIDENT_STORAGE_KEY, JSON.stringify(accidents));
+        }
+
+        async function saveAccidentToSP(accident) {
+            try {
+                const digest = await getRequestDigest();
+                const endpoint = `/_api/web/lists(guid'${ACCIDENT_LIST_ID}')/items`;
+                const body = {
+                    '__metadata': { 'type': 'SP.Data.AccidentsListItem' },
+                    'Title': accident.plateNo || 'Accident',
+                    'IncidentDate': accident.incidentDate || null,
+                    'PlateNo': accident.plateNo || '', 'Cat': accident.cat || '',
+                    'InternalNo': accident.internalNo || '', 'ClaimNo': accident.claimNo || '',
+                    'VehicleType': accident.vehicleType || '',
+                    'Classification': accident.classification || 'Unknown',
+                    'Location': accident.location || '',
+                    'CheckInDate': accident.checkInDate || null,
+                    'Description': accident.description || '', 'Notes': accident.notes || ''
+                };
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json;odata=verbose',
+                        'Content-Type': 'application/json;odata=verbose',
+                        'X-RequestDigest': digest
+                    },
+                    body: JSON.stringify(body), credentials: 'include'
+                });
+                return response.ok;
+            } catch (error) { console.error('❌ Error saving accident:', error); return false; }
+        }
+
+        // =============================================
         //  LEAVE MANAGEMENT FUNCTIONS
         // =============================================
         function loadLeaveRecords() {
@@ -1698,20 +1118,107 @@
                 try {
                     vehiclesOnLeave = JSON.parse(saved);
                     nextLeaveId = Math.max(...vehiclesOnLeave.map(l => l.id), 0) + 1;
-                } catch (e) {
-                    vehiclesOnLeave = [];
-                    nextLeaveId = 1;
-                }
-            } else {
-                vehiclesOnLeave = [];
-                nextLeaveId = 1;
-            }
+                } catch (e) { vehiclesOnLeave = []; nextLeaveId = 1; }
+            } else { vehiclesOnLeave = []; nextLeaveId = 1; }
             updateLeaveUI();
         }
 
         function saveLeaveRecords() {
             localStorage.setItem(LEAVE_STORAGE_KEY, JSON.stringify(vehiclesOnLeave));
             updateLeaveUI();
+        }
+
+        // ✅ NEW: Load/Save Leave History
+        function loadLeaveHistory() {
+            let saved = localStorage.getItem(LEAVE_HISTORY_KEY);
+            if (saved) {
+                try { leaveHistory = JSON.parse(saved); } catch (e) { leaveHistory = []; }
+            } else { leaveHistory = []; }
+        }
+
+        function saveLeaveHistory() {
+            localStorage.setItem(LEAVE_HISTORY_KEY, JSON.stringify(leaveHistory));
+        }
+
+        // ✅ NEW: Open/Close/Render/Export Leave History Modal
+        function openLeaveHistoryModal() {
+            document.getElementById('leaveHistoryModal').style.display = 'flex';
+            document.getElementById('leaveHistorySearchInput').value = '';
+            currentLeaveHistorySearchTerm = '';
+            renderLeaveHistoryModal();
+        }
+
+        function closeLeaveHistoryModal() {
+            document.getElementById('leaveHistoryModal').style.display = 'none';
+        }
+
+        function renderLeaveHistoryModal() {
+            let filtered = leaveHistory.slice();
+            if (currentLeaveHistorySearchTerm) {
+                filtered = filtered.filter(h =>
+                    (h.plateNo || '').toLowerCase().includes(currentLeaveHistorySearchTerm) ||
+                    (h.reason || '').toLowerCase().includes(currentLeaveHistorySearchTerm) ||
+                    (h.status || '').toLowerCase().includes(currentLeaveHistorySearchTerm)
+                );
+            }
+
+            document.getElementById('leaveHistorySearchCount').innerHTML = `${filtered.length} records`;
+
+            const totalRecords = filtered.length;
+            const stillOnLeave = filtered.filter(h => !h.returned).length;
+            const returnedCount = filtered.filter(h => h.returned).length;
+
+            document.getElementById('leaveHistoryStatsContainer').innerHTML = `
+                <div class="stat-card"><div class="stat-number">${totalRecords}</div><div class="stat-label">Total Records</div></div>
+                <div class="stat-card"><div class="stat-number" style="color:#8B4513">${stillOnLeave}</div><div class="stat-label">Currently On Leave</div></div>
+                <div class="stat-card"><div class="stat-number" style="color:#27AE60">${returnedCount}</div><div class="stat-label">Returned</div></div>
+            `;
+
+            if (filtered.length === 0) {
+                document.getElementById('leaveHistoryBody').innerHTML =
+                    '<tr><td colspan="9" style="text-align:center;padding:40px;">🏖️ No leave history records found.</td></tr>';
+                return;
+            }
+
+            document.getElementById('leaveHistoryBody').innerHTML = filtered.map((h, i) => {
+                const statusBadge = h.returned
+                    ? `<span class="status-done">✅ Returned</span>`
+                    : `<span class="status-on-leave">🚗 On Leave</span>`;
+                return `<tr class="${h.returned ? '' : 'row-on-leave'}">
+                            <td>${i+1}</td>
+                            <td>${new Date(h.timestamp).toLocaleString()}</td>
+                            <td><strong>${h.plateNo}</strong></td>
+                            <td>${h.startDate || '-'}</td>
+                            <td>${h.endDate || '-'}</td>
+                            <td>${h.duration || '-'} days</td>
+                            <td>${h.returnedDate ? new Date(h.returnedDate).toLocaleDateString() : '-'}</td>
+                            <td style="max-width:220px; white-space:normal; text-align:left;">${h.reason || '-'}</td>
+                            <td>${statusBadge}</td>
+                        </tr>`;
+            }).join('');
+        }
+
+        function exportLeaveHistoryToExcel() {
+            if (leaveHistory.length === 0) {
+                showToast("No leave history to export", "#C0392B");
+                return;
+            }
+            const data = leaveHistory.map((h, i) => ({
+                "S.No": i + 1,
+                "Date Logged": new Date(h.timestamp).toLocaleString(),
+                "Plate No.": h.plateNo,
+                "Start Date": h.startDate,
+                "Expected Return": h.endDate,
+                "Duration (Days)": h.duration,
+                "Actual Return": h.returnedDate ? new Date(h.returnedDate).toLocaleDateString() : '-',
+                "Reason": h.reason,
+                "Status": h.returned ? 'Returned' : 'On Leave'
+            }));
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Leave History");
+            XLSX.writeFile(wb, `leave_history_${new Date().toISOString().split('T')[0]}.xlsx`);
+            showToast(`✅ Exported ${data.length} leave history records`, "#2D6A4F");
         }
 
         function getLeaveStatus(plateNo) {
@@ -1787,26 +1294,12 @@
             const endDate = document.getElementById('leaveEndDate').value;
             const reason = document.getElementById('leaveReason').value.trim();
 
-            if (!plate) {
-                showToast('Please select a vehicle', '#C0392B');
-                return;
-            }
-            if (!startDate) {
-                showToast('Please select a start date', '#C0392B');
-                return;
-            }
-            if (!endDate) {
-                showToast('Please select an expected return date', '#C0392B');
-                return;
-            }
-            if (new Date(endDate) < new Date(startDate)) {
-                showToast('Return date must be after start date', '#C0392B');
-                return;
-            }
-
+            if (!plate) { showToast('Please select a vehicle', '#C0392B'); return; }
+            if (!startDate) { showToast('Please select a start date', '#C0392B'); return; }
+            if (!endDate) { showToast('Please select an expected return date', '#C0392B'); return; }
+            if (new Date(endDate) < new Date(startDate)) { showToast('Return date must be after start date', '#C0392B'); return; }
             if (vehiclesOnLeave.some(l => l.plateNo === plate && !l.returned)) {
-                showToast('This vehicle is already on leave', '#C0392B');
-                return;
+                showToast('This vehicle is already on leave', '#C0392B'); return;
             }
 
             const leaveRecord = {
@@ -1820,6 +1313,21 @@
             };
 
             vehiclesOnLeave.push(leaveRecord);
+
+            // ✅ NEW: Log to permanent leave history
+            leaveHistory.unshift({
+                timestamp: new Date().toISOString(),
+                plateNo: plate,
+                startDate: startDate,
+                endDate: endDate,
+                duration: Math.max(1, Math.round((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))),
+                reason: reason || 'No reason provided',
+                returned: false,
+                returnedDate: '',
+                status: 'On Leave'
+            });
+            saveLeaveHistory();
+
             saveLeaveRecords();
             closeLeaveModal();
             showToast(`🚗 ${plate} has been marked as on leave until ${endDate}`, '#8B4513');
@@ -1873,6 +1381,20 @@
                 if (record) {
                     record.returned = true;
                     record.returnedDate = new Date().toISOString();
+
+                    // ✅ NEW: Update the matching leaveHistory entry
+                    const histIdx = leaveHistory.findIndex(h =>
+                        h.plateNo === record.plateNo &&
+                        h.startDate === record.startDate &&
+                        h.returned === false
+                    );
+                    if (histIdx !== -1) {
+                        leaveHistory[histIdx].returned = true;
+                        leaveHistory[histIdx].returnedDate = record.returnedDate;
+                        leaveHistory[histIdx].status = 'Returned';
+                        saveLeaveHistory();
+                    }
+
                     saveLeaveRecords();
                     showToast(`✅ ${record.plateNo} has been returned from leave`, '#2D6A4F');
                 }
@@ -1883,15 +1405,25 @@
 
         function returnAllVehicles() {
             const active = vehiclesOnLeave.filter(l => !l.returned);
-            if (active.length === 0) {
-                showToast('No vehicles on leave to return', '#C0392B');
-                return;
-            }
+            if (active.length === 0) { showToast('No vehicles on leave to return', '#C0392B'); return; }
             if (confirm(`Return all ${active.length} vehicles from leave?`)) {
                 active.forEach(l => {
                     l.returned = true;
                     l.returnedDate = new Date().toISOString();
+
+                    // ✅ NEW: Update the matching leaveHistory entry
+                    const histIdx = leaveHistory.findIndex(h =>
+                        h.plateNo === l.plateNo &&
+                        h.startDate === l.startDate &&
+                        h.returned === false
+                    );
+                    if (histIdx !== -1) {
+                        leaveHistory[histIdx].returned = true;
+                        leaveHistory[histIdx].returnedDate = l.returnedDate;
+                        leaveHistory[histIdx].status = 'Returned';
+                    }
                 });
+                saveLeaveHistory();
                 saveLeaveRecords();
                 showToast(`✅ ${active.length} vehicles returned from leave`, '#2D6A4F');
             }
@@ -1906,14 +1438,8 @@
                 try {
                     reminders = JSON.parse(saved);
                     nextReminderId = Math.max(...reminders.map(r => r.id), 0) + 1;
-                } catch (e) {
-                    reminders = [];
-                    nextReminderId = 1;
-                }
-            } else {
-                reminders = [];
-                nextReminderId = 1;
-            }
+                } catch (e) { reminders = []; nextReminderId = 1; }
+            } else { reminders = []; nextReminderId = 1; }
             renderReminders();
             updateReminderStats();
         }
@@ -1927,17 +1453,14 @@
 
         function checkReminders() {
             const dueReminders = getDueReminders();
-            if (dueReminders.length === 0) {
-                showToast('✅ No reminders are due!', '#27AE60');
-            } else {
+            if (dueReminders.length === 0) { showToast('✅ No reminders are due!', '#27AE60'); }
+            else {
                 let msg = `⚠️ ${dueReminders.length} reminder(s) are DUE:\n\n`;
                 dueReminders.forEach((r, i) => {
                     const vehicle = vehicles.find(v => v.plateNo === r.plateNo);
-                    msg += `${i+1}. ${r.plateNo} (${vehicle ? vehicle.family : 'Unknown'})\n`;
-                    msg += `   ${r.note}\n`;
-                    if (r.type === 'distance') {
-                        msg += `   Current: ${r.currentValue} / Trigger: ${r.triggerValue} KM\n`;
-                    } else {
+                    msg += `${i+1}. ${r.plateNo} (${vehicle ? vehicle.family : 'Unknown'})\n   ${r.note}\n`;
+                    if (r.type === 'distance') msg += `   Current: ${r.currentValue} / Trigger: ${r.triggerValue} KM\n`;
+                    else {
                         const days = Math.floor((new Date() - new Date(r.createdDate)) / (1000 * 60 * 60 * 24));
                         msg += `   Days elapsed: ${days} / Trigger: ${r.triggerValue} days\n`;
                     }
@@ -1965,7 +1488,6 @@
         function updateReminderBadges() {
             const dueReminders = getDueReminders();
             document.querySelectorAll('.reminder-badge').forEach(el => el.remove());
-
             document.querySelectorAll('#vehicleTable tbody tr').forEach(row => {
                 const plateCell = row.querySelector('td:nth-child(2)');
                 if (plateCell) {
@@ -1990,7 +1512,6 @@
                     (r.type || '').toLowerCase().includes(currentReminderSearchTerm)
                 );
             }
-
             const dueReminders = getDueReminders();
             filtered.sort((a, b) => {
                 const aDue = dueReminders.some(r => r.id === a.id);
@@ -1999,32 +1520,23 @@
                 if (!aDue && bDue) return 1;
                 return new Date(b.createdDate) - new Date(a.createdDate);
             });
-
             document.getElementById('reminderSearchCount').innerHTML = `${filtered.length} reminders`;
-
             const tbody = document.getElementById('reminderBody');
             if (filtered.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;">⏰ No reminders set. Click "Add Reminder" to create one.</td></tr>';
                 return;
             }
-
             tbody.innerHTML = filtered.map((r, i) => {
                 const vehicle = vehicles.find(v => v.plateNo === r.plateNo);
                 const isDue = dueReminders.some(d => d.id === r.id);
                 let currentDisplay = r.type === 'distance' ?
                     (vehicle ? vehicle.currentOdometer : r.currentValue) :
                     Math.floor((new Date() - new Date(r.createdDate)) / (1000 * 60 * 60 * 24));
-
-                if (r.type === 'distance') {
-                    currentDisplay = (currentDisplay || 0).toLocaleString() + ' km';
-                } else {
-                    currentDisplay = currentDisplay + ' days';
-                }
-
+                if (r.type === 'distance') currentDisplay = (currentDisplay || 0).toLocaleString() + ' km';
+                else currentDisplay = currentDisplay + ' days';
                 const statusBadge = r.completed ?
                     `<span class="status-done">✅ Completed</span>` :
                     (isDue ? `<span class="status-reminder-due">🔴 DUE!</span>` : `<span class="status-underprocess">⏳ Active</span>`);
-
                 return `<tr class="${isDue && !r.completed ? 'row-overdue' : ''}">
                     <td>${i+1}</td>
                     <td><strong>${r.plateNo}</strong>${vehicle ? `<br><small>${vehicle.family || ''}</small>` : ''}</td>
@@ -2048,9 +1560,7 @@
             const due = getDueReminders().length;
             const completed = reminders.filter(r => r.completed).length;
             const active = total - completed;
-
             document.getElementById('reminderCountDisplay').textContent = `Total: ${total} | Due: ${due}`;
-
             document.getElementById('reminderStatsContainer').innerHTML = `
                 <div class="stat-card"><div class="stat-number">${total}</div><div class="stat-label">Total Reminders</div></div>
                 <div class="stat-card"><div class="stat-number stat-number reminder-due">${due}</div><div class="stat-label">🔴 Due Now</div></div>
@@ -2066,7 +1576,6 @@
             document.getElementById('reminderTriggerValue').value = '';
             document.getElementById('reminderCurrentValue').value = '';
             document.getElementById('reminderNote').value = '';
-
             const servicePlate = document.getElementById('servicePlate').value.trim();
             if (servicePlate) {
                 const v = vehicles.find(v => v.plateNo === servicePlate);
@@ -2075,13 +1584,10 @@
                     document.getElementById('reminderCurrentValue').value = v.currentOdometer || 0;
                 }
             }
-
             updatePlateDatalistReminder();
         }
 
-        function closeAddReminderModal() {
-            document.getElementById('addReminderModal').style.display = 'none';
-        }
+        function closeAddReminderModal() { document.getElementById('addReminderModal').style.display = 'none'; }
 
         function saveReminder() {
             const plate = document.getElementById('reminderPlate').value.trim();
@@ -2089,36 +1595,14 @@
             const triggerValue = parseInt(document.getElementById('reminderTriggerValue').value);
             const currentValue = parseInt(document.getElementById('reminderCurrentValue').value) || 0;
             const note = document.getElementById('reminderNote').value.trim();
-
-            if (!plate) {
-                showToast('Please select a vehicle plate', '#C0392B');
-                return;
-            }
-            if (!triggerValue || triggerValue <= 0) {
-                showToast('Please enter a valid trigger value', '#C0392B');
-                return;
-            }
-            if (!note) {
-                showToast('Please enter a reminder note', '#C0392B');
-                return;
-            }
-
-            if (!vehicles.some(v => v.plateNo === plate)) {
-                showToast('Vehicle not found in fleet. Please add it first.', '#C0392B');
-                return;
-            }
-
+            if (!plate) { showToast('Please select a vehicle plate', '#C0392B'); return; }
+            if (!triggerValue || triggerValue <= 0) { showToast('Please enter a valid trigger value', '#C0392B'); return; }
+            if (!note) { showToast('Please enter a reminder note', '#C0392B'); return; }
+            if (!vehicles.some(v => v.plateNo === plate)) { showToast('Vehicle not found in fleet. Please add it first.', '#C0392B'); return; }
             const newReminder = {
-                id: nextReminderId++,
-                plateNo: plate,
-                type: type,
-                triggerValue: triggerValue,
-                currentValue: currentValue,
-                note: note,
-                createdDate: new Date().toISOString(),
-                completed: false
+                id: nextReminderId++, plateNo: plate, type: type, triggerValue: triggerValue,
+                currentValue: currentValue, note: note, createdDate: new Date().toISOString(), completed: false
             };
-
             reminders.push(newReminder);
             saveReminders();
             closeAddReminderModal();
@@ -2128,47 +1612,29 @@
         function editReminder(id) {
             const r = reminders.find(rem => rem.id === id);
             if (!r) return;
-
             document.getElementById('editReminderId').value = id;
             document.getElementById('editReminderPlate').value = r.plateNo;
             document.getElementById('editReminderType').value = r.type;
             document.getElementById('editReminderTriggerValue').value = r.triggerValue;
             document.getElementById('editReminderCurrentValue').value = r.currentValue || 0;
             document.getElementById('editReminderNote').value = r.note;
-
             document.getElementById('editReminderModal').style.display = 'flex';
             updatePlateDatalistReminderEdit();
         }
 
-        function closeEditReminderModal() {
-            document.getElementById('editReminderModal').style.display = 'none';
-        }
+        function closeEditReminderModal() { document.getElementById('editReminderModal').style.display = 'none'; }
 
         function updateReminder() {
             const id = parseInt(document.getElementById('editReminderId').value);
             const idx = reminders.findIndex(r => r.id === id);
             if (idx === -1) return;
-
             const plate = document.getElementById('editReminderPlate').value.trim();
             const type = document.getElementById('editReminderType').value;
             const triggerValue = parseInt(document.getElementById('editReminderTriggerValue').value);
             const currentValue = parseInt(document.getElementById('editReminderCurrentValue').value) || 0;
             const note = document.getElementById('editReminderNote').value.trim();
-
-            if (!plate || !triggerValue || !note) {
-                showToast('Please fill in all required fields', '#C0392B');
-                return;
-            }
-
-            reminders[idx] = {
-                ...reminders[idx],
-                plateNo: plate,
-                type: type,
-                triggerValue: triggerValue,
-                currentValue: currentValue,
-                note: note
-            };
-
+            if (!plate || !triggerValue || !note) { showToast('Please fill in all required fields', '#C0392B'); return; }
+            reminders[idx] = { ...reminders[idx], plateNo: plate, type: type, triggerValue: triggerValue, currentValue: currentValue, note: note };
             saveReminders();
             closeEditReminderModal();
             showToast('✅ Reminder updated!', '#27AE60');
@@ -2190,10 +1656,7 @@
             document.getElementById('deleteReminderModal').style.display = 'flex';
         }
 
-        function closeDeleteReminderModal() {
-            document.getElementById('deleteReminderModal').style.display = 'none';
-            deleteReminderId = null;
-        }
+        function closeDeleteReminderModal() { document.getElementById('deleteReminderModal').style.display = 'none'; deleteReminderId = null; }
 
         function confirmDeleteReminder() {
             if (deleteReminderId) {
@@ -2206,13 +1669,11 @@
         }
 
         function updatePlateDatalistReminder() {
-            document.getElementById('plateListReminder').innerHTML = vehicles.map(v =>
-                `<option value="${v.plateNo}">`).join('');
+            document.getElementById('plateListReminder').innerHTML = vehicles.map(v => `<option value="${v.plateNo}">`).join('');
         }
 
         function updatePlateDatalistReminderEdit() {
-            document.getElementById('plateListReminderEdit').innerHTML = vehicles.map(v =>
-                `<option value="${v.plateNo}">`).join('');
+            document.getElementById('plateListReminderEdit').innerHTML = vehicles.map(v => `<option value="${v.plateNo}">`).join('');
         }
 
         // =============================================
@@ -2220,26 +1681,16 @@
         // =============================================
         function getDefaultReserveVehicles() {
             return [
-                { id: 1, plateNo: "42403", category: "20", internalNo: "C0075132", vehicleType: "Toyota Rav 4",
-                    remarks: "", userVehicle: "", assignedTo: "" },
-                { id: 2, plateNo: "69709", category: "17", internalNo: "C0075206", vehicleType: "Toyota Rav 4",
-                    remarks: "", userVehicle: "", assignedTo: "" },
-                { id: 3, plateNo: "77319", category: "17", internalNo: "C0075207", vehicleType: "Toyota Rav 4",
-                    remarks: "", userVehicle: "", assignedTo: "" },
-                { id: 4, plateNo: "69508", category: "17", internalNo: "C0075208", vehicleType: "Toyota Rav 4",
-                    remarks: "", userVehicle: "", assignedTo: "" },
-                { id: 5, plateNo: "69492", category: "17", internalNo: "C0075209", vehicleType: "Toyota Rav 4",
-                    remarks: "", userVehicle: "", assignedTo: "" },
-                { id: 6, plateNo: "80895", category: "21", internalNo: "C0075210", vehicleType: "Toyota Rav 4",
-                    remarks: "", userVehicle: "", assignedTo: "" },
-                { id: 7, plateNo: "64984", category: "17", internalNo: "C0075259", vehicleType: "Toyota Rav 4",
-                    remarks: "", userVehicle: "", assignedTo: "" },
-                { id: 8, plateNo: "71073", category: "13", internalNo: "C0074372", vehicleType: "Toyota Fortuner",
-                    remarks: "", userVehicle: "", assignedTo: "" },
-                { id: 9, plateNo: "71163", category: "13", internalNo: "C0074371", vehicleType: "Toyota Fortuner",
-                    remarks: "", userVehicle: "", assignedTo: "" },
-                { id: 10, plateNo: "37245", category: "12", internalNo: "C0074228", vehicleType: "Nissan Petrol",
-                    remarks: "", userVehicle: "", assignedTo: "" }
+                { id: 1, plateNo: "42403", category: "20", internalNo: "C0075132", vehicleType: "Toyota Rav 4", remarks: "", userVehicle: "", assignedTo: "" },
+                { id: 2, plateNo: "69709", category: "17", internalNo: "C0075206", vehicleType: "Toyota Rav 4", remarks: "", userVehicle: "", assignedTo: "" },
+                { id: 3, plateNo: "77319", category: "17", internalNo: "C0075207", vehicleType: "Toyota Rav 4", remarks: "", userVehicle: "", assignedTo: "" },
+                { id: 4, plateNo: "69508", category: "17", internalNo: "C0075208", vehicleType: "Toyota Rav 4", remarks: "", userVehicle: "", assignedTo: "" },
+                { id: 5, plateNo: "69492", category: "17", internalNo: "C0075209", vehicleType: "Toyota Rav 4", remarks: "", userVehicle: "", assignedTo: "" },
+                { id: 6, plateNo: "80895", category: "21", internalNo: "C0075210", vehicleType: "Toyota Rav 4", remarks: "", userVehicle: "", assignedTo: "" },
+                { id: 7, plateNo: "64984", category: "17", internalNo: "C0075259", vehicleType: "Toyota Rav 4", remarks: "", userVehicle: "", assignedTo: "" },
+                { id: 8, plateNo: "71073", category: "13", internalNo: "C0074372", vehicleType: "Toyota Fortuner", remarks: "", userVehicle: "", assignedTo: "" },
+                { id: 9, plateNo: "71163", category: "13", internalNo: "C0074371", vehicleType: "Toyota Fortuner", remarks: "", userVehicle: "", assignedTo: "" },
+                { id: 10, plateNo: "37245", category: "12", internalNo: "C0074228", vehicleType: "Nissan Petrol", remarks: "", userVehicle: "", assignedTo: "" }
             ];
         }
 
@@ -2249,14 +1700,8 @@
                 try {
                     reserveVehicles = JSON.parse(saved);
                     nextReserveId = Math.max(...reserveVehicles.map(v => v.id), 0) + 1;
-                } catch (e) {
-                    reserveVehicles = getDefaultReserveVehicles();
-                    nextReserveId = 11;
-                }
-            } else {
-                reserveVehicles = getDefaultReserveVehicles();
-                nextReserveId = 11;
-            }
+                } catch (e) { reserveVehicles = getDefaultReserveVehicles(); nextReserveId = 11; }
+            } else { reserveVehicles = getDefaultReserveVehicles(); nextReserveId = 11; }
             updateReserveUI();
             updateReplacementDropdown();
         }
@@ -2269,31 +1714,25 @@
 
         function getReserveStatus(reserveVehicle) {
             if (reserveVehicle.assignedTo && reserveVehicle.assignedTo !== '') {
-                return { status: 'Assigned', label: '🔴 Assigned', badgeClass: 'assigned-badge',
-                assignedTo: reserveVehicle.assignedTo };
+                return { status: 'Assigned', label: '🔴 Assigned', badgeClass: 'assigned-badge', assignedTo: reserveVehicle.assignedTo };
             }
             return { status: 'Available', label: '🟢 Available', badgeClass: 'reserve-badge', assignedTo: '' };
         }
 
         function getReserveStats() {
             const total = reserveVehicles.length;
-            let assigned = 0,
-                available = 0;
-
+            let assigned = 0, available = 0;
             reserveVehicles.forEach(v => {
                 const status = getReserveStatus(v);
                 if (status.status === 'Assigned') assigned++;
                 else available++;
             });
-
             return { total, assigned, available };
         }
 
         function updateReserveUI() {
             const stats = getReserveStats();
-            document.getElementById('reserveCountDisplay').textContent =
-                `Total: ${stats.total} | Available: ${stats.available} | Assigned: ${stats.assigned}`;
-
+            document.getElementById('reserveCountDisplay').textContent = `Total: ${stats.total} | Available: ${stats.available} | Assigned: ${stats.assigned}`;
             if (document.getElementById('reserveTotalCount')) {
                 document.getElementById('reserveTotalCount').textContent = stats.total;
                 document.getElementById('reserveAssignedCount').textContent = stats.assigned;
@@ -2306,12 +1745,7 @@
             const select = document.getElementById('replacementVehicle');
             select.innerHTML = '<option value="">-- Select --</option>';
             select.innerHTML += '<option value="NO_REPLACEMENT">🚫 No Replacement Needed</option>';
-
-            const available = reserveVehicles.filter(v => {
-                const status = getReserveStatus(v);
-                return status.status === 'Available';
-            });
-
+            const available = reserveVehicles.filter(v => getReserveStatus(v).status === 'Available');
             if (available.length === 0) {
                 const opt = document.createElement('option');
                 opt.value = '';
@@ -2320,14 +1754,12 @@
                 select.appendChild(opt);
                 return;
             }
-
             const grouped = {};
             available.forEach(v => {
                 const type = v.vehicleType || 'Other';
                 if (!grouped[type]) grouped[type] = [];
                 grouped[type].push(v);
             });
-
             for (const [type, vehicles] of Object.entries(grouped)) {
                 const optgroup = document.createElement('optgroup');
                 optgroup.label = type + ' (Available)';
@@ -2339,12 +1771,7 @@
                 });
                 select.appendChild(optgroup);
             }
-
-            const assigned = reserveVehicles.filter(v => {
-                const status = getReserveStatus(v);
-                return status.status === 'Assigned';
-            });
-
+            const assigned = reserveVehicles.filter(v => getReserveStatus(v).status === 'Assigned');
             if (assigned.length > 0) {
                 const optgroup = document.createElement('optgroup');
                 optgroup.label = '── Assigned (Not Available) ──';
@@ -2362,9 +1789,7 @@
 
         function resetAllReserveAssignments() {
             if (confirm('⚠️ Are you sure you want to FREE ALL reserve vehicles?\n\nThis will remove all assignments and make all reserve vehicles available.')) {
-                reserveVehicles.forEach(v => {
-                    v.assignedTo = '';
-                });
+                reserveVehicles.forEach(v => { v.assignedTo = ''; });
                 saveReserveVehicles();
                 updateReserveUI();
                 updateReplacementDropdown();
@@ -2378,9 +1803,7 @@
             updateReserveUI();
         }
 
-        function closeReserveVehiclesModal() {
-            document.getElementById('reserveVehiclesModal').style.display = 'none';
-        }
+        function closeReserveVehiclesModal() { document.getElementById('reserveVehiclesModal').style.display = 'none'; }
 
         function renderReserveVehicles() {
             let filtered = reserveVehicles;
@@ -2392,18 +1815,15 @@
                     (v.assignedTo || '').toLowerCase().includes(currentReserveSearchTerm)
                 );
             }
-
             const tbody = document.getElementById('reserveVehicleBody');
             if (filtered.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;">📋 No reserve vehicles found</td></tr>';
                 return;
             }
-
             tbody.innerHTML = filtered.map((v, i) => {
                 const status = getReserveStatus(v);
                 const statusBadge = `<span class="${status.badgeClass}">${status.label}</span>`;
                 const rowClass = status.status === 'Assigned' ? 'row-assigned' : 'row-reserve';
-
                 return `<tr class="${rowClass}">
                             <td>${i+1}</td>
                             <td><strong>${v.plateNo}</strong></td>
@@ -2435,37 +1855,22 @@
             document.getElementById('reserveUserVehicle').value = '';
         }
 
-        function closeAddReserveVehicleModal() {
-            document.getElementById('addReserveVehicleModal').style.display = 'none';
-        }
+        function closeAddReserveVehicleModal() { document.getElementById('addReserveVehicleModal').style.display = 'none'; }
 
         function saveReserveVehicle() {
             const plateNo = document.getElementById('reservePlateNo').value.trim();
             const category = document.getElementById('reserveCategory').value.trim();
             const internalNo = document.getElementById('reserveInternalNo').value.trim();
             const vehicleType = document.getElementById('reserveVehicleType').value.trim();
-
-            if (!plateNo || !category || !internalNo || !vehicleType) {
-                showToast('Please fill in all required fields (*)', '#C0392B');
-                return;
-            }
-
-            if (reserveVehicles.some(v => v.plateNo === plateNo)) {
-                showToast('Vehicle with this plate already exists in reserve!', '#C0392B');
-                return;
-            }
-
+            if (!plateNo || !category || !internalNo || !vehicleType) { showToast('Please fill in all required fields (*)', '#C0392B'); return; }
+            if (reserveVehicles.some(v => v.plateNo === plateNo)) { showToast('Vehicle with this plate already exists in reserve!', '#C0392B'); return; }
             const newReserve = {
-                id: nextReserveId++,
-                plateNo: plateNo,
-                category: category,
-                internalNo: internalNo,
+                id: nextReserveId++, plateNo: plateNo, category: category, internalNo: internalNo,
                 vehicleType: vehicleType,
                 remarks: document.getElementById('reserveRemarks').value.trim(),
                 userVehicle: document.getElementById('reserveUserVehicle').value.trim(),
                 assignedTo: ''
             };
-
             reserveVehicles.push(newReserve);
             saveReserveVehicles();
             closeAddReserveVehicleModal();
@@ -2475,7 +1880,6 @@
         function editReserveVehicle(id) {
             const v = reserveVehicles.find(r => r.id === id);
             if (!v) return;
-
             document.getElementById('editReserveIndex').value = id;
             document.getElementById('editReservePlateNo').value = v.plateNo;
             document.getElementById('editReserveCategory').value = v.category || '';
@@ -2483,44 +1887,27 @@
             document.getElementById('editReserveVehicleType').value = v.vehicleType || '';
             document.getElementById('editReserveRemarks').value = v.remarks || '';
             document.getElementById('editReserveUserVehicle').value = v.userVehicle || '';
-
             document.getElementById('editReserveVehicleModal').style.display = 'flex';
         }
 
-        function closeEditReserveVehicleModal() {
-            document.getElementById('editReserveVehicleModal').style.display = 'none';
-        }
+        function closeEditReserveVehicleModal() { document.getElementById('editReserveVehicleModal').style.display = 'none'; }
 
         function updateReserveVehicle() {
             const id = parseInt(document.getElementById('editReserveIndex').value);
             const idx = reserveVehicles.findIndex(r => r.id === id);
             if (idx === -1) return;
-
             const plateNo = document.getElementById('editReservePlateNo').value.trim();
             const category = document.getElementById('editReserveCategory').value.trim();
             const internalNo = document.getElementById('editReserveInternalNo').value.trim();
             const vehicleType = document.getElementById('editReserveVehicleType').value.trim();
-
-            if (!plateNo || !category || !internalNo || !vehicleType) {
-                showToast('Please fill in all required fields (*)', '#C0392B');
-                return;
-            }
-
-            if (reserveVehicles.some((v, i) => v.plateNo === plateNo && i !== idx)) {
-                showToast('Vehicle with this plate already exists in reserve!', '#C0392B');
-                return;
-            }
-
+            if (!plateNo || !category || !internalNo || !vehicleType) { showToast('Please fill in all required fields (*)', '#C0392B'); return; }
+            if (reserveVehicles.some((v, i) => v.plateNo === plateNo && i !== idx)) { showToast('Vehicle with this plate already exists in reserve!', '#C0392B'); return; }
             reserveVehicles[idx] = {
-                ...reserveVehicles[idx],
-                plateNo: plateNo,
-                category: category,
-                internalNo: internalNo,
+                ...reserveVehicles[idx], plateNo: plateNo, category: category, internalNo: internalNo,
                 vehicleType: vehicleType,
                 remarks: document.getElementById('editReserveRemarks').value.trim(),
                 userVehicle: document.getElementById('editReserveUserVehicle').value.trim()
             };
-
             saveReserveVehicles();
             closeEditReserveVehicleModal();
             showToast(`✅ Reserve vehicle ${plateNo} updated successfully!`, '#27AE60');
@@ -2532,10 +1919,7 @@
             document.getElementById('deleteReserveModal').style.display = 'flex';
         }
 
-        function closeDeleteReserveModal() {
-            document.getElementById('deleteReserveModal').style.display = 'none';
-            deleteReserveId = null;
-        }
+        function closeDeleteReserveModal() { document.getElementById('deleteReserveModal').style.display = 'none'; deleteReserveId = null; }
 
         function confirmDeleteReserve() {
             if (deleteReserveId) {
@@ -2548,26 +1932,16 @@
         }
 
         function exportReserveToExcel() {
-            if (reserveVehicles.length === 0) {
-                showToast('No reserve vehicles to export', '#C0392B');
-                return;
-            }
-
+            if (reserveVehicles.length === 0) { showToast('No reserve vehicles to export', '#C0392B'); return; }
             const data = reserveVehicles.map((v, i) => {
                 const status = getReserveStatus(v);
                 return {
-                    'S.No': i + 1,
-                    'Plate No': v.plateNo,
-                    'Category': v.category || '',
-                    'Internal No': v.internalNo,
-                    'Vehicle Type': v.vehicleType || '',
-                    'Remarks': v.remarks || '',
-                    'User Vehicle': v.userVehicle || '',
-                    'Assigned To': status.assignedTo || '',
-                    'Status': status.status
+                    'S.No': i + 1, 'Plate No': v.plateNo, 'Category': v.category || '',
+                    'Internal No': v.internalNo, 'Vehicle Type': v.vehicleType || '',
+                    'Remarks': v.remarks || '', 'User Vehicle': v.userVehicle || '',
+                    'Assigned To': status.assignedTo || '', 'Status': status.status
                 };
             });
-
             const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Reserve Vehicles');
@@ -2601,14 +1975,8 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify({ vehicles, serviceHistory, backupLog, nextId }));
         }
 
-        function saveEmployeeData() {
-            localStorage.setItem(EMPLOYEE_STORAGE_KEY, JSON.stringify(employeeData));
-        }
-
-        function saveMessageHistory() {
-            localStorage.setItem(MSG_HISTORY_KEY, JSON.stringify(messageHistory));
-        }
-
+        function saveEmployeeData() { localStorage.setItem(EMPLOYEE_STORAGE_KEY, JSON.stringify(employeeData)); }
+        function saveMessageHistory() { localStorage.setItem(MSG_HISTORY_KEY, JSON.stringify(messageHistory)); }
         function loadMessageHistory() {
             let saved = localStorage.getItem(MSG_HISTORY_KEY);
             if (saved) messageHistory = JSON.parse(saved);
@@ -2626,55 +1994,23 @@
             return lastCService + C_SERVICE_INTERVAL;
         }
 
-        function calcRemainOil(v) {
-            return calcNextOilChangeKM(v) - (v.currentOdometer || 0);
-        }
-
-        function calcRemainCService(v) {
-            return calcNextCServiceKM(v) - (v.currentOdometer || 0);
-        }
+        function calcRemainOil(v) { return calcNextOilChangeKM(v) - (v.currentOdometer || 0); }
+        function calcRemainCService(v) { return calcNextCServiceKM(v) - (v.currentOdometer || 0); }
 
         function calcDueStatus(v) {
-            // Check for Under Process FIRST before checking On Leave
-            if (v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "")) {
-                return "Under Process";
-            }
-            
-            // Then check for On Leave
-            if (isVehicleOnLeave(v.plateNo)) {
-                return "On Leave";
-            }
-            
+            if (v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "")) return "Under Process";
+            if (isVehicleOnLeave(v.plateNo)) return "On Leave";
             let currentOdometer = v.currentOdometer || 0;
             let lastOil = v.lastOilChangeKM || 0;
             let nextOil = lastOil + OIL_INTERVAL;
             let oilRemain = nextOil - currentOdometer;
-            
-            // C-Service logic - check if completed recently
             let lastCService = v.lastCServiceKM || 0;
             let nextCService = lastCService + C_SERVICE_INTERVAL;
-            
-            // If lastCService is 0, it means no C-Service has been done yet
-            // The first C-Service is due at 40,000 km
-            if (lastCService === 0) {
-                nextCService = C_SERVICE_INTERVAL;
-            }
-            
-            // Check if C-Service is due
-            if (currentOdometer >= nextCService) {
-                return "C-Service Overdue";
-            }
-            if (currentOdometer >= (nextCService - DUE_WARNING_KM) && currentOdometer < nextCService) {
-                return "C-Service Due";
-            }
-            
-            // Oil change logic
-            if (oilRemain >= 0 && oilRemain <= DUE_WARNING_KM) {
-                return "Due to Oil Change Soon";
-            }
-            if (oilRemain < 0) {
-                return "Overdue";
-            }
+            if (lastCService === 0) nextCService = C_SERVICE_INTERVAL;
+            if (currentOdometer >= nextCService) return "C-Service Overdue";
+            if (currentOdometer >= (nextCService - DUE_WARNING_KM) && currentOdometer < nextCService) return "C-Service Due";
+            if (oilRemain >= 0 && oilRemain <= DUE_WARNING_KM) return "Due to Oil Change Soon";
+            if (oilRemain < 0) return "Overdue";
             return "";
         }
 
@@ -2683,9 +2019,7 @@
             v.nextCServiceKM = calcNextCServiceKM(v);
             v.remainKM = calcRemainOil(v);
             v.remainCServiceKM = calcRemainCService(v);
-            if (!v.lastCServiceKM || v.lastCServiceKM === 0) {
-                v.lastCServiceKM = 0;
-            }
+            if (!v.lastCServiceKM || v.lastCServiceKM === 0) v.lastCServiceKM = 0;
             v.dueStatus = calcDueStatus(v);
             v.keyHandoverStatus = v.keyHandoverStatus || 'handed';
             return v;
@@ -2735,16 +2069,11 @@
             document.getElementById('employeePreview').innerHTML = '';
         }
 
-        function closeEmployeeModal() {
-            document.getElementById('employeeModal').style.display = 'none';
-        }
+        function closeEmployeeModal() { document.getElementById('employeeModal').style.display = 'none'; }
 
         function processEmployeeData() {
             const fileInput = document.getElementById('employeeExcelFile');
-            if (!fileInput.files || fileInput.files.length === 0) {
-                showToast("Please select an Excel file", "#C0392B");
-                return;
-            }
+            if (!fileInput.files || fileInput.files.length === 0) { showToast("Please select an Excel file", "#C0392B"); return; }
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
@@ -2752,21 +2081,10 @@
                     const workbook = XLSX.read(data, { type: 'array' });
                     const sheet = workbook.Sheets[workbook.SheetNames[0]];
                     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-                    if (!jsonData || jsonData.length < 2) {
-                        showToast("Invalid Excel format or empty file", "#C0392B");
-                        return;
-                    }
-                    const PLATE_COL = 1;
-                    const USERNAME_COL = 6;
-                    const CONTACT_COL = 10;
-
-                    function normalizePlate(p) {
-                        let digits = String(p || '').replace(/\D/g, '');
-                        return digits.slice(-5);
-                    }
-
-                    let empMap = {};
-                    let loadedCount = 0;
+                    if (!jsonData || jsonData.length < 2) { showToast("Invalid Excel format or empty file", "#C0392B"); return; }
+                    const PLATE_COL = 1, USERNAME_COL = 6, CONTACT_COL = 10;
+                    function normalizePlate(p) { return String(p || '').replace(/\D/g, '').slice(-5); }
+                    let empMap = {}, loadedCount = 0;
                     for (let i = 1; i < jsonData.length; i++) {
                         const row = jsonData[i];
                         if (!row) continue;
@@ -2776,30 +2094,19 @@
                         if (!normPlate) continue;
                         const username = row[USERNAME_COL] != null ? String(row[USERNAME_COL]).trim() : '-';
                         const contact = row[CONTACT_COL] != null ? String(row[CONTACT_COL]).trim() : '-';
-                        if (!empMap[normPlate]) {
-                            empMap[normPlate] = { username: username || '-', contact: contact || '-' };
-                            loadedCount++;
-                        }
+                        if (!empMap[normPlate]) { empMap[normPlate] = { username: username || '-', contact: contact || '-' }; loadedCount++; }
                     }
                     employeeData = empMap;
                     saveEmployeeData();
                     let updatedCount = 0;
                     for (const v of vehicles) {
-                        const normVehiclePlate = normalizePlate(v.plateNo);
-                        const match = empMap[normVehiclePlate];
-                        if (match) {
-                            v.username = match.username;
-                            v.contact = match.contact;
-                            updatedCount++;
-                        }
+                        const match = empMap[normalizePlate(v.plateNo)];
+                        if (match) { v.username = match.username; v.contact = match.contact; updatedCount++; }
                     }
                     refreshAll();
                     closeEmployeeModal();
                     showToast(`✅ Loaded ${loadedCount} employee records, matched ${updatedCount} vehicles`, "#27AE60");
-                } catch (err) {
-                    showToast("Error: " + err.message, "#C0392B");
-                    console.error(err);
-                }
+                } catch (err) { showToast("Error: " + err.message, "#C0392B"); console.error(err); }
             };
             reader.readAsArrayBuffer(fileInput.files[0]);
         }
@@ -2809,10 +2116,7 @@
         // =============================================
         function analyzeMovement() {
             const fileInput = document.getElementById('inactiveExcelFileInput');
-            if (!fileInput.files || fileInput.files.length === 0) {
-                showToast("Please select an Excel file first", "#C0392B");
-                return;
-            }
+            if (!fileInput.files || fileInput.files.length === 0) { showToast("Please select an Excel file first", "#C0392B"); return; }
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
@@ -2820,13 +2124,9 @@
                     const workbook = XLSX.read(data, { type: 'array' });
                     const sheet = workbook.Sheets[workbook.SheetNames[0]];
                     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-                    if (!jsonData || jsonData.length < 2) {
-                        showToast("Invalid Excel format", "#C0392B");
-                        return;
-                    }
+                    if (!jsonData || jsonData.length < 2) { showToast("Invalid Excel format", "#C0392B"); return; }
                     const headers = jsonData[0];
-                    let totalTravelledIdx = -1,
-                        plateColIdx = -1;
+                    let totalTravelledIdx = -1, plateColIdx = -1;
                     for (let i = 0; i < headers.length; i++) {
                         const h = String(headers[i]).toLowerCase();
                         if (h.includes('total travelled') || h === 'total travelled distance') totalTravelledIdx = i;
@@ -2842,8 +2142,7 @@
                         if (!rawPlate) continue;
                         const cleanPlate = cleanPlateNumber(rawPlate);
                         let totalTravelled = null;
-                        if (row[totalTravelledIdx] !== undefined && row[totalTravelledIdx] !== null && row[totalTravelledIdx] !==
-                            '') {
+                        if (row[totalTravelledIdx] !== undefined && row[totalTravelledIdx] !== null && row[totalTravelledIdx] !== '') {
                             totalTravelled = parseFloat(row[totalTravelledIdx]);
                             if (isNaN(totalTravelled)) totalTravelled = null;
                         }
@@ -2851,49 +2150,30 @@
                     }
                     const zeroMovementVehicles = [];
                     for (const vehicle of vehicles) {
-                        const cleanVehiclePlate = cleanPlateNumber(vehicle.plateNo);
-                        const totalTravelled = excelDataMap.get(cleanVehiclePlate);
+                        const totalTravelled = excelDataMap.get(cleanPlateNumber(vehicle.plateNo));
                         if (totalTravelled !== undefined && totalTravelled === 0) {
-                            zeroMovementVehicles.push({
-                                plateNo: vehicle.plateNo,
-                                internalNo: vehicle.internalNo || '',
-                                make: vehicle.make,
-                                family: vehicle.family
-                            });
+                            zeroMovementVehicles.push({ plateNo: vehicle.plateNo, internalNo: vehicle.internalNo || '', make: vehicle.make, family: vehicle.family });
                         }
                     }
                     currentZeroMovementReport = {
-                        timestamp: new Date().toISOString(),
-                        reportDate: new Date().toLocaleString(),
-                        totalFleetVehicles: vehicles.length,
-                        zeroMovementCount: zeroMovementVehicles.length,
-                        utilization: vehicles.length > 0 ? Math.round((vehicles.length - zeroMovementVehicles.length) /
-                            vehicles.length * 100) : 100,
+                        timestamp: new Date().toISOString(), reportDate: new Date().toLocaleString(),
+                        totalFleetVehicles: vehicles.length, zeroMovementCount: zeroMovementVehicles.length,
+                        utilization: vehicles.length > 0 ? Math.round((vehicles.length - zeroMovementVehicles.length) / vehicles.length * 100) : 100,
                         zeroMovementVehicles: zeroMovementVehicles
                     };
-                    zeroMovementHistory.unshift({ timestamp: currentZeroMovementReport.timestamp,
-                        zeroMovementCount: currentZeroMovementReport.zeroMovementCount, reportDate: currentZeroMovementReport
-                            .reportDate });
+                    zeroMovementHistory.unshift({ timestamp: currentZeroMovementReport.timestamp, zeroMovementCount: currentZeroMovementReport.zeroMovementCount, reportDate: currentZeroMovementReport.reportDate });
                     if (zeroMovementHistory.length > 50) zeroMovementHistory.pop();
                     saveZeroMovementData();
                     renderZeroMovementTable();
                     updateZeroMovementStats();
-                    if (zeroMovementVehicles.length === 0) showToast(
-                        "✅ No fleet vehicles with ZERO movement found in this report", "#27AE60");
-                    else showToast(`⚠️ Found ${zeroMovementVehicles.length} fleet vehicles with ZERO movement`,
-                        "#F39C12");
-                } catch (err) {
-                    showToast("Error: " + err.message, "#C0392B");
-                    console.error(err);
-                }
+                    if (zeroMovementVehicles.length === 0) showToast("✅ No fleet vehicles with ZERO movement found in this report", "#27AE60");
+                    else showToast(`⚠️ Found ${zeroMovementVehicles.length} fleet vehicles with ZERO movement`, "#F39C12");
+                } catch (err) { showToast("Error: " + err.message, "#C0392B"); console.error(err); }
             };
             reader.readAsArrayBuffer(fileInput.files[0]);
         }
 
-        function saveZeroMovementData() {
-            localStorage.setItem(ZERO_MOVEMENT_STORAGE_KEY, JSON.stringify({ zeroMovementHistory,
-                currentZeroMovementReport }));
-        }
+        function saveZeroMovementData() { localStorage.setItem(ZERO_MOVEMENT_STORAGE_KEY, JSON.stringify({ zeroMovementHistory, currentZeroMovementReport })); }
 
         function loadZeroMovementData() {
             const saved = localStorage.getItem(ZERO_MOVEMENT_STORAGE_KEY);
@@ -2908,26 +2188,18 @@
 
         function renderZeroMovementTable() {
             if (!currentZeroMovementReport || !currentZeroMovementReport.zeroMovementVehicles) {
-                document.getElementById('inactiveTableHeader').innerHTML =
-                    '<tr><th>S.No</th><th>Plate No.</th><th>Internal No.</th><th>Make</th><th>Family</th><th>Status</th></tr>';
-                document.getElementById('inactiveTableBody').innerHTML =
-                    '<tr><td colspan="6" style="text-align:center;padding:40px;">📊 Upload an Odometer Report to find fleet vehicles with ZERO movement.</td></tr>';
+                document.getElementById('inactiveTableHeader').innerHTML = '<tr><th>S.No</th><th>Plate No.</th><th>Internal No.</th><th>Make</th><th>Family</th><th>Status</th></tr>';
+                document.getElementById('inactiveTableBody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;">📊 Upload an Odometer Report to find fleet vehicles with ZERO movement.</td></tr>';
                 return;
             }
             let zeroVehicles = currentZeroMovementReport.zeroMovementVehicles || [];
             if (currentInactiveSearchTerm) {
-                zeroVehicles = zeroVehicles.filter(v => v.plateNo?.toLowerCase().includes(currentInactiveSearchTerm) || (v
-                    .internalNo && v.internalNo.toLowerCase().includes(currentInactiveSearchTerm)) || (v.make && v.make
-                    .toLowerCase().includes(currentInactiveSearchTerm)) || (v.family && v.family.toLowerCase().includes(
-                    currentInactiveSearchTerm)));
+                zeroVehicles = zeroVehicles.filter(v => v.plateNo?.toLowerCase().includes(currentInactiveSearchTerm) || (v.internalNo && v.internalNo.toLowerCase().includes(currentInactiveSearchTerm)) || (v.make && v.make.toLowerCase().includes(currentInactiveSearchTerm)) || (v.family && v.family.toLowerCase().includes(currentInactiveSearchTerm)));
             }
-            document.getElementById('inactiveSearchCount').innerHTML =
-                `${zeroVehicles.length} fleet vehicles with ZERO movement`;
-            document.getElementById('inactiveTableHeader').innerHTML =
-                '<tr><th>S.No</th><th>Plate No.</th><th>Internal No.</th><th>Make</th><th>Family</th><th>Status</th></tr>';
+            document.getElementById('inactiveSearchCount').innerHTML = `${zeroVehicles.length} fleet vehicles with ZERO movement`;
+            document.getElementById('inactiveTableHeader').innerHTML = '<tr><th>S.No</th><th>Plate No.</th><th>Internal No.</th><th>Make</th><th>Family</th><th>Status</th></tr>';
             if (zeroVehicles.length === 0) {
-                document.getElementById('inactiveTableBody').innerHTML =
-                    '<tr><td colspan="6" style="text-align:center;padding:20px;color:#27AE60;">✅ No fleet vehicles with ZERO movement found in this report!</td></tr>';
+                document.getElementById('inactiveTableBody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:#27AE60;">✅ No fleet vehicles with ZERO movement found in this report!</td></tr>';
                 return;
             }
             document.getElementById('inactiveTableBody').innerHTML = zeroVehicles.map((v, i) =>
@@ -2944,41 +2216,28 @@
 
         function updateZeroMovementStats() {
             if (!currentZeroMovementReport) {
-                document.getElementById('inactiveStatsContainer').innerHTML =
-                    `<div class="stat-card"><div class="stat-number">0</div><div class="stat-label">Zero Movement</div></div><div class="stat-card"><div class="stat-number">-</div><div class="stat-label">Report Date</div></div><div class="stat-card"><div class="stat-number">-</div><div class="stat-label">Utilization</div></div>`;
+                document.getElementById('inactiveStatsContainer').innerHTML = `<div class="stat-card"><div class="stat-number">0</div><div class="stat-label">Zero Movement</div></div><div class="stat-card"><div class="stat-number">-</div><div class="stat-label">Report Date</div></div><div class="stat-card"><div class="stat-number">-</div><div class="stat-label">Utilization</div></div>`;
                 return;
             }
             const zeroCount = currentZeroMovementReport.zeroMovementCount || 0;
             const utilization = currentZeroMovementReport.utilization || 100;
-            document.getElementById('inactiveStatsContainer').innerHTML =
-                `<div class="stat-card"><div class="stat-number" style="color:#8B0000">${zeroCount}</div><div class="stat-label">Zero Movement</div></div><div class="stat-card"><div class="stat-number">${currentZeroMovementReport.reportDate || '-'}</div><div class="stat-label">Report Date</div></div><div class="stat-card"><div class="stat-number">${utilization}%</div><div class="stat-label">Fleet Utilization</div></div>`;
+            document.getElementById('inactiveStatsContainer').innerHTML = `<div class="stat-card"><div class="stat-number" style="color:#8B0000">${zeroCount}</div><div class="stat-label">Zero Movement</div></div><div class="stat-card"><div class="stat-number">${currentZeroMovementReport.reportDate || '-'}</div><div class="stat-label">Report Date</div></div><div class="stat-card"><div class="stat-number">${utilization}%</div><div class="stat-label">Fleet Utilization</div></div>`;
         }
 
         function downloadInactiveTemplate() {
             const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.aoa_to_sheet([
-                ["SN", "Plate No.", "Internal No.", "Make", "Family", "Odometer Start Value", "Odometer End Value",
-                    "Total Travelled Distance", "Current Odometer"
-                ]
-            ]);
+            const ws = XLSX.utils.aoa_to_sheet([["SN", "Plate No.", "Internal No.", "Make", "Family", "Odometer Start Value", "Odometer End Value", "Total Travelled Distance", "Current Odometer"]]);
             XLSX.utils.book_append_sheet(wb, ws, "OdometerReport");
             XLSX.writeFile(wb, "OdometerReport_Template.xlsx");
             showToast("Template downloaded", "#1A5C8A");
         }
 
         function exportInactiveToExcel() {
-            if (!currentZeroMovementReport || !currentZeroMovementReport.zeroMovementVehicles) {
-                showToast("No report to export", "#C0392B");
-                return;
-            }
+            if (!currentZeroMovementReport || !currentZeroMovementReport.zeroMovementVehicles) { showToast("No report to export", "#C0392B"); return; }
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.json_to_sheet(currentZeroMovementReport.zeroMovementVehicles.map((v, i) => ({
-                "S.No": i + 1,
-                "Plate No.": v.plateNo,
-                "Internal No.": v.internalNo || '',
-                "Make": v.make || '',
-                "Family": v.family || '',
-                "Status": "ZERO MOVEMENT"
+                "S.No": i + 1, "Plate No.": v.plateNo, "Internal No.": v.internalNo || '',
+                "Make": v.make || '', "Family": v.family || '', "Status": "ZERO MOVEMENT"
             })));
             XLSX.utils.book_append_sheet(wb, ws, "Zero Movement Vehicles");
             XLSX.writeFile(wb, `zero_movement_vehicles_${new Date().toISOString().split('T')[0]}.xlsx`);
@@ -2992,9 +2251,7 @@
             a.click();
         }
 
-        function importInactiveBackup() {
-            document.getElementById('inactiveImportFile').click();
-        }
+        function importInactiveBackup() { document.getElementById('inactiveImportFile').click(); }
 
         function handleInactiveImport(e) {
             const file = e.target.files[0];
@@ -3025,39 +2282,14 @@
         }
 
         // =============================================
-        //  ACCIDENT FUNCTIONS
+        //  ACCIDENT RENDER FUNCTIONS
         // =============================================
-        function loadAccidents() {
-            let saved = localStorage.getItem(ACCIDENT_STORAGE_KEY);
-            if (saved) {
-                accidents = JSON.parse(saved);
-                nextAccidentId = Math.max(...accidents.map(a => a.id), 0) + 1;
-            } else {
-                accidents = [];
-                nextAccidentId = 1;
-            }
-            renderAccidentTable();
-            updateAccidentStats();
-            updateDashboard();
-        }
-
-        function saveAccidents() {
-            localStorage.setItem(ACCIDENT_STORAGE_KEY, JSON.stringify(accidents));
-            renderAccidentTable();
-            updateAccidentStats();
-            updateDashboard();
-        }
-
         function renderAccidentTable() {
-            let filtered = accidents.filter(a => !currentAccidentSearchTerm || a.plateNo?.toLowerCase().includes(
-                currentAccidentSearchTerm) || a.claimNo?.toLowerCase().includes(currentAccidentSearchTerm));
+            let filtered = accidents.filter(a => !currentAccidentSearchTerm || a.plateNo?.toLowerCase().includes(currentAccidentSearchTerm) || a.claimNo?.toLowerCase().includes(currentAccidentSearchTerm));
             filtered.sort((a, b) => new Date(b.incidentDate) - new Date(a.incidentDate));
             document.getElementById('accidentSearchCount').innerHTML = `${filtered.length} records`;
-            const headers = ["#", "Date", "Plate", "Cat", "Int No", "Claim No", "Vehicle", "Classification", "Location",
-                "Check In", "Notes", "Actions"
-            ];
-            document.getElementById('accidentTableHeader').innerHTML =
-                `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+            const headers = ["#", "Date", "Plate", "Cat", "Int No", "Claim No", "Vehicle", "Classification", "Location", "Check In", "Notes", "Actions"];
+            document.getElementById('accidentTableHeader').innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
             document.getElementById('accidentTableBody').innerHTML = filtered.map((a, i) =>
                 `<tr>
                             <td>${i+1}</td>
@@ -3077,14 +2309,11 @@
         }
 
         function updateAccidentStats() {
-            let total = accidents.length;
-            document.getElementById('accidentStatsContainer').innerHTML =
-                `<div class="stat-card"><div class="stat-number">${total}</div><div class="stat-label">Total Accidents</div></div>`;
+            document.getElementById('accidentStatsContainer').innerHTML = `<div class="stat-card"><div class="stat-number">${accidents.length}</div><div class="stat-label">Total Accidents</div></div>`;
         }
 
         function updatePlateDatalistAccident() {
-            document.getElementById('plateListAccident').innerHTML = vehicles.map(v =>
-                `<option value="${v.plateNo}">`).join('');
+            document.getElementById('plateListAccident').innerHTML = vehicles.map(v => `<option value="${v.plateNo}">`).join('');
         }
 
         function openAddAccidentModal() {
@@ -3103,21 +2332,15 @@
             window.editingAccidentId = null;
         }
 
-        function closeAccidentModal() {
-            document.getElementById('accidentModal').style.display = 'none';
-        }
+        function closeAccidentModal() { document.getElementById('accidentModal').style.display = 'none'; }
 
         function saveAccident() {
             let plate = document.getElementById('accidentPlate').value.trim();
-            if (!plate) {
-                showToast("Plate required", "#C0392B");
-                return;
-            }
+            if (!plate) { showToast("Plate required", "#C0392B"); return; }
             let accidentData = {
                 id: window.editingAccidentId || nextAccidentId++,
                 incidentDate: document.getElementById('accidentDate').value,
-                plateNo: plate,
-                cat: document.getElementById('accidentCat').value,
+                plateNo: plate, cat: document.getElementById('accidentCat').value,
                 internalNo: document.getElementById('accidentInternalNo').value,
                 claimNo: document.getElementById('accidentClaimNo').value,
                 vehicleType: document.getElementById('accidentVehicleType').value,
@@ -3131,10 +2354,7 @@
                 let idx = accidents.findIndex(a => a.id === window.editingAccidentId);
                 if (idx !== -1) accidents[idx] = accidentData;
                 showToast("Updated", "#2D6A4F");
-            } else {
-                accidents.push(accidentData);
-                showToast("Added", "#2D6A4F");
-            }
+            } else { accidents.push(accidentData); showToast("Added", "#2D6A4F"); }
             saveAccidents();
             closeAccidentModal();
         }
@@ -3173,15 +2393,10 @@
             }
         }
 
-        function closeDeleteAccidentModal() {
-            document.getElementById('deleteAccidentModal').style.display = 'none';
-        }
+        function closeDeleteAccidentModal() { document.getElementById('deleteAccidentModal').style.display = 'none'; }
 
         function exportAccidentsToExcel() {
-            if (!accidents.length) {
-                showToast("No records", "#C0392B");
-                return;
-            }
+            if (!accidents.length) { showToast("No records", "#C0392B"); return; }
             const ws = XLSX.utils.json_to_sheet(accidents);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Accidents");
@@ -3204,43 +2419,23 @@
         //  MAIN RENDER FUNCTIONS
         // =============================================
         function renderMainTable() {
-            let filtered = vehicles.filter(v => !currentSearchTerm || [v.plateNo, v.internalNo, v.make, v.family].some(f => f
-                ?.toLowerCase().includes(currentSearchTerm)));
+            let filtered = vehicles.filter(v => !currentSearchTerm || [v.plateNo, v.internalNo, v.make, v.family].some(f => f?.toLowerCase().includes(currentSearchTerm)));
             filtered.sort((a, b) => getSortPriority(a) - getSortPriority(b));
-            document.getElementById('searchCount').innerHTML = currentSearchTerm ? `Found ${filtered.length} of ${vehicles.length}` :
-                `${vehicles.length} vehicles`;
-            document.getElementById('tableHeader').innerHTML =
-                `<tr><th>#</th><th>Plate</th><th>Internal</th><th>Make</th><th>Family</th><th>Year</th><th>Odometer</th><th>Last Oil</th><th>Remain</th><th>Due Status</th><th>Status</th><th>Actions</th></tr>`;
+            document.getElementById('searchCount').innerHTML = currentSearchTerm ? `Found ${filtered.length} of ${vehicles.length}` : `${vehicles.length} vehicles`;
+            document.getElementById('tableHeader').innerHTML = `<tr><th>#</th><th>Plate</th><th>Internal</th><th>Make</th><th>Family</th><th>Year</th><th>Odometer</th><th>Last Oil</th><th>Remain</th><th>Due Status</th><th>Status</th><th>Actions</th></tr>`;
             document.getElementById('tableBody').innerHTML = filtered.map((v, i) => {
-                let sc = v.dueStatus === "Overdue" ? "status-overdue" : (v.dueStatus === "Under Process" ?
-                    "status-underprocess" : (v.dueStatus === "C-Service Due" ? "status-cservice" : (v
-                        .dueStatus === "C-Service Overdue" ? "status-cservice" : (v.dueStatus ===
-                        "Due to Oil Change Soon" ? "status-due-soon" : (v.dueStatus === "On Leave" ?
-                            "status-on-leave" : "")))));
+                let sc = v.dueStatus === "Overdue" ? "status-overdue" : (v.dueStatus === "Under Process" ? "status-underprocess" : (v.dueStatus === "C-Service Due" ? "status-cservice" : (v.dueStatus === "C-Service Overdue" ? "status-cservice" : (v.dueStatus === "Due to Oil Change Soon" ? "status-due-soon" : (v.dueStatus === "On Leave" ? "status-on-leave" : "")))));
                 let sb = v.status === "Done" ? `<span class="status-done">Done</span>` : (v.status || '-');
-                let rd = v.remainKM < 0 ? `<span style="color:#C0392B">${v.remainKM.toLocaleString()}</span>` : v
-                    .remainKM.toLocaleString();
-                let rowClass = v.dueStatus === "Overdue" ? "row-overdue" : (v.dueStatus === "Under Process" ?
-                    "row-underprocess" : (v.dueStatus === "Due to Oil Change Soon" ? "row-due-soon" : (v
-                        .dueStatus === "On Leave" ? "row-on-leave" : "")));
-
+                let rd = v.remainKM < 0 ? `<span style="color:#C0392B">${v.remainKM.toLocaleString()}</span>` : v.remainKM.toLocaleString();
+                let rowClass = v.dueStatus === "Overdue" ? "row-overdue" : (v.dueStatus === "Under Process" ? "row-underprocess" : (v.dueStatus === "Due to Oil Change Soon" ? "row-due-soon" : (v.dueStatus === "On Leave" ? "row-on-leave" : "")));
                 const leaveInfo = getLeaveStatus(v.plateNo);
                 const isUnderProcess = v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "");
-
                 let statusBadges = '';
-                if (isUnderProcess) {
-                    statusBadges += `<span class="status-underprocess">🔧 Under Process</span> `;
-                }
-                if (leaveInfo.onLeave) {
-                    statusBadges += `<span class="status-on-leave">🚗 On Leave</span>`;
-                }
-
+                if (isUnderProcess) statusBadges += `<span class="status-underprocess">🔧 Under Process</span> `;
+                if (leaveInfo.onLeave) statusBadges += `<span class="status-on-leave">🚗 On Leave</span>`;
                 return `<tr class="${rowClass}">
                             <td>${i+1}</td>
-                            <td>
-                                <strong>${v.plateNo}</strong>
-                                ${statusBadges}
-                            </td>
+                            <td><strong>${v.plateNo}</strong>${statusBadges}</td>
                             <td>${v.internalNo || '-'}</td>
                             <td>${v.make}</td>
                             <td>${v.family}</td>
@@ -3267,22 +2462,13 @@
             setTimeout(() => {
                 const select = document.getElementById('leaveVehicleSelect');
                 for (let i = 0; i < select.options.length; i++) {
-                    if (select.options[i].value === plateNo) {
-                        select.selectedIndex = i;
-                        break;
-                    }
+                    if (select.options[i].value === plateNo) { select.selectedIndex = i; break; }
                 }
             }, 100);
         }
 
         function renderServiceCategories() {
-            // Include vehicles that are Under Process even if they're also On Leave
-            const underProcess = vehicles.filter(v => {
-                const isUnderProcess = v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "");
-                return isUnderProcess;
-            });
-            
-            // Other categories should EXCLUDE vehicles that are on leave (they're already in Under Process if applicable)
+            const underProcess = vehicles.filter(v => v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""));
             const overdue = vehicles.filter(v => v.dueStatus === "Overdue" && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "")));
             const nearlyDue = vehicles.filter(v => v.dueStatus === "Due to Oil Change Soon" && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "")));
             const cService = vehicles.filter(v => (v.dueStatus === "C-Service Due" || v.dueStatus === "C-Service Overdue") && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "")));
@@ -3343,11 +2529,9 @@
             };
 
             document.getElementById('serviceCategoriesContainer').innerHTML =
-                makeCategoryHTML('UNDER PROCESS (Active Service)', '🟡', underProcess, 'process',
-                    '📋 No vehicles under service') +
+                makeCategoryHTML('UNDER PROCESS (Active Service)', '🟡', underProcess, 'process', '📋 No vehicles under service') +
                 makeCategoryHTML('OVERDUE (Immediate Action)', '🔴', overdue, 'overdue', '✅ No overdue vehicles') +
-                makeCategoryHTML('NEARLY DUE (Within ' + DUE_WARNING_KM + ' km)', '🟠', nearlyDue, 'nearly',
-                    '📊 No vehicles due soon') +
+                makeCategoryHTML('NEARLY DUE (Within ' + DUE_WARNING_KM + ' km)', '🟠', nearlyDue, 'nearly', '📊 No vehicles due soon') +
                 makeCategoryHTML('C-SERVICE DUE (@40,000 km)', '🔵', cService, 'cservice', '✨ No C-Service vehicles');
         }
 
@@ -3364,9 +2548,7 @@
                     (h.keyHandover || '').toLowerCase().includes(currentHistorySearchTerm)
                 );
             }
-
             document.getElementById('historySearchCount').innerHTML = `${filtered.length} records`;
-
             let totalRecords = filtered.length;
             let totalDuration = filtered.reduce((sum, h) => {
                 if (h.startDate && h.endDate) {
@@ -3376,25 +2558,20 @@
                 return sum;
             }, 0);
             let avgDuration = totalRecords > 0 ? (totalDuration / totalRecords).toFixed(1) : 0;
-
             const keyNotHanded = filtered.filter(h => h.keyHandover === 'not_handed').length;
-
             document.getElementById('historyStatsContainer').innerHTML = `
                         <div class="stat-card"><div class="stat-number">${totalRecords}</div><div class="stat-label">Total Records</div></div>
                         <div class="stat-card"><div class="stat-number">${avgDuration}</div><div class="stat-label">Avg Duration (Days)</div></div>
                         <div class="stat-card"><div class="stat-number">${filtered.filter(h => h.replacementVehicle && h.replacementVehicle !== '').length}</div><div class="stat-label">With Replacement</div></div>
                         <div class="stat-card"><div class="stat-number" style="color:#C0392B;">${keyNotHanded}</div><div class="stat-label">🔑 Key Not Handed</div></div>
                     `;
-
             document.getElementById('historyBody').innerHTML = filtered.slice(0, 100).map((h, i) => {
                 let duration = '-';
                 if (h.startDate && h.endDate) {
                     let diff = (new Date(h.endDate) - new Date(h.startDate)) / (1000 * 60 * 60 * 24);
                     duration = diff > 0 ? Math.round(diff) + ' days' : '1 day';
                 }
-                const keyHandoverDisplay = h.keyHandover === 'not_handed' ?
-                    `<span class="status-key-not-handed">❌ Not Handed</span>` :
-                    `<span class="status-done">✅ Handed Over</span>`;
+                const keyHandoverDisplay = h.keyHandover === 'not_handed' ? `<span class="status-key-not-handed">❌ Not Handed</span>` : `<span class="status-done">✅ Handed Over</span>`;
                 return `<tr>
                             <td>${i+1}</td>
                             <td>${new Date(h.timestamp).toLocaleString()}</td>
@@ -3408,10 +2585,8 @@
                             <td><span class="status-done">${h.status}</span></td>
                         </tr>`;
             }).join('');
-
             if (filtered.length === 0) {
-                document.getElementById('historyBody').innerHTML =
-                    '<tr><td colspan="10" style="text-align:center;padding:40px;">📋 No service history records found.</td></tr>';
+                document.getElementById('historyBody').innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;">📋 No service history records found.</td></tr>';
             }
         }
 
@@ -3422,11 +2597,7 @@
         }
 
         function exportHistoryToExcel() {
-            if (serviceHistory.length === 0) {
-                showToast("No history records to export", "#C0392B");
-                return;
-            }
-
+            if (serviceHistory.length === 0) { showToast("No history records to export", "#C0392B"); return; }
             let filtered = serviceHistory.slice();
             if (currentHistorySearchTerm) {
                 filtered = filtered.filter(h =>
@@ -3435,7 +2606,6 @@
                     (h.serviceType || '').toLowerCase().includes(currentHistorySearchTerm)
                 );
             }
-
             const excelData = filtered.map((h, i) => {
                 let duration = '-';
                 if (h.startDate && h.endDate) {
@@ -3443,19 +2613,13 @@
                     duration = diff > 0 ? Math.round(diff) + ' days' : '1 day';
                 }
                 return {
-                    "S.No": i + 1,
-                    "Date": new Date(h.timestamp).toLocaleString(),
-                    "Plate No.": h.plateNo,
-                    "Service Type": h.serviceType || '-',
-                    "Replacement Vehicle": h.replacementVehicle || '-',
-                    "Start Date": h.startDate || '-',
-                    "End Date": h.endDate || '-',
-                    "Duration": duration,
+                    "S.No": i + 1, "Date": new Date(h.timestamp).toLocaleString(), "Plate No.": h.plateNo,
+                    "Service Type": h.serviceType || '-', "Replacement Vehicle": h.replacementVehicle || '-',
+                    "Start Date": h.startDate || '-', "End Date": h.endDate || '-', "Duration": duration,
                     "Key Handover": h.keyHandover === 'not_handed' ? 'Not Handed' : 'Handed Over',
                     "Status": h.status || 'Completed'
                 };
             });
-
             const ws = XLSX.utils.json_to_sheet(excelData);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Service History");
@@ -3469,15 +2633,12 @@
             ).join('');
         }
 
-        // ===== FIXED: Update Stats function - properly counts On Leave =====
         function updateStats() {
             let o = vehicles.filter(v => v.dueStatus === "Overdue" && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
             let up = vehicles.filter(v => v.dueStatus === "Under Process" || (v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
             let ds = vehicles.filter(v => v.dueStatus === "Due to Oil Change Soon" && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
             let cs = vehicles.filter(v => (v.dueStatus === "C-Service Due" || v.dueStatus === "C-Service Overdue") && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
-            // FIX: Count ALL vehicles on leave (regardless of service status)
             let leave = vehicles.filter(v => isVehicleOnLeave(v.plateNo)).length;
-            
             document.getElementById('statsContainer').innerHTML =
                 `<div class="stat-card"><div class="stat-number">${vehicles.length}</div><div class="stat-label">Total</div></div>` +
                 `<div class="stat-card"><div class="stat-number" style="color:#C0392B">${o}</div><div class="stat-label">Overdue</div></div>` +
@@ -3488,8 +2649,7 @@
         }
 
         function updatePlateDatalist() {
-            document.getElementById('plateList').innerHTML = vehicles.map(v =>
-                `<option value="${v.plateNo}">`).join('');
+            document.getElementById('plateList').innerHTML = vehicles.map(v => `<option value="${v.plateNo}">`).join('');
         }
 
         // =============================================
@@ -3499,15 +2659,11 @@
             if (!vehicles.length) return;
             let total = vehicles.length;
             let overdue = vehicles.filter(v => v.dueStatus === "Overdue" && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
-            let underProcess = vehicles.filter(v => v.dueStatus === "Under Process" || (v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "")))
-                .length;
-            let dueSoon = vehicles.filter(v => v.dueStatus === "Due to Oil Change Soon" && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "")))
-                .length;
-            let cService = vehicles.filter(v => (v.dueStatus === "C-Service Due" || v.dueStatus === "C-Service Overdue") &&
-                !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
+            let underProcess = vehicles.filter(v => v.dueStatus === "Under Process" || (v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
+            let dueSoon = vehicles.filter(v => v.dueStatus === "Due to Oil Change Soon" && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
+            let cService = vehicles.filter(v => (v.dueStatus === "C-Service Due" || v.dueStatus === "C-Service Overdue") && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
             let onLeave = vehicles.filter(v => isVehicleOnLeave(v.plateNo)).length;
             let healthy = total - (overdue + underProcess + dueSoon + cService + onLeave);
-
             document.getElementById('kpiGrid').innerHTML = `
                         <div class="kpi-card"><div class="kpi-value">${total}</div><div class="kpi-label">Total Vehicles</div></div>
                         <div class="kpi-card"><div class="kpi-value" style="color:#C0392B">${overdue}</div><div class="kpi-label">Overdue</div></div>
@@ -3516,11 +2672,7 @@
                         <div class="kpi-card"><div class="kpi-value" style="color:#1A5C8A">${cService}</div><div class="kpi-label">C-Service</div></div>
                         <div class="kpi-card"><div class="kpi-value" style="color:#8B4513">${onLeave}</div><div class="kpi-label">On Leave</div></div>
                         <div class="kpi-card"><div class="kpi-value" style="color:#27AE60">${healthy}</div><div class="kpi-label">Healthy</div></div>`;
-
-            let accidentTotal = accidents.length;
-            document.getElementById('accidentKpiGrid').innerHTML =
-                `<div class="kpi-card" style="background:#fff5f0;"><div class="kpi-value" style="color:#8B0000">${accidentTotal}</div><div class="kpi-label">Total Accidents</div></div>`;
-
+            document.getElementById('accidentKpiGrid').innerHTML = `<div class="kpi-card" style="background:#fff5f0;"><div class="kpi-value" style="color:#8B0000">${accidents.length}</div><div class="kpi-label">Total Accidents</div></div>`;
             if (statusChart) statusChart.destroy();
             statusChart = new Chart(document.getElementById('statusChart'), {
                 type: 'doughnut',
@@ -3529,29 +2681,22 @@
                         backgroundColor: ['#C0392B', '#F39C12', '#E67E22', '#1A5C8A', '#FFD700', '#27AE60'] }] },
                 options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
             });
-
             if (accidentChart) accidentChart.destroy();
             accidentChart = new Chart(document.getElementById('accidentChart'), {
                 type: 'pie',
                 data: { labels: ['Accidents'],
-                    datasets: [{ data: [accidentTotal, Math.max(1, total - accidentTotal)], backgroundColor: [
-                            '#8B0000', '#e0e4e8'
-                        ] }] },
+                    datasets: [{ data: [accidents.length, Math.max(1, total - accidents.length)], backgroundColor: ['#8B0000', '#e0e4e8'] }] },
                 options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
             });
-
             let makeCount = {};
             vehicles.forEach(v => { makeCount[v.make] = (makeCount[v.make] || 0) + 1; });
-            let mLabels = Object.keys(makeCount).slice(0, 6),
-                mData = mLabels.map(m => makeCount[m]);
+            let mLabels = Object.keys(makeCount).slice(0, 6), mData = mLabels.map(m => makeCount[m]);
             if (makeChart) makeChart.destroy();
             makeChart = new Chart(document.getElementById('makeChart'), {
                 type: 'bar',
-                data: { labels: mLabels,
-                    datasets: [{ label: 'Vehicles', data: mData, backgroundColor: '#1A5C8A', borderRadius: 8 }] },
+                data: { labels: mLabels, datasets: [{ label: 'Vehicles', data: mData, backgroundColor: '#1A5C8A', borderRadius: 8 }] },
                 options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
             });
-
             let familyCount = { RAV4: 0, FORTUNER: 0, PATROL: 0, Other: 0 };
             vehicles.forEach(v => {
                 let f = (v.family || '').toUpperCase();
@@ -3560,21 +2705,17 @@
                 else if (f === 'PATROL') familyCount.PATROL++;
                 else familyCount.Other++;
             });
-            let fLabels = Object.keys(familyCount).filter(k => familyCount[k] > 0),
-                fData = fLabels.map(k => familyCount[k]);
+            let fLabels = Object.keys(familyCount).filter(k => familyCount[k] > 0), fData = fLabels.map(k => familyCount[k]);
             if (familyChart) familyChart.destroy();
             familyChart = new Chart(document.getElementById('familyChart'), {
                 type: 'bar',
                 data: { labels: fLabels,
-                    datasets: [{ label: 'Number of Vehicles', data: fData, backgroundColor: ['#E67E22', '#2D6A4F',
-                            '#1A5C8A', '#7F8C8D'
-                        ], borderRadius: 8 }] },
+                    datasets: [{ label: 'Number of Vehicles', data: fData,
+                        backgroundColor: ['#E67E22', '#2D6A4F', '#1A5C8A', '#7F8C8D'], borderRadius: 8 }] },
                 options: { responsive: true, maintainAspectRatio: true,
                     plugins: { legend: { position: 'top' },
-                        tooltip: { callbacks: { label: (ctx) =>
-                                `${ctx.label}: ${ctx.raw} vehicles (${Math.round(ctx.raw/total*100)}%)` } } } }
+                        tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw} vehicles (${Math.round(ctx.raw/total*100)}%)` } } } }
             });
-
             let monthCount = {};
             accidents.forEach(a => {
                 if (a.incidentDate) {
@@ -3582,8 +2723,7 @@
                     monthCount[month] = (monthCount[month] || 0) + 1;
                 }
             });
-            let sortedMonths = Object.keys(monthCount).sort(),
-                monthData = sortedMonths.map(m => monthCount[m]);
+            let sortedMonths = Object.keys(monthCount).sort(), monthData = sortedMonths.map(m => monthCount[m]);
             if (accidentTrendChart) accidentTrendChart.destroy();
             accidentTrendChart = new Chart(document.getElementById('accidentTrendChart'), {
                 type: 'line',
@@ -3592,7 +2732,6 @@
                         backgroundColor: 'rgba(139,0,0,0.1)', fill: true, tension: 0.3 }] },
                 options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'top' } } }
             });
-
             let vehicleAccidentCount = {};
             accidents.forEach(a => {
                 if (a.plateNo) vehicleAccidentCount[a.plateNo] = (vehicleAccidentCount[a.plateNo] || 0) + 1;
@@ -3607,7 +2746,6 @@
                 options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } },
                     scales: { y: { beginAtZero: true, title: { display: true, text: 'Accident Count' } } } }
             });
-
             let util = Math.round(healthy / total * 100);
             let fillDiv = document.getElementById('utilFill');
             fillDiv.style.width = util + '%';
@@ -3615,30 +2753,22 @@
             if (util < 50) fillDiv.style.background = '#C0392B';
             else if (util < 75) fillDiv.style.background = '#E67E22';
             else fillDiv.style.background = 'linear-gradient(90deg,#2D6A4F,#1A5C8A)';
-
             let criticalAlerts = vehicles.filter(v => (v.dueStatus === "Overdue" || v.dueStatus === "Due to Oil Change Soon" ||
-                v.dueStatus === "C-Service Due" || v.dueStatus === "C-Service Overdue") && !isVehicleOnLeave(v
-                .plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).slice(0, 15);
+                v.dueStatus === "C-Service Due" || v.dueStatus === "C-Service Overdue") && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).slice(0, 15);
             let alertsHTML = '';
             for (const v of criticalAlerts) {
                 let statusText = v.dueStatus;
-                let statusClass = v.dueStatus === "Overdue" ? "status-overdue" : (v.dueStatus === "Due to Oil Change Soon" ?
-                    "status-due-soon" : "status-cservice");
+                let statusClass = v.dueStatus === "Overdue" ? "status-overdue" : (v.dueStatus === "Due to Oil Change Soon" ? "status-due-soon" : "status-cservice");
                 alertsHTML += '<tr>' +
                     '<td><strong>' + v.plateNo + '</strong></td>' +
                     '<td>' + v.make + '</td>' +
                     '<td><span class="' + statusClass + '">' + statusText + '</span></td>' +
-                    '<td style="color:' + (v.remainKM < 0 ? '#C0392B' : '#e65100') + '; font-weight:bold;">' + (v
-                    .remainKM || 0).toLocaleString() + ' km</td>' +
+                    '<td style="color:' + (v.remainKM < 0 ? '#C0392B' : '#e65100') + '; font-weight:bold;">' + (v.remainKM || 0).toLocaleString() + ' km</td>' +
                     '</tr>';
             }
-            if (criticalAlerts.length === 0) {
-                alertsHTML = '<tr><td colspan="4" style="text-align:center;">No critical alerts</td></tr>';
-            }
+            if (criticalAlerts.length === 0) alertsHTML = '<tr><td colspan="4" style="text-align:center;">No critical alerts</td></tr>';
             document.getElementById('alertsBody').innerHTML = alertsHTML;
-
-            let activeServices = vehicles.filter(v => v.dueStatus === "Under Process" || (v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "")))
-                .slice(0, 15);
+            let activeServices = vehicles.filter(v => v.dueStatus === "Under Process" || (v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).slice(0, 15);
             let activeHTML = '';
             for (const v of activeServices) {
                 activeHTML += '<tr>' +
@@ -3646,11 +2776,8 @@
                     '<td>' + (v.serviceStartDate || '-') + '</td>' +
                     '</tr>';
             }
-            if (activeServices.length === 0) {
-                activeHTML = '<tr><td colspan="2" style="text-align:center;">No active services</td></tr>';
-            }
+            if (activeServices.length === 0) activeHTML = '<tr><td colspan="2" style="text-align:center;">No active services</td></tr>';
             document.getElementById('activeBody').innerHTML = activeHTML;
-
             let topOdo = [...vehicles].sort((a, b) => (b.currentOdometer || 0) - (a.currentOdometer || 0)).slice(0, 10);
             let topHTML = '';
             for (let i = 0; i < topOdo.length; i++) {
@@ -3661,12 +2788,10 @@
                     '</tr>';
             }
             document.getElementById('topOdometerBody').innerHTML = topHTML;
-
             let summary = {};
             vehicles.forEach(v => {
                 let m = v.make;
-                if (!summary[m]) summary[m] = { total: 0, rav4: 0, fortuner: 0, patrol: 0, overdue: 0, active: 0,
-                    onLeave: 0 };
+                if (!summary[m]) summary[m] = { total: 0, rav4: 0, fortuner: 0, patrol: 0, overdue: 0, active: 0, onLeave: 0 };
                 summary[m].total++;
                 if (v.family === 'RAV4') summary[m].rav4++;
                 if (v.family === 'FORTUNER') summary[m].fortuner++;
@@ -3689,7 +2814,6 @@
                     '</tr>';
             }
             document.getElementById('summaryBody').innerHTML = summaryHTML;
-
             document.getElementById('lastUpdate').innerText = new Date().toLocaleString();
         }
 
@@ -3698,10 +2822,7 @@
         // =============================================
         function showEmployeeReport() {
             let filtered = vehicles;
-            if (filtered.length === 0) {
-                alert("No vehicles found.");
-                return;
-            }
+            if (filtered.length === 0) { alert("No vehicles found."); return; }
             let rows = filtered.map((v, i) => {
                 const onLeave = isVehicleOnLeave(v.plateNo) ? '🚗 On Leave' : '';
                 const isUnderProcess = v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "");
@@ -3715,7 +2836,6 @@
                             <td>${v.contact || '-'}</td>
                         </tr>`;
             }).join('');
-
             let html = `<!DOCTYPE html>
                     <html><head><meta charset='UTF-8'>
                     <style>
@@ -3753,34 +2873,22 @@
                         var visible = 0;
                         for (var i = 0; i < rows.length; i++) {
                             var text = rows[i].innerText.toLowerCase();
-                            if (!term || text.includes(term)) {
-                                rows[i].classList.remove('hidden');
-                                visible++;
-                            } else {
-                                rows[i].classList.add('hidden');
-                            }
+                            if (!term || text.includes(term)) { rows[i].classList.remove('hidden'); visible++; }
+                            else { rows[i].classList.add('hidden'); }
                         }
                         document.getElementById('resultCount').innerText = term ? 'Showing ' + visible + ' of ' + total + ' vehicles' : '';
                         document.getElementById('totalCount').innerText = term ? 'Showing: ' + visible + ' vehicle(s)' : 'Total: ' + total + ' vehicle(s)';
                     });
                     <\/script>
                     </body></html>`;
-
             let win = window.open('', '_blank', 'width=900,height=600,scrollbars=yes,resizable=yes');
-            if (win) {
-                win.document.write(html);
-                win.document.close();
-            } else {
-                alert("Please allow popups for this site to view the report.");
-            }
+            if (win) { win.document.write(html); win.document.close(); }
+            else { alert("Please allow popups for this site to view the report."); }
         }
 
         function showSingleEmployeeReport(plateNo) {
             let v = vehicles.find(v => v.plateNo === plateNo);
-            if (!v) {
-                showToast("Vehicle not found", "#C0392B");
-                return;
-            }
+            if (!v) { showToast("Vehicle not found", "#C0392B"); return; }
             const leaveInfo = getLeaveStatus(plateNo);
             const isUnderProcess = v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "");
             let html = "<html><head><meta charset='UTF-8'><style>";
@@ -3797,45 +2905,28 @@
             html += "</style></head><body>";
             html += "<h2>👤 Employee Vehicle Report</h2>";
             html += "<div class='card'>";
-
-            let statusClass = v.dueStatus === "Overdue" ? "status-overdue" : (v.dueStatus === "Under Process" ?
-                "status-process" : (v.dueStatus === "On Leave" ? "status-leave" : "status-soon"));
-
+            let statusClass = v.dueStatus === "Overdue" ? "status-overdue" : (v.dueStatus === "Under Process" ? "status-process" : (v.dueStatus === "On Leave" ? "status-leave" : "status-soon"));
             let statusDisplay = v.dueStatus || '-';
-            if (isUnderProcess) {
-                statusDisplay = 'Under Process 🔧';
-            } else if (leaveInfo.onLeave) {
-                statusDisplay = `On Leave (until ${leaveInfo.endDate})`;
-            }
-
+            if (isUnderProcess) statusDisplay = 'Under Process 🔧';
+            else if (leaveInfo.onLeave) statusDisplay = `On Leave (until ${leaveInfo.endDate})`;
             let rows = [
-                ["Plate No", v.plateNo],
-                ["Internal No", v.internalNo || '-'],
+                ["Plate No", v.plateNo], ["Internal No", v.internalNo || '-'],
                 ["Make / Family", (v.make || '-') + " / " + (v.family || '-')],
                 ["Status", `<span class="${statusClass}">${statusDisplay}</span>`],
                 ["Last Replacement", v.lastReplacementVehicle || '-'],
-                ["Username", v.username || '-'],
-                ["Contact", v.contact || '-']
+                ["Username", v.username || '-'], ["Contact", v.contact || '-']
             ];
-
             if (leaveInfo.onLeave) {
                 rows.push(["Leave Reason", leaveInfo.reason || '-']);
                 rows.push(["Days Left", leaveInfo.daysLeft + ' days']);
             }
-
             rows.forEach(([label, value]) => {
                 html += `<div class='row'><div class='label'>${label}</div><div class='value'>${value}</div></div>`;
             });
-
             html += "</div></body></html>";
-
             let win = window.open('', '_blank', 'width=580,height=550,scrollbars=yes,resizable=yes');
-            if (win) {
-                win.document.write(html);
-                win.document.close();
-            } else {
-                showToast("Please allow popups", "#C0392B");
-            }
+            if (win) { win.document.write(html); win.document.close(); }
+            else { showToast("Please allow popups", "#C0392B"); }
         }
 
         function refreshAll() {
@@ -3868,10 +2959,7 @@
         // =============================================
         function updateMileageFromExcel() {
             const fileInput = document.getElementById('excelFileInput');
-            if (!fileInput.files || fileInput.files.length === 0) {
-                showToast("Select file", "#C0392B");
-                return;
-            }
+            if (!fileInput.files || fileInput.files.length === 0) { showToast("Select file", "#C0392B"); return; }
             const reader = new FileReader();
             reader.onload = function(e) {
                 const data = new Uint8Array(e.target.result);
@@ -3887,17 +2975,11 @@
                         if (plate && odo && !isNaN(odo)) updates.push({ plateNo: plate, odometer: Math.round(odo) });
                     }
                 }
-                if (!updates.length) {
-                    showToast("No valid data", "#C0392B");
-                    return;
-                }
+                if (!updates.length) { showToast("No valid data", "#C0392B"); return; }
                 let count = 0;
                 for (const u of updates) {
                     const v = vehicles.find(v => cleanPlateNumber(v.plateNo) === u.plateNo);
-                    if (v) {
-                        v.currentOdometer = u.odometer;
-                        count++;
-                    }
+                    if (v) { v.currentOdometer = u.odometer; count++; }
                 }
                 refreshAll();
                 showToast(`Updated ${count} vehicles`, "#27AE60");
@@ -3908,9 +2990,7 @@
 
         function downloadTemplate() {
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([
-                ["SN", "Plate No.", "Current Odometer"]
-            ]), "Template");
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([["SN", "Plate No.", "Current Odometer"]]), "Template");
             XLSX.writeFile(wb, "Odometer_Template.xlsx");
             showToast("Template downloaded", "#1A5C8A");
         }
@@ -3921,37 +3001,26 @@
             document.getElementById('previewData').innerHTML = '';
         }
 
-        function closeImportModal() {
-            document.getElementById('importModal').style.display = 'none';
-        }
-
-        function processImport() {
-            closeImportModal();
-        }
+        function closeImportModal() { document.getElementById('importModal').style.display = 'none'; }
+        function processImport() { closeImportModal(); }
 
         // =============================================
-        //  UPDATED CRUD OPERATIONS WITH MESSAGE HISTORY IN BACKUP
+        //  UPDATED CRUD OPERATIONS
         // =============================================
         window.updateService = function() {
             let plate = document.getElementById('servicePlate').value.trim();
             let v = vehicles.find(v => v.plateNo === plate);
             if (!v) return showToast("Not found", "#C0392B");
-
             let rep = document.getElementById('replacementVehicle').value.trim();
             let repManual = document.getElementById('replacementVehicleManual').value.trim();
-            // If "No Replacement Needed" is selected, set finalRep to empty string
             let finalRep = (rep === 'NO_REPLACEMENT') ? '' : (repManual || rep);
-
             let oil = document.getElementById('oilChangeKM').value.trim();
             let start = document.getElementById('serviceStartDate').value.trim();
             let end = document.getElementById('serviceEndDate').value.trim();
             let type = document.getElementById('serviceType').value;
             let no = document.getElementById('serviceNo').value.trim();
             let keyHandover = document.getElementById('keyHandoverStatus').value;
-
             const isGeneralService = type === 'General Services';
-
-            // Only assign reserve vehicle if a valid plate is selected (not NO_REPLACEMENT)
             if (rep && rep !== '' && rep !== 'NO_REPLACEMENT') {
                 const reserveV = reserveVehicles.find(r => r.plateNo === rep);
                 if (reserveV) {
@@ -3965,37 +3034,21 @@
                     }
                 }
             }
-
             if (finalRep) v.lastReplacementVehicle = finalRep;
-
             if (oil && !isGeneralService) {
                 let newOil = parseInt(oil);
                 if (!isNaN(newOil)) v.lastOilChangeKM = newOil;
-            } else if (oil && isGeneralService) {
-                v.generalServiceKM = parseInt(oil) || v.currentOdometer;
-            }
-
+            } else if (oil && isGeneralService) { v.generalServiceKM = parseInt(oil) || v.currentOdometer; }
             if (type) v.serviceType = type;
             if (no) v.serviceNo = no;
-            if (start) {
-                v.serviceStartDate = start;
-                if (!end) v.serviceEndDate = '';
-            }
+            if (start) { v.serviceStartDate = start; if (!end) v.serviceEndDate = ''; }
             if (end) {
                 v.serviceEndDate = end;
                 v.status = 'Done';
-
                 if (!isGeneralService) {
-                    if (v.currentOdometer > (v.lastOilChangeKM || 0)) {
-                        v.lastOilChangeKM = v.currentOdometer;
-                    }
-                    // FIX: When C-Service is performed, set lastCServiceKM to current odometer
-                    if (type && type.includes('C-Service')) {
-                        v.lastCServiceKM = v.currentOdometer;
-                    }
+                    if (v.currentOdometer > (v.lastOilChangeKM || 0)) v.lastOilChangeKM = v.currentOdometer;
+                    if (type && type.includes('C-Service')) v.lastCServiceKM = v.currentOdometer;
                 }
-
-                // If key was handed over and a replacement was used, free the reserve vehicle
                 if (keyHandover === 'handed' && finalRep) {
                     const reserveV = reserveVehicles.find(r => r.plateNo === finalRep);
                     if (reserveV && reserveV.assignedTo === plate) {
@@ -4006,24 +3059,14 @@
                 } else if (keyHandover === 'not_handed' && finalRep) {
                     showToast(`⚠️ Key not handed over - reserve vehicle ${finalRep} remains assigned to ${plate}`, '#C0392B');
                 }
-
                 serviceHistory.unshift({
-                    timestamp: new Date().toISOString(),
-                    plateNo: v.plateNo,
-                    serviceType: type || '-',
-                    replacementVehicle: finalRep || '-',
-                    startDate: start,
-                    endDate: end,
-                    status: "Completed",
-                    keyHandover: keyHandover || 'handed'
+                    timestamp: new Date().toISOString(), plateNo: v.plateNo,
+                    serviceType: type || '-', replacementVehicle: finalRep || '-',
+                    startDate: start, endDate: end, status: "Completed", keyHandover: keyHandover || 'handed'
                 });
-            } else {
-                v.keyHandoverStatus = keyHandover;
-            }
-
+            } else { v.keyHandoverStatus = keyHandover; }
             updateVehicle(v);
             saveToLocalStorage();
-
             renderMainTable();
             updateStats();
             renderHistoryTable();
@@ -4038,28 +3081,18 @@
             let plate = document.getElementById('servicePlate').value.trim();
             let v = vehicles.find(v => v.plateNo === plate);
             if (!v) return;
-
             let endDate = new Date().toISOString().split('T')[0];
             let startDate = v.serviceStartDate || '';
             let replacement = v.lastReplacementVehicle || '';
             let type = document.getElementById('serviceType').value;
             const isGeneralService = type === 'General Services';
             const keyHandover = document.getElementById('keyHandoverStatus').value;
-
             v.serviceEndDate = endDate;
             v.status = 'Done';
-
             if (!isGeneralService) {
-                if (v.currentOdometer > (v.lastOilChangeKM || 0)) {
-                    v.lastOilChangeKM = v.currentOdometer;
-                }
-                // FIX: When C-Service is performed, set lastCServiceKM to current odometer
-                if (type && type.includes('C-Service')) {
-                    v.lastCServiceKM = v.currentOdometer;
-                }
+                if (v.currentOdometer > (v.lastOilChangeKM || 0)) v.lastOilChangeKM = v.currentOdometer;
+                if (type && type.includes('C-Service')) v.lastCServiceKM = v.currentOdometer;
             }
-
-            // If key was handed over and a replacement was used, free the reserve vehicle
             if (keyHandover === 'handed' && replacement) {
                 const reserveV = reserveVehicles.find(r => r.plateNo === replacement);
                 if (reserveV && reserveV.assignedTo === plate) {
@@ -4070,22 +3103,14 @@
             } else if (keyHandover === 'not_handed' && replacement) {
                 showToast(`⚠️ Key not handed over - reserve vehicle ${replacement} remains assigned to ${plate}`, '#C0392B');
             }
-
             serviceHistory.unshift({
-                timestamp: new Date().toISOString(),
-                plateNo: v.plateNo,
-                serviceType: v.serviceType || '-',
-                replacementVehicle: replacement || '-',
-                startDate: startDate,
-                endDate: endDate,
-                status: "Completed",
-                keyHandover: keyHandover || 'handed'
+                timestamp: new Date().toISOString(), plateNo: v.plateNo,
+                serviceType: v.serviceType || '-', replacementVehicle: replacement || '-',
+                startDate: startDate, endDate: endDate, status: "Completed", keyHandover: keyHandover || 'handed'
             });
-
             v.serviceStartDate = '';
             document.getElementById('serviceEndDate').value = endDate;
             document.getElementById('serviceStartDate').value = '';
-
             updateVehicle(v);
             saveToLocalStorage();
             renderMainTable();
@@ -4097,7 +3122,6 @@
             renderHistoryTable();
             updateReplacementDropdown();
             updateReminderBadges();
-
             if (document.getElementById('panel-inactive').classList.contains('active')) {
                 renderZeroMovementTable();
                 updateZeroMovementStats();
@@ -4106,7 +3130,6 @@
                 renderAccidentTable();
                 updateAccidentStats();
             }
-
             showToast(`✅ Service ended for ${plate}`, "#2D6A4F");
         };
 
@@ -4145,49 +3168,27 @@
             }
         };
 
-        window.closeDeleteModal = function() {
-            document.getElementById('deleteModal').style.display = 'none';
-        };
-
-        window.openAddVehicleModal = function() {
-            document.getElementById('addVehicleModal').style.display = 'flex';
-        };
-
-        window.closeAddVehicleModal = function() {
-            document.getElementById('addVehicleModal').style.display = 'none';
-        };
+        window.closeDeleteModal = function() { document.getElementById('deleteModal').style.display = 'none'; };
+        window.openAddVehicleModal = function() { document.getElementById('addVehicleModal').style.display = 'flex'; };
+        window.closeAddVehicleModal = function() { document.getElementById('addVehicleModal').style.display = 'none'; };
 
         window.addNewVehicle = function() {
             let plate = document.getElementById('newPlateNo').value.trim();
             let make = document.getElementById('newMake').value.trim();
             let odo = parseInt(document.getElementById('newOdometer').value);
-            if (!plate || !make || !odo) {
-                showToast("Required fields missing", "#C0392B");
-                return;
-            }
-            if (vehicles.some(v => v.plateNo === plate)) {
-                showToast("Plate already exists!", "#C0392B");
-                return;
-            }
+            if (!plate || !make || !odo) { showToast("Required fields missing", "#C0392B"); return; }
+            if (vehicles.some(v => v.plateNo === plate)) { showToast("Plate already exists!", "#C0392B"); return; }
             let newV = {
-                id: nextId++,
-                plateNo: plate,
+                id: nextId++, plateNo: plate,
                 internalNo: document.getElementById('newInternalNo').value.trim(),
-                make: make,
-                family: document.getElementById('newFamily').value.trim() || "RAV4",
+                make: make, family: document.getElementById('newFamily').value.trim() || "RAV4",
                 yearModel: parseInt(document.getElementById('newYearModel').value) || 2025,
                 currentOdometer: odo,
                 lastOilChangeKM: parseInt(document.getElementById('newLastOilKM').value) || 0,
                 lastCServiceKM: 0,
                 lastReplacementVehicle: document.getElementById('newLastReplacement').value.trim() || "",
-                serviceStartDate: "",
-                serviceEndDate: "",
-                serviceNo: "",
-                serviceType: "",
-                status: "",
-                username: "",
-                contact: "",
-                keyHandoverStatus: "handed"
+                serviceStartDate: "", serviceEndDate: "", serviceNo: "", serviceType: "",
+                status: "", username: "", contact: "", keyHandoverStatus: "handed"
             };
             let cleanPlate = cleanPlateNumber(plate);
             if (employeeData[cleanPlate]) {
@@ -4202,9 +3203,7 @@
             updatePlateDatalist();
             updatePlateDatalistAccident();
             updateDashboard();
-            if (document.getElementById('panel-service').classList.contains('active')) {
-                renderServiceCategories();
-            }
+            if (document.getElementById('panel-service').classList.contains('active')) renderServiceCategories();
             if (document.getElementById('panel-inactive').classList.contains('active') && currentZeroMovementReport) {
                 renderZeroMovementTable();
                 updateZeroMovementStats();
@@ -4215,15 +3214,9 @@
 
         window.exportToExcel = function() {
             let ws = XLSX.utils.json_to_sheet(vehicles.map(v => ({
-                "Plate": v.plateNo,
-                "Internal": v.internalNo,
-                "Make": v.make,
-                "Family": v.family,
-                "Year": v.yearModel,
-                "Odometer": v.currentOdometer,
-                "Due Status": v.dueStatus,
-                "Status": v.status || "",
-                "On Leave": isVehicleOnLeave(v.plateNo) ? "Yes" : "No"
+                "Plate": v.plateNo, "Internal": v.internalNo, "Make": v.make, "Family": v.family,
+                "Year": v.yearModel, "Odometer": v.currentOdometer, "Due Status": v.dueStatus,
+                "Status": v.status || "", "On Leave": isVehicleOnLeave(v.plateNo) ? "Yes" : "No"
             })));
             let wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Fleet");
@@ -4231,114 +3224,27 @@
             showToast("Exported", "#2D6A4F");
         };
 
-        // ===== UPDATED SAVE FUNCTION - Saves directly to folder path =====
-        // ===== UPDATED SAVE FUNCTION - Remembers last folder =====
-let lastDirectoryHandle = null;
-
-window.exportBackupJSON = async function() {
-    const backupData = {
-        vehicles, 
-        serviceHistory, 
-        backupLog, 
-        nextId,
-        accidents, 
-        reserveVehicles, 
-        reminders, 
-        vehiclesOnLeave,
-        messageHistory
-    };
-    
-    const jsonStr = JSON.stringify(backupData, null, 2);
-    const fileName = `backup_${new Date().toISOString().split('T')[0]}.json`;
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    
-    try {
-        // If we have a saved directory handle, try to use it
-        if (lastDirectoryHandle) {
-            try {
-                // Verify permission still exists
-                const opts = { mode: 'readwrite' };
-                if ((await lastDirectoryHandle.requestPermission(opts)) === 'granted') {
-                    const fileHandle = await lastDirectoryHandle.getFileHandle(fileName, { create: true });
-                    const writable = await fileHandle.createWritable();
-                    await writable.write(blob);
-                    await writable.close();
-                    showToast(`✅ Backup saved to: ${fileName}`, "#27AE60");
-                    addBackupLog('Backup Saved', 'All Data', fileName);
-                    return;
-                }
-            } catch (e) {
-                // Permission lost or folder changed - fall through to ask again
-                console.log('Saved folder permission lost, asking again');
-            }
-        }
-        
-        // If we don't have a saved folder or permission was lost, ask the user
-        // Navigate to the default path if possible
-        let defaultPath = 'C:\\Users\\c.abdulbasit.gul\\OneDrive - Abu Dhabi Municipality\\ADM\\Maintenance\\';
-        
-        // Use showDirectoryPicker to let user select the folder
-        const dirHandle = await window.showDirectoryPicker({
-            // Some browsers support starting path, but not all
-            // We'll just open the picker and the user can navigate
-        });
-        
-        // Save the directory handle for future use
-        lastDirectoryHandle = dirHandle;
-        
-        // Request permission
-        const opts = { mode: 'readwrite' };
-        if ((await dirHandle.requestPermission(opts)) !== 'granted') {
-            showToast("❌ Permission denied to save to this folder", "#C0392B");
-            return;
-        }
-        
-        // Create and write the file
-        const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
-        const writable = await fileHandle.createWritable();
-        await writable.write(blob);
-        await writable.close();
-        
-        showToast(`✅ Backup saved to: ${fileName}`, "#27AE60");
-        addBackupLog('Backup Saved', 'All Data', fileName);
-        
-    } catch (err) {
-        // User cancelled or error - fallback to download
-        console.log('Save dialog cancelled or error:', err);
-        fallbackSave(jsonStr, fileName);
-    }
-};
-
-// Fallback save method using download
-function fallbackSave(jsonStr, fileName) {
-    const a = document.createElement('a');
-    a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(jsonStr);
-    a.download = fileName;
-    a.click();
-    showToast(`✅ Backup downloaded: ${fileName}`, "#27AE60");
-}
-
-
-
-
-
-
-
-
-
-
-        // Fallback save method using download
-        function fallbackSave(jsonStr, fileName) {
-            const a = document.createElement('a');
-            a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(jsonStr);
-            a.download = fileName;
+        // ===== UPDATED BACKUP FUNCTIONS - now includes leaveHistory =====
+        window.exportBackupJSON = function() {
+            let a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([JSON.stringify({ 
+                vehicles, 
+                serviceHistory, 
+                backupLog, 
+                nextId,
+                accidents, 
+                reserveVehicles, 
+                reminders, 
+                vehiclesOnLeave,
+                messageHistory,
+                leaveHistory  // ✅ NEW: included in backup
+            })]));
+            a.download = `backup_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
-            showToast(`✅ Backup downloaded: ${fileName}`, "#27AE60");
-        }
-
-        window.importBackup = function() {
-            document.getElementById('importFile').click();
+            showToast("Backup saved", "#1A5C8A");
         };
+
+        window.importBackup = function() { document.getElementById('importFile').click(); };
 
         window.handleImport = function(e) {
             let file = e.target.files[0];
@@ -4371,11 +3277,14 @@ function fallbackSave(jsonStr, fileName) {
                         messageHistory = d.messageHistory;
                         saveMessageHistory();
                     }
+                    // ✅ NEW: restore leaveHistory
+                    if (d.leaveHistory) {
+                        leaveHistory = d.leaveHistory;
+                        saveLeaveHistory();
+                    }
                     refreshAll();
                     showToast(`Loaded ${vehicles.length} vehicles`, "#2D6A4F");
-                } catch (err) {
-                    showToast("Import failed", "#C0392B");
-                }
+                } catch (err) { showToast("Import failed", "#C0392B"); }
             };
             reader.readAsText(file);
             e.target.value = '';
@@ -4407,35 +3316,25 @@ function fallbackSave(jsonStr, fileName) {
             const underProcess = vehicles.filter(v => v.dueStatus === "Under Process" || (v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length;
             alert(
                 `Total:${vehicles.length}\nOverdue:${vehicles.filter(v=>v.dueStatus==="Overdue" && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length}\nUnder Process:${underProcess}\nDue Soon:${vehicles.filter(v=>v.dueStatus==="Due to Oil Change Soon" && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length}\nC-Service:${vehicles.filter(v=>(v.dueStatus==="C-Service Due" || v.dueStatus==="C-Service Overdue") && !isVehicleOnLeave(v.plateNo) && !(v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === ""))).length}\nOn Leave (not in service):${onLeave}`
-                );
+            );
         };
 
         window.sendWhatsApp = function() {
             let phone = document.getElementById('whatsappPhone').value;
             if (!phone) return showToast("Enter phone", "#C0392B");
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(document.getElementById('whatsappMsg').value || "Vehicle service due")}`,
-                '_blank');
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(document.getElementById('whatsappMsg').value || "Vehicle service due")}`, '_blank');
         };
 
         window.copyEmailToClipboard = function() {
             let plate = document.getElementById('servicePlate').value.trim();
-            if (!plate) {
-                showToast("Select a vehicle plate first", "#C0392B");
-                return;
-            }
+            if (!plate) { showToast("Select a vehicle plate first", "#C0392B"); return; }
             let v = vehicles.find(v => v.plateNo === plate);
-            if (!v) {
-                showToast("Vehicle not found", "#C0392B");
-                return;
-            }
-
+            if (!v) { showToast("Vehicle not found", "#C0392B"); return; }
             let issueRaw = document.getElementById('whatsappMsg').value.trim() || 'Engine oil Change\nTire Replacement\nC-Service';
             let issueLines = issueRaw.split('\n').filter(l => l.trim());
             let issueCell = issueLines.map(l => `<p style="margin:4px 0;">${l.trim()}</p>`).join('');
-
             let catMatch = plate.match(/^(\d+)-/);
             let cat = catMatch ? catMatch[1] : '-';
-
             let htmlBody = `
                         Dear Mr. Sabri,<br><br>
                         Kindly issue a service number for the subject vehicle to proceed with below services.<br><br>
@@ -4461,94 +3360,53 @@ function fallbackSave(jsonStr, fileName) {
                         <br>
                         Regards,<br>
                     `;
-
             const blob = new Blob([htmlBody], { type: "text/html" });
             const textBlob = new Blob([htmlBody.replace(/<[^>]*>/g, "").replace(/\s+/g, ' ').trim()], { type: "text/plain" });
-
-            navigator.clipboard.write([
-                new ClipboardItem({
-                    "text/html": blob,
-                    "text/plain": textBlob
-                })
-            ]).then(() => {
+            navigator.clipboard.write([new ClipboardItem({ "text/html": blob, "text/plain": textBlob })]).then(() => {
                 showToast("✅ Email copied to clipboard. Open Outlook and press Ctrl + V.", "#27AE60");
             }).catch(err => {
                 console.error(err);
-                let plainText =
-                    `Dear Mr. Sabri,\n\nKindly issue a service number for the subject vehicle to proceed with engine oil, filter and tires replacement.\n\nVEHICLE DETAILS:\n\nInternal Number: ${v.internalNo || '-'}\nPlate: ${plate}\nCat: ${cat}\nCurrent KM: ${(v.currentOdometer || 0).toLocaleString()}\nVehicle: ${v.family || v.make || '-'}\nIssue: ${issueLines.join(', ')}\n\nRegards,`;
+                let plainText = `Dear Mr. Sabri,\n\nKindly issue a service number for the subject vehicle to proceed with engine oil, filter and tires replacement.\n\nVEHICLE DETAILS:\n\nInternal Number: ${v.internalNo || '-'}\nPlate: ${plate}\nCat: ${cat}\nCurrent KM: ${(v.currentOdometer || 0).toLocaleString()}\nVehicle: ${v.family || v.make || '-'}\nIssue: ${issueLines.join(', ')}\n\nRegards,`;
                 navigator.clipboard.writeText(plainText).then(() => {
                     showToast("✅ Plain text email copied to clipboard.", "#27AE60");
-                }).catch(() => {
-                    showToast("❌ Failed to copy. Please copy manually.", "#C0392B");
-                });
+                }).catch(() => { showToast("❌ Failed to copy. Please copy manually.", "#C0392B"); });
             });
         };
 
         window.sendMaintenanceTemplateMsg = async function() {
             let plate = document.getElementById('servicePlate').value.trim();
-            if (!plate) {
-                showToast("Select a vehicle plate first", "#C0392B");
-                return;
-            }
+            if (!plate) { showToast("Select a vehicle plate first", "#C0392B"); return; }
             let v = vehicles.find(v => v.plateNo === plate);
-            if (!v) {
-                showToast("Vehicle not found", "#C0392B");
-                return;
-            }
+            if (!v) { showToast("Vehicle not found", "#C0392B"); return; }
             let foundPhone = (v.contact || '').toString().trim();
             let foundName = (v.username || '').toString().trim();
-            if (!foundPhone || foundPhone === '-') {
-                showToast("No contact number found for this vehicle", "#C0392B");
-                return;
-            }
-            if (!foundName || foundName === '-') {
-                foundName = "Driver";
-            }
+            if (!foundPhone || foundPhone === '-') { showToast("No contact number found for this vehicle", "#C0392B"); return; }
+            if (!foundName || foundName === '-') foundName = "Driver";
             foundPhone = foundPhone.replace(/\+/g, '').replace(/\s/g, '').replace(/-/g, '');
             foundName = foundName.replace(/"/g, "'");
-
             let url = `https://graph.facebook.com/v22.0/${WA_PHONE_NUMBER_ID}/messages`;
             let body = {
-                messaging_product: "whatsapp",
-                to: foundPhone,
-                type: "template",
+                messaging_product: "whatsapp", to: foundPhone, type: "template",
                 template: {
-                    name: WA_TEMPLATE_NAME,
-                    language: { code: "en" },
+                    name: WA_TEMPLATE_NAME, language: { code: "en" },
                     components: [{
                         type: "body",
-                        parameters: [
-                            { type: "text", text: foundName },
-                            { type: "text", text: plate }
-                        ]
+                        parameters: [{ type: "text", text: foundName }, { type: "text", text: plate }]
                     }]
                 }
             };
-
             showToast("Sending message...", "#1A5C8A");
-
             try {
                 let res = await fetch(url, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Bearer " + WA_ACCESS_TOKEN
-                    },
+                    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + WA_ACCESS_TOKEN },
                     body: JSON.stringify(body)
                 });
                 let data = await res.json();
-                console.log("Plate:", plate, "Phone:", foundPhone, "Response:", data);
-
                 let entry = {
-                    timestamp: new Date().toISOString(),
-                    plateNo: plate,
-                    name: foundName,
-                    phone: foundPhone,
-                    template: WA_TEMPLATE_NAME,
-                    status: "",
-                    messageId: ""
+                    timestamp: new Date().toISOString(), plateNo: plate, name: foundName,
+                    phone: foundPhone, template: WA_TEMPLATE_NAME, status: "", messageId: ""
                 };
-
                 if (data && data.messages && data.messages[0] && data.messages[0].id) {
                     entry.status = "Sent";
                     entry.messageId = data.messages[0].id;
@@ -4566,23 +3424,16 @@ function fallbackSave(jsonStr, fileName) {
                 console.error(err);
                 showToast("❌ Error: " + err.message, "#C0392B");
                 messageHistory.unshift({
-                    timestamp: new Date().toISOString(),
-                    plateNo: plate,
-                    name: foundName,
-                    phone: foundPhone,
-                    template: WA_TEMPLATE_NAME,
-                    status: "Failed",
-                    messageId: err.message
+                    timestamp: new Date().toISOString(), plateNo: plate, name: foundName,
+                    phone: foundPhone, template: WA_TEMPLATE_NAME, status: "Failed", messageId: err.message
                 });
                 saveMessageHistory();
             }
         };
 
         function renderMessageLog() {
-            let term = document.getElementById('msgSearchInput') ? document.getElementById('msgSearchInput').value.toLowerCase()
-                .trim() : '';
-            let filtered = messageHistory.filter(m => !term || [m.plateNo, m.name, m.phone, m.status].some(f => (f || '')
-                .toString().toLowerCase().includes(term)));
+            let term = document.getElementById('msgSearchInput') ? document.getElementById('msgSearchInput').value.toLowerCase().trim() : '';
+            let filtered = messageHistory.filter(m => !term || [m.plateNo, m.name, m.phone, m.status].some(f => (f || '').toString().toLowerCase().includes(term)));
             document.getElementById('msgSearchCount').innerHTML = `${filtered.length} of ${messageHistory.length} messages`;
             let sent = messageHistory.filter(m => m.status === 'Sent').length;
             let failed = messageHistory.filter(m => m.status === 'Failed').length;
@@ -4627,14 +3478,19 @@ function fallbackSave(jsonStr, fileName) {
             renderReminders();
         });
 
+        // ✅ NEW: Listen to leave history search input
+        document.getElementById('leaveHistorySearchInput').addEventListener('input', function() {
+            currentLeaveHistorySearchTerm = this.value.toLowerCase().trim();
+            renderLeaveHistoryModal();
+        });
+
         // =============================================
         //  TAB SWITCHING
         // =============================================
         window.switchTab = function(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            const idx = { main: 0, service: 1, msglog: 2, history: 3, backup: 4, inactive: 5, accidents: 6,
-                dashboard: 7 } [tab];
+            const idx = { main: 0, service: 1, msglog: 2, history: 3, backup: 4, inactive: 5, accidents: 6, dashboard: 7 } [tab];
             if (idx !== undefined) document.querySelectorAll('.tab')[idx].classList.add('active');
             document.getElementById(`panel-${tab}`).classList.add('active');
             if (tab === 'main') renderMainTable();
@@ -4646,15 +3502,9 @@ function fallbackSave(jsonStr, fileName) {
             }
             if (tab === 'history') renderHistoryTable();
             if (tab === 'backup') renderBackupLog();
-            if (tab === 'inactive') {
-                renderZeroMovementTable();
-                updateZeroMovementStats();
-            }
+            if (tab === 'inactive') { renderZeroMovementTable(); updateZeroMovementStats(); }
             if (tab === 'dashboard') updateDashboard();
-            if (tab === 'accidents') {
-                renderAccidentTable();
-                updateAccidentStats();
-            }
+            if (tab === 'accidents') { renderAccidentTable(); updateAccidentStats(); }
             if (tab === 'msglog') renderMessageLog();
         };
 
@@ -4666,17 +3516,6 @@ function fallbackSave(jsonStr, fileName) {
         window.loadEmployeeData = loadEmployeeData;
         window.closeEmployeeModal = closeEmployeeModal;
         window.processEmployeeData = processEmployeeData;
-
-        // =============================================
-        //  KEYBOARD SHORTCUT: Ctrl+S to Save
-        // =============================================
-        document.addEventListener('keydown', function(e) {
-            // Check for Ctrl+S (or Cmd+S on Mac)
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-                e.preventDefault(); // Prevent the browser's default save dialog
-                exportBackupJSON();
-            }
-        });
 
         // =============================================
         //  INITIALIZATION
@@ -4691,15 +3530,10 @@ function fallbackSave(jsonStr, fileName) {
                 nextId = d.nextId || 300;
             }
             if (!vehicles.length) vehicles = buildDefaultVehicles();
-
             let empSaved = localStorage.getItem(EMPLOYEE_STORAGE_KEY);
             if (empSaved) {
                 employeeData = JSON.parse(empSaved);
-
-                function normalizePlateLocal(p) {
-                    let digits = String(p || '').replace(/\D/g, '');
-                    return digits.slice(-5);
-                }
+                function normalizePlateLocal(p) { return String(p || '').replace(/\D/g, '').slice(-5); }
                 for (const v of vehicles) {
                     const normPlate = normalizePlateLocal(v.plateNo);
                     if (employeeData[normPlate]) {
@@ -4708,31 +3542,36 @@ function fallbackSave(jsonStr, fileName) {
                     }
                 }
             }
-
             refreshAll();
+        }
+
+        async function initializeApp() {
+            const loaded = await loadFromSharePoint();
+            if (!loaded) {
+                console.log('Using local storage as fallback');
+                loadFromLocalStorage();
+                if (!vehicles.length) vehicles = buildDefaultVehicles();
+                refreshAll();
+            }
         }
 
         // Load all data
         loadReserveVehicles();
-        loadFromLocalStorage();
         loadZeroMovementData();
-        loadAccidents();
+        loadAccidentsWithFallback();
         loadMessageHistory();
         loadReminders();
         loadLeaveRecords();
+        loadLeaveHistory();  // ✅ NEW: load leave history
         renderMessageLog();
 
         // Handle manual entry for replacement
         document.getElementById('replacementVehicle').addEventListener('change', function() {
-            if (this.value) {
-                document.getElementById('replacementVehicleManual').value = '';
-            }
+            if (this.value) document.getElementById('replacementVehicleManual').value = '';
         });
 
         document.getElementById('replacementVehicleManual').addEventListener('input', function() {
-            if (this.value) {
-                document.getElementById('replacementVehicle').value = '';
-            }
+            if (this.value) document.getElementById('replacementVehicle').value = '';
         });
 
         // Auto-check reminders every minute
@@ -4741,11 +3580,12 @@ function fallbackSave(jsonStr, fileName) {
             if (due.length > 0) {
                 updateReminderBadges();
                 updateReminderStats();
-                if (document.getElementById('panel-service').classList.contains('active')) {
-                    renderReminders();
-                }
+                if (document.getElementById('panel-service').classList.contains('active')) renderReminders();
             }
         }, 60000);
+
+        // Start the app with SharePoint integration
+        initializeApp();
     </script>
 </body>
 </html>
