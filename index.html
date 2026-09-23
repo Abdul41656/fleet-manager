@@ -1124,9 +1124,11 @@
         }
 
         function saveLeaveRecords() {
-            localStorage.setItem(LEAVE_STORAGE_KEY, JSON.stringify(vehiclesOnLeave));
-            updateLeaveUI();
-        }
+    localStorage.setItem(LEAVE_STORAGE_KEY, JSON.stringify(vehiclesOnLeave));
+    // ✅ FIX: Recalculate dueStatus for all vehicles to reflect leave changes
+    vehicles.forEach(v => updateVehicle(v));
+    updateLeaveUI();
+}
 
         // ✅ NEW: Load/Save Leave History
         function loadLeaveHistory() {
@@ -1376,58 +1378,68 @@
         }
 
         function confirmReturnLeave() {
-            if (deleteLeaveId) {
-                const record = vehiclesOnLeave.find(l => l.id === deleteLeaveId);
-                if (record) {
-                    record.returned = true;
-                    record.returnedDate = new Date().toISOString();
+    if (deleteLeaveId) {
+        const record = vehiclesOnLeave.find(l => l.id === deleteLeaveId);
+        if (record) {
+            record.returned = true;
+            record.returnedDate = new Date().toISOString();
 
-                    // ✅ NEW: Update the matching leaveHistory entry
-                    const histIdx = leaveHistory.findIndex(h =>
-                        h.plateNo === record.plateNo &&
-                        h.startDate === record.startDate &&
-                        h.returned === false
-                    );
-                    if (histIdx !== -1) {
-                        leaveHistory[histIdx].returned = true;
-                        leaveHistory[histIdx].returnedDate = record.returnedDate;
-                        leaveHistory[histIdx].status = 'Returned';
-                        saveLeaveHistory();
-                    }
-
-                    saveLeaveRecords();
-                    showToast(`✅ ${record.plateNo} has been returned from leave`, '#2D6A4F');
-                }
-                closeDeleteLeaveModal();
-                deleteLeaveId = null;
+            // ✅ NEW: Update the matching leaveHistory entry
+            const histIdx = leaveHistory.findIndex(h =>
+                h.plateNo === record.plateNo &&
+                h.startDate === record.startDate &&
+                h.returned === false
+            );
+            if (histIdx !== -1) {
+                leaveHistory[histIdx].returned = true;
+                leaveHistory[histIdx].returnedDate = record.returnedDate;
+                leaveHistory[histIdx].status = 'Returned';
+                saveLeaveHistory();
             }
+
+            // ✅ FIX: Recalculate dueStatus for the returned vehicle
+            const v = vehicles.find(veh => veh.plateNo === record.plateNo);
+            if (v) updateVehicle(v);
+
+            saveLeaveRecords();
+            refreshAll();  // ✅ FIX: Refresh all views so Due Status updates immediately
+            showToast(`✅ ${record.plateNo} has been returned from leave`, '#2D6A4F');
         }
+        closeDeleteLeaveModal();
+        deleteLeaveId = null;
+    }
+}
 
         function returnAllVehicles() {
-            const active = vehiclesOnLeave.filter(l => !l.returned);
-            if (active.length === 0) { showToast('No vehicles on leave to return', '#C0392B'); return; }
-            if (confirm(`Return all ${active.length} vehicles from leave?`)) {
-                active.forEach(l => {
-                    l.returned = true;
-                    l.returnedDate = new Date().toISOString();
+    const active = vehiclesOnLeave.filter(l => !l.returned);
+    if (active.length === 0) { showToast('No vehicles on leave to return', '#C0392B'); return; }
+    if (confirm(`Return all ${active.length} vehicles from leave?`)) {
+        active.forEach(l => {
+            l.returned = true;
+            l.returnedDate = new Date().toISOString();
 
-                    // ✅ NEW: Update the matching leaveHistory entry
-                    const histIdx = leaveHistory.findIndex(h =>
-                        h.plateNo === l.plateNo &&
-                        h.startDate === l.startDate &&
-                        h.returned === false
-                    );
-                    if (histIdx !== -1) {
-                        leaveHistory[histIdx].returned = true;
-                        leaveHistory[histIdx].returnedDate = l.returnedDate;
-                        leaveHistory[histIdx].status = 'Returned';
-                    }
-                });
-                saveLeaveHistory();
-                saveLeaveRecords();
-                showToast(`✅ ${active.length} vehicles returned from leave`, '#2D6A4F');
+            // ✅ NEW: Update the matching leaveHistory entry
+            const histIdx = leaveHistory.findIndex(h =>
+                h.plateNo === l.plateNo &&
+                h.startDate === l.startDate &&
+                h.returned === false
+            );
+            if (histIdx !== -1) {
+                leaveHistory[histIdx].returned = true;
+                leaveHistory[histIdx].returnedDate = l.returnedDate;
+                leaveHistory[histIdx].status = 'Returned';
             }
-        }
+
+            // ✅ FIX: Recalculate dueStatus for each returned vehicle
+            const v = vehicles.find(veh => veh.plateNo === l.plateNo);
+            if (v) updateVehicle(v);
+        });
+        saveLeaveHistory();
+        saveLeaveRecords();
+        refreshAll();  // ✅ FIX: Refresh all views so Due Status updates immediately
+        showToast(`✅ ${active.length} vehicles returned from leave`, '#2D6A4F');
+    }
+}
 
         // =============================================
         //  REMINDERS FUNCTIONS
