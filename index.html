@@ -201,7 +201,7 @@
                 <button class="btn btn-gold" onclick="openImportModal()">📡 Import GPS Odometer</button>
                 <button class="btn btn-green" onclick="openAddVehicleModal()">➕ Add Vehicle</button>
                 <button class="btn btn-primary" onclick="exportToExcel()">📊 Export Excel</button>
-                <button class="btn btn-blue" onclick="exportBackupJSON()">💾 Backup JSON</button>
+                <button class="btn btn-blue" id="saveBtn" onclick="exportBackupJSON()">💾 Save</button>
                 <button class="btn btn-purple" onclick="importBackup()">📂 Import Backup</button>
                 <button class="btn btn-orange" onclick="showVehicleSummary()">📋 Summary</button>
                 <button class="btn btn-brown" onclick="loadEmployeeData()">📂 Load Employee Data</button>
@@ -549,7 +549,6 @@
                     <textarea id="leaveReason" rows="2" placeholder="e.g., Under repairs, Sent for inspection, Driver on leave..."></textarea>
                 </div>
             </div>
-            <!-- ✅ NEW: Leave History button added -->
             <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
                 <button class="btn btn-outline" onclick="closeLeaveModal()">Cancel</button>
                 <button class="btn btn-leave" onclick="saveLeaveRecord()">🚗 Put on Leave</button>
@@ -580,7 +579,7 @@
         </div>
     </div>
 
-    <!-- ✅ NEW: LEAVE HISTORY MODAL -->
+    <!-- LEAVE HISTORY MODAL -->
     <div id="leaveHistoryModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -919,7 +918,6 @@
         const EMPLOYEE_STORAGE_KEY = 'employee_data_v2';
         const MSG_HISTORY_KEY = "msg_history_v1";
         const LEAVE_STORAGE_KEY = 'vehicles_on_leave_v1';
-        // ✅ NEW: Leave history storage key
         const LEAVE_HISTORY_KEY = 'leave_history_v1';
 
         let vehicles = [];
@@ -931,7 +929,6 @@
         let employeeData = {};
         let messageHistory = [];
         let vehiclesOnLeave = [];
-        // ✅ NEW: Leave history array
         let leaveHistory = [];
         let nextId = 300;
         let nextReserveId = 1;
@@ -949,7 +946,6 @@
         let currentHistorySearchTerm = '';
         let currentReserveSearchTerm = '';
         let currentReminderSearchTerm = '';
-        // ✅ NEW: leave history search term
         let currentLeaveHistorySearchTerm = '';
         let zeroMovementHistory = [];
         let currentZeroMovementReport = null;
@@ -1124,13 +1120,11 @@
         }
 
         function saveLeaveRecords() {
-    localStorage.setItem(LEAVE_STORAGE_KEY, JSON.stringify(vehiclesOnLeave));
-    // ✅ FIX: Recalculate dueStatus for all vehicles to reflect leave changes
-    vehicles.forEach(v => updateVehicle(v));
-    updateLeaveUI();
-}
+            localStorage.setItem(LEAVE_STORAGE_KEY, JSON.stringify(vehiclesOnLeave));
+            vehicles.forEach(v => updateVehicle(v));
+            updateLeaveUI();
+        }
 
-        // ✅ NEW: Load/Save Leave History
         function loadLeaveHistory() {
             let saved = localStorage.getItem(LEAVE_HISTORY_KEY);
             if (saved) {
@@ -1142,7 +1136,6 @@
             localStorage.setItem(LEAVE_HISTORY_KEY, JSON.stringify(leaveHistory));
         }
 
-        // ✅ NEW: Open/Close/Render/Export Leave History Modal
         function openLeaveHistoryModal() {
             document.getElementById('leaveHistoryModal').style.display = 'flex';
             document.getElementById('leaveHistorySearchInput').value = '';
@@ -1316,7 +1309,6 @@
 
             vehiclesOnLeave.push(leaveRecord);
 
-            // ✅ NEW: Log to permanent leave history
             leaveHistory.unshift({
                 timestamp: new Date().toISOString(),
                 plateNo: plate,
@@ -1378,68 +1370,64 @@
         }
 
         function confirmReturnLeave() {
-    if (deleteLeaveId) {
-        const record = vehiclesOnLeave.find(l => l.id === deleteLeaveId);
-        if (record) {
-            record.returned = true;
-            record.returnedDate = new Date().toISOString();
+            if (deleteLeaveId) {
+                const record = vehiclesOnLeave.find(l => l.id === deleteLeaveId);
+                if (record) {
+                    record.returned = true;
+                    record.returnedDate = new Date().toISOString();
 
-            // ✅ NEW: Update the matching leaveHistory entry
-            const histIdx = leaveHistory.findIndex(h =>
-                h.plateNo === record.plateNo &&
-                h.startDate === record.startDate &&
-                h.returned === false
-            );
-            if (histIdx !== -1) {
-                leaveHistory[histIdx].returned = true;
-                leaveHistory[histIdx].returnedDate = record.returnedDate;
-                leaveHistory[histIdx].status = 'Returned';
-                saveLeaveHistory();
+                    const histIdx = leaveHistory.findIndex(h =>
+                        h.plateNo === record.plateNo &&
+                        h.startDate === record.startDate &&
+                        h.returned === false
+                    );
+                    if (histIdx !== -1) {
+                        leaveHistory[histIdx].returned = true;
+                        leaveHistory[histIdx].returnedDate = record.returnedDate;
+                        leaveHistory[histIdx].status = 'Returned';
+                        saveLeaveHistory();
+                    }
+
+                    const v = vehicles.find(veh => veh.plateNo === record.plateNo);
+                    if (v) updateVehicle(v);
+
+                    saveLeaveRecords();
+                    refreshAll();
+                    showToast(`✅ ${record.plateNo} has been returned from leave`, '#2D6A4F');
+                }
+                closeDeleteLeaveModal();
+                deleteLeaveId = null;
             }
-
-            // ✅ FIX: Recalculate dueStatus for the returned vehicle
-            const v = vehicles.find(veh => veh.plateNo === record.plateNo);
-            if (v) updateVehicle(v);
-
-            saveLeaveRecords();
-            refreshAll();  // ✅ FIX: Refresh all views so Due Status updates immediately
-            showToast(`✅ ${record.plateNo} has been returned from leave`, '#2D6A4F');
         }
-        closeDeleteLeaveModal();
-        deleteLeaveId = null;
-    }
-}
 
         function returnAllVehicles() {
-    const active = vehiclesOnLeave.filter(l => !l.returned);
-    if (active.length === 0) { showToast('No vehicles on leave to return', '#C0392B'); return; }
-    if (confirm(`Return all ${active.length} vehicles from leave?`)) {
-        active.forEach(l => {
-            l.returned = true;
-            l.returnedDate = new Date().toISOString();
+            const active = vehiclesOnLeave.filter(l => !l.returned);
+            if (active.length === 0) { showToast('No vehicles on leave to return', '#C0392B'); return; }
+            if (confirm(`Return all ${active.length} vehicles from leave?`)) {
+                active.forEach(l => {
+                    l.returned = true;
+                    l.returnedDate = new Date().toISOString();
 
-            // ✅ NEW: Update the matching leaveHistory entry
-            const histIdx = leaveHistory.findIndex(h =>
-                h.plateNo === l.plateNo &&
-                h.startDate === l.startDate &&
-                h.returned === false
-            );
-            if (histIdx !== -1) {
-                leaveHistory[histIdx].returned = true;
-                leaveHistory[histIdx].returnedDate = l.returnedDate;
-                leaveHistory[histIdx].status = 'Returned';
+                    const histIdx = leaveHistory.findIndex(h =>
+                        h.plateNo === l.plateNo &&
+                        h.startDate === l.startDate &&
+                        h.returned === false
+                    );
+                    if (histIdx !== -1) {
+                        leaveHistory[histIdx].returned = true;
+                        leaveHistory[histIdx].returnedDate = l.returnedDate;
+                        leaveHistory[histIdx].status = 'Returned';
+                    }
+
+                    const v = vehicles.find(veh => veh.plateNo === l.plateNo);
+                    if (v) updateVehicle(v);
+                });
+                saveLeaveHistory();
+                saveLeaveRecords();
+                refreshAll();
+                showToast(`✅ ${active.length} vehicles returned from leave`, '#2D6A4F');
             }
-
-            // ✅ FIX: Recalculate dueStatus for each returned vehicle
-            const v = vehicles.find(veh => veh.plateNo === l.plateNo);
-            if (v) updateVehicle(v);
-        });
-        saveLeaveHistory();
-        saveLeaveRecords();
-        refreshAll();  // ✅ FIX: Refresh all views so Due Status updates immediately
-        showToast(`✅ ${active.length} vehicles returned from leave`, '#2D6A4F');
-    }
-}
+        }
 
         // =============================================
         //  REMINDERS FUNCTIONS
@@ -3236,25 +3224,91 @@
             showToast("Exported", "#2D6A4F");
         };
 
-        // ===== UPDATED BACKUP FUNCTIONS - now includes leaveHistory =====
-        window.exportBackupJSON = function() {
-            let a = document.createElement('a');
-            a.href = URL.createObjectURL(new Blob([JSON.stringify({ 
-                vehicles, 
-                serviceHistory, 
-                backupLog, 
+        // =============================================
+        //  SAVE FUNCTION - Direct save to folder (remembers last folder)
+        // =============================================
+        let lastDirectoryHandle = null;
+
+        window.exportBackupJSON = async function() {
+            const backupData = {
+                vehicles,
+                serviceHistory,
+                backupLog,
                 nextId,
-                accidents, 
-                reserveVehicles, 
-                reminders, 
+                accidents,
+                reserveVehicles,
+                reminders,
                 vehiclesOnLeave,
                 messageHistory,
-                leaveHistory  // ✅ NEW: included in backup
-            })]));
-            a.download = `backup_${new Date().toISOString().split('T')[0]}.json`;
+                leaveHistory
+            };
+
+            const jsonStr = JSON.stringify(backupData, null, 2);
+            const fileName = `backup_${new Date().toISOString().split('T')[0]}.json`;
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+
+            // Try File System Access API
+            if (window.showDirectoryPicker) {
+                try {
+                    // If we have a saved folder, try to reuse it silently
+                    if (lastDirectoryHandle) {
+                        try {
+                            const opts = { mode: 'readwrite' };
+                            if ((await lastDirectoryHandle.requestPermission(opts)) === 'granted') {
+                                const fileHandle = await lastDirectoryHandle.getFileHandle(fileName, { create: true });
+                                const writable = await fileHandle.createWritable();
+                                await writable.write(blob);
+                                await writable.close();
+                                showToast(`✅ Saved to previous folder: ${fileName}`, "#27AE60");
+                                addBackupLog('Backup Saved', 'All Data', fileName);
+                                return;
+                            }
+                        } catch (e) {
+                            console.log('Saved folder permission lost, asking user to pick again');
+                        }
+                    }
+
+                    // No saved folder yet - ask user to pick
+                    showToast("📁 Please select the Backup folder (only once)...", "#1A5C8A");
+                    const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+                    lastDirectoryHandle = dirHandle;
+
+                    const opts = { mode: 'readwrite' };
+                    if ((await dirHandle.requestPermission(opts)) !== 'granted') {
+                        showToast("❌ Permission denied to save to this folder", "#C0392B");
+                        return;
+                    }
+
+                    const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(blob);
+                    await writable.close();
+
+                    showToast(`✅ Saved: ${fileName} (folder remembered for next time)`, "#27AE60");
+                    addBackupLog('Backup Saved', 'All Data', fileName);
+                    return;
+                } catch (err) {
+                    console.log('Save dialog cancelled or error:', err);
+                    // User cancelled - fall through to download method
+                }
+            }
+
+            // Fallback: download via browser
+            const a = document.createElement('a');
+            a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(jsonStr);
+            a.download = fileName;
             a.click();
-            showToast("Backup saved", "#1A5C8A");
+            showToast(`✅ Backup downloaded: ${fileName}`, "#27AE60");
+            addBackupLog('Backup Downloaded', 'All Data', fileName);
         };
+
+        // Ctrl+S shortcut
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                exportBackupJSON();
+            }
+        });
 
         window.importBackup = function() { document.getElementById('importFile').click(); };
 
@@ -3289,13 +3343,12 @@
                         messageHistory = d.messageHistory;
                         saveMessageHistory();
                     }
-                    // ✅ NEW: restore leaveHistory
                     if (d.leaveHistory) {
                         leaveHistory = d.leaveHistory;
                         saveLeaveHistory();
                     }
                     refreshAll();
-                    showToast(`Loaded ${vehicles.length} vehicles`, "#2D6A4F");
+                    showToast(`✅ Loaded ${vehicles.length} vehicles, ${accidents.length} accidents, ${leaveHistory.length} leave records`, "#2D6A4F");
                 } catch (err) { showToast("Import failed", "#C0392B"); }
             };
             reader.readAsText(file);
@@ -3490,7 +3543,6 @@
             renderReminders();
         });
 
-        // ✅ NEW: Listen to leave history search input
         document.getElementById('leaveHistorySearchInput').addEventListener('input', function() {
             currentLeaveHistorySearchTerm = this.value.toLowerCase().trim();
             renderLeaveHistoryModal();
@@ -3574,7 +3626,7 @@
         loadMessageHistory();
         loadReminders();
         loadLeaveRecords();
-        loadLeaveHistory();  // ✅ NEW: load leave history
+        loadLeaveHistory();
         renderMessageLog();
 
         // Handle manual entry for replacement
