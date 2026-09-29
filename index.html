@@ -458,7 +458,6 @@
 
     <!-- ===== MODALS ===== -->
 
-    <!-- Vehicle on Leave Modal -->
     <div id="leaveModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -517,7 +516,6 @@
         </div>
     </div>
 
-    <!-- LEAVE HISTORY MODAL -->
     <div id="leaveHistoryModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -548,7 +546,6 @@
         </div>
     </div>
 
-    <!-- Add Reminder Modal -->
     <div id="addReminderModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -592,7 +589,6 @@
         </div>
     </div>
 
-    <!-- Edit Reminder Modal -->
     <div id="editReminderModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -646,7 +642,6 @@
         </div>
     </div>
 
-    <!-- Reserve Vehicles Modal -->
     <div id="reserveVehiclesModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -683,7 +678,6 @@
         </div>
     </div>
 
-    <!-- Add Reserve Vehicle Modal -->
     <div id="addReserveVehicleModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -709,7 +703,6 @@
         </div>
     </div>
 
-    <!-- Edit Reserve Vehicle Modal -->
     <div id="editReserveVehicleModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -821,10 +814,9 @@
 
     <div id="toastMsg" class="toast"></div>
 
-    <!-- ✅ Hidden file inputs -->
+    <!-- Hidden file inputs -->
     <input type="file" id="importFile" style="display:none" accept=".json" onchange="handleImport(event)">
     <input type="file" id="inactiveImportFile" style="display:none" accept=".json" onchange="handleInactiveImport(event)">
-    <!-- ✅ NEW: Hidden input for Accidents Excel import -->
     <input type="file" id="accidentsImportFile" style="display:none" accept=".xlsx,.xls" onchange="handleImportAccidents(event)">
 
     <script>
@@ -880,9 +872,6 @@
         const WA_PHONE_NUMBER_ID = "957302247475352";
         const WA_TEMPLATE_NAME = "maintenance_msg";
 
-        // =============================================
-        //  SHAREPOINT CONFIGURATION
-        // =============================================
         const SHAREPOINT_CONFIG = {
             siteUrl: 'https://emiratestrans.sharepoint.com',
             listId: 'b1a3f835-3c71-4d1c-9c45-b66ec6cdaca1'
@@ -962,7 +951,6 @@
                         location: item.Location || '', checkInDate: item.CheckInDate || '',
                         description: item.Description || '', notes: item.Notes || ''
                     }));
-                    // ✅ Only replace local data if SharePoint actually returned records
                     if (spAccidents.length > 0) {
                         accidents = spAccidents;
                         console.log(`✅ Loaded ${accidents.length} accidents from SharePoint`);
@@ -986,9 +974,7 @@
         }
 
         async function loadAccidentsWithFallback() {
-            // Load local FIRST so we never lose it
             loadAccidentsFromLocal();
-            // Then try SharePoint
             const loaded = await loadAccidents();
             if (loaded && accidents.length > 0) {
                 console.log('✅ Accidents loaded from SharePoint:', accidents.length);
@@ -998,9 +984,7 @@
         }
 
         async function saveAccidents() {
-            // ✅ Save locally FIRST (always works)
             localStorage.setItem(ACCIDENT_STORAGE_KEY, JSON.stringify(accidents));
-            // Then try to sync each accident to SharePoint
             for (const accident of accidents) {
                 try { await saveAccidentToSP(accident); }
                 catch (e) { console.warn('⚠️ Could not save accident to SharePoint (saved locally):', e); }
@@ -2278,7 +2262,7 @@
         }
 
         // =============================================
-        //  ✅ NEW: IMPORT ACCIDENTS FROM EXCEL
+        //  IMPORT ACCIDENTS FROM EXCEL
         // =============================================
         window.openImportAccidentsModal = function() {
             const el = document.getElementById('accidentsImportFile');
@@ -2782,6 +2766,7 @@
         function showEmployeeReport() {
             let filtered = vehicles;
             if (filtered.length === 0) { alert("No vehicles found."); return; }
+
             let rows = filtered.map((v, i) => {
                 const onLeave = isVehicleOnLeave(v.plateNo) ? '🚗 On Leave' : '';
                 const isUnderProcess = v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "");
@@ -2795,48 +2780,60 @@
                             <td>${v.contact || '-'}</td>
                         </tr>`;
             }).join('');
+
             let html = `<!DOCTYPE html>
-                    <html><head><meta charset='UTF-8'>
-                    <style>
-                    body { font-family: Arial, sans-serif; margin: 20px; }
-                    h2 { color: #2E5090; text-align: center; }
-                    .search-wrap { max-width: 100%; margin: 15px 0; }
-                    #searchBox { width: 100%; padding: 10px 15px; border: 2px solid #4472C4; border-radius: 25px; font-size: 14px; outline: none; box-sizing: border-box; }
-                    #resultCount { font-size: 12px; color: #666; margin-top: 6px; text-align: right; }
-                    table { border-collapse: collapse; width: 100%; margin: 10px 0; }
-                    th { background-color: #4472C4; color: white; padding: 12px; text-align: left; border: 1px solid #ddd; }
-                    td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-                    tr:nth-child(even) { background-color: #f2f2f2; }
-                    tr.hover { background-color: #e8f0ff; }
-                    .total { font-weight: bold; margin-top: 15px; font-size: 14px; color: #2E5090; }
-                    </style>
-                    </head><body>
-                    <h2>👤 Employee Vehicle Report</h2>
-                    <div class="search-wrap">
-                        <input id="searchBox" type="text" placeholder="🔍 Search by plate, username, contact, status...">
-                        <div id="resultCount"></div>
-                    </div>
-                    <table id="empTable">
-                        <thead><tr><th>#</th><th>Plate No</th><th>Status</th><th>Last Replacement Vehicle</th><th>Username</th><th>Contact</th></tr></thead>
-                        <tbody id="empBody">${rows}</tbody>
-                    </table>
-                    <div class="total" id="totalCount">Total: ${filtered.length} vehicle(s)</div>
-                    <script>
-                    var total = ${filtered.length};
-                    document.getElementById('searchBox').addEventListener('input', function() {
-                        var term = this.value.toLowerCase().trim();
-                        var rows = document.getElementById('empBody').getElementsByTagName('tr');
-                        var visible = 0;
-                        for (var i = 0; i < rows.length; i++) {
-                            var text = rows[i].innerText.toLowerCase();
-                            if (!term || text.includes(term)) { rows[i].classList.remove('hidden'); visible++; }
-                            else { rows[i].classList.add('hidden'); }
+                <html><head><meta charset='UTF-8'>
+                <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h2 { color: #2E5090; text-align: center; }
+                .search-wrap { max-width: 100%; margin: 15px 0; }
+                #searchBox { width: 100%; padding: 10px 15px; border: 2px solid #4472C4; border-radius: 25px; font-size: 14px; outline: none; box-sizing: border-box; }
+                #resultCount { font-size: 12px; color: #666; margin-top: 6px; text-align: right; }
+                table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+                th { background-color: #4472C4; color: white; padding: 12px; text-align: left; border: 1px solid #ddd; }
+                td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+                tr:nth-child(even) { background-color: #f2f2f2; }
+                tr:hover { background-color: #e8f0ff; }
+                tr.hidden { display: none !important; }
+                .hidden { display: none !important; }
+                .total { font-weight: bold; margin-top: 15px; font-size: 14px; color: #2E5090; }
+                </style>
+                </head><body>
+                <h2>👤 Employee Vehicle Report</h2>
+                <div class="search-wrap">
+                    <input id="searchBox" type="text" placeholder="🔍 Search by plate, username, contact, status..." autofocus>
+                    <div id="resultCount"></div>
+                </div>
+                <table id="empTable">
+                    <thead><tr><th>#</th><th>Plate No</th><th>Status</th><th>Last Replacement Vehicle</th><th>Username</th><th>Contact</th></tr></thead>
+                    <tbody id="empBody">${rows}</tbody>
+                </table>
+                <div class="total" id="totalCount">Total: ${filtered.length} vehicle(s)</div>
+                <script>
+                var total = ${filtered.length};
+                var searchBox = document.getElementById('searchBox');
+                searchBox.focus();
+                searchBox.addEventListener('input', function() {
+                    var term = this.value.toLowerCase().trim();
+                    var rows = document.getElementById('empBody').getElementsByTagName('tr');
+                    var visible = 0;
+                    for (var i = 0; i < rows.length; i++) {
+                        var text = rows[i].innerText.toLowerCase();
+                        if (!term || text.indexOf(term) !== -1) {
+                            rows[i].classList.remove('hidden');
+                            rows[i].style.display = '';
+                            visible++;
+                        } else {
+                            rows[i].classList.add('hidden');
+                            rows[i].style.display = 'none';
                         }
-                        document.getElementById('resultCount').innerText = term ? 'Showing ' + visible + ' of ' + total + ' vehicles' : '';
-                        document.getElementById('totalCount').innerText = term ? 'Showing: ' + visible + ' vehicle(s)' : 'Total: ' + total + ' vehicle(s)';
-                    });
-                    <\/script>
-                    </body></html>`;
+                    }
+                    document.getElementById('resultCount').innerText = term ? 'Showing ' + visible + ' of ' + total + ' vehicles' : '';
+                    document.getElementById('totalCount').innerText = term ? 'Showing: ' + visible + ' vehicle(s)' : 'Total: ' + total + ' vehicle(s)';
+                });
+                <\/script>
+                </body></html>`;
+
             let win = window.open('', '_blank', 'width=900,height=600,scrollbars=yes,resizable=yes');
             if (win) { win.document.write(html); win.document.close(); }
             else { alert("Please allow popups for this site to view the report."); }
@@ -2957,9 +2954,6 @@
         function closeImportModal() { document.getElementById('importModal').style.display = 'none'; }
         function processImport() { closeImportModal(); }
 
-        // =============================================
-        //  UPDATED CRUD OPERATIONS
-        // =============================================
         window.updateService = function() {
             let plate = document.getElementById('servicePlate').value.trim();
             let v = vehicles.find(v => v.plateNo === plate);
@@ -3174,9 +3168,6 @@
             showToast("Exported", "#2D6A4F");
         };
 
-        // =============================================
-        //  SAVE FUNCTION
-        // =============================================
         let lastDirectoryHandle = null;
 
         window.exportBackupJSON = async function() {
@@ -3525,7 +3516,6 @@
             }
         }
 
-        // Load all data
         loadReserveVehicles();
         loadZeroMovementData();
         loadAccidentsWithFallback();
