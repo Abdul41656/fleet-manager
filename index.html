@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Fleet Maintenance Master | Complete Fleet Management</title>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
-    </script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         /* ===== ALL STYLES ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -86,14 +84,10 @@
         .status-due-soon { background: #ffe0b2; color: #e65100; border-radius: 20px; padding: 2px 8px; display: inline-block; }
         .status-cservice { background: #cce5ff; color: #004085; border-radius: 20px; padding: 2px 8px; display: inline-block; }
         .status-done { background: #d4edda; color: #155724; border-radius: 20px; padding: 2px 8px; display: inline-block; }
-        .status-reserve { background: #D5B8FF; color: #4A235A; border-radius: 20px; padding: 2px 8px; display: inline-block; }
-        .status-assigned { background: #FFB6C1; color: #8B0000; border-radius: 20px; padding: 2px 8px; display: inline-block; }
-        .status-unavailable { background: #f8d7da; color: #721c24; border-radius: 20px; padding: 2px 8px; display: inline-block; }
-        .status-reminder-due { background: #C0392B; color: white; border-radius: 20px; padding: 2px 8px; display: inline-block; animation: pulse 1.5s ease-in-out infinite; }
         .status-on-leave { background: #FFD700; color: #8B4513; border-radius: 20px; padding: 2px 8px; display: inline-block; font-weight: bold; }
         .status-key-not-handed { background: #FF6B6B; color: #800000; border-radius: 20px; padding: 2px 8px; display: inline-block; font-weight: bold; }
+        .status-reminder-due { background: #C0392B; color: white; border-radius: 20px; padding: 2px 8px; display: inline-block; animation: pulse 1.5s ease-in-out infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
-        .warning-badge { background: #ff9800; color: white; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
         .zero-badge { background: #8B0000; color: white; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
         .action-btns { display: flex; gap: 6px; justify-content: center; }
         .icon-btn { background: none; border: none; cursor: pointer; font-size: 16px; padding: 4px 6px; border-radius: 6px; }
@@ -139,55 +133,19 @@
         .row-overdue { background: #fff0f0; }
         .row-underprocess { background: #fffcf0; }
         .row-due-soon { background: #fff8f2; }
-        .row-reserve { background: #f5ecff; }
-        .row-assigned { background: #fff0f5; }
-        .row-unavailable { background: #f8d7da; }
         .row-on-leave { background: #FFF8DC; }
-        .row-key-not-handed { background: #FFE4E1; }
         .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 12px; }
         .form-group { display: flex; flex-direction: column; gap: 4px; }
         .form-group label { font-size: 11px; font-weight: 600; color: #555; }
         .form-group input, .form-group select, .form-group textarea { padding: 8px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; }
         .form-group textarea { resize: vertical; min-height: 60px; }
-        .service-category-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
-        .service-category-table th { background: #e2e8f0; color: #1A5C8A; padding: 10px 12px; text-align: left; font-size: 12px; font-weight: 600; position: static; }
-        .service-category-table td { padding: 8px 12px; border-bottom: 1px solid #e0e4e8; text-align: left; font-size: 12px; }
         .history-header-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; }
         .history-header-actions .left { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .reserve-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; background: #D5B8FF; color: #4A235A; }
-        .assigned-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; background: #FFB6C1; color: #8B0000; }
-        .unavailable-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; background: #f8d7da; color: #721c24; }
-        .manual-entry-hint { font-size: 10px; color: #999; margin-top: 2px; }
-        .driver-name-label { font-size: 9px; color: #888; font-style: italic; }
-        .action-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%; padding: 4px 0; }
-        .action-row .btn { padding: 8px 18px; font-size: 12px; font-weight: 600; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
-        .action-row .service-field { flex: 1; min-width: 140px; }
-        .action-row .service-field label { font-size: 10px; font-weight: 600; color: #555; text-transform: uppercase; }
-        .action-row .service-field input { padding: 8px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; width: 100%; }
-        .action-row .btn-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-        .service-type-hint { font-size: 9px; color: #999; margin-top: 2px; font-style: italic; }
-        .reminder-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 9px; font-weight: 600; background: #E67E22; color: white; margin-left: 4px; }
-        .reminder-badge.due { background: #C0392B; animation: pulse 1.5s ease-in-out infinite; }
-        .reminder-sub-panel { background: linear-gradient(135deg, #fff8f0, #ffe8d5); border-radius: 16px; padding: 1rem; margin-top: 1.5rem; margin-bottom: 1.5rem; }
-        .reminder-sub-panel .reminder-header { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%; margin-bottom: 12px; }
-        .reminder-sub-panel .reminder-header span { font-weight: 600; color: #E67E22; }
-        .tab-backup { display: none !important; }
-        .key-handover-container { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .key-handover-container select { padding: 6px 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 12px; }
-        .leave-action-icon { color: #8B4513; }
-        .leave-action-icon:hover { background: #FFF8DC; }
         @media (max-width: 768px) {
             .service-field input { width: 100px; }
             th, td { font-size: 10px; }
             .charts-row { grid-template-columns: 1fr; }
-            .history-header-actions { flex-direction: column; align-items: stretch; }
-            .history-header-actions .left { flex-direction: column; align-items: stretch; }
             .modal-content { width: 98%; padding: 12px; }
-            .action-row { flex-direction: column; align-items: stretch; }
-            .action-row .btn-group { justify-content: center; }
-            .reminder-sub-panel .reminder-header { flex-direction: column; align-items: stretch; }
-            .reminder-sub-panel .reminder-header .btn { width: 100%; text-align: center; }
-            .key-handover-container { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
@@ -315,9 +273,9 @@
                 </div>
             </div>
 
-            <div class="reminder-sub-panel">
-                <div class="reminder-header">
-                    <span>⏰ Custom Reminders</span>
+            <div class="reminder-sub-panel" style="background: linear-gradient(135deg, #fff8f0, #ffe8d5); border-radius: 16px; padding: 1rem; margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%; margin-bottom: 12px;">
+                    <span style="font-weight: 600; color: #E67E22;">⏰ Custom Reminders</span>
                     <button class="btn btn-reminder" onclick="openAddReminderModal()">➕ Add Reminder</button>
                     <button class="btn btn-blue" onclick="checkReminders()">🔍 Check Now</button>
                     <span style="font-size:11px; color:#666; margin-left:auto;" id="reminderCountDisplay">Total: 0 | Due: 0</span>
@@ -332,15 +290,8 @@
                     <table id="reminderTable">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Vehicle</th>
-                                <th>Type</th>
-                                <th>Trigger Value</th>
-                                <th>Current Value</th>
-                                <th>Status</th>
-                                <th>Note</th>
-                                <th>Created</th>
-                                <th>Actions</th>
+                                <th>#</th><th>Vehicle</th><th>Type</th><th>Trigger Value</th><th>Current Value</th>
+                                <th>Status</th><th>Note</th><th>Created</th><th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="reminderBody"></tbody>
@@ -384,16 +335,8 @@
                 <table id="historyTable">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Date</th>
-                            <th>Plate</th>
-                            <th>Service Type</th>
-                            <th>Replacement Vehicle</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Duration (Days)</th>
-                            <th>Key Handover</th>
-                            <th>Status</th>
+                            <th>#</th><th>Date</th><th>Plate</th><th>Service Type</th><th>Replacement Vehicle</th>
+                            <th>Start Date</th><th>End Date</th><th>Duration (Days)</th><th>Key Handover</th><th>Status</th>
                         </tr>
                     </thead>
                     <tbody id="historyBody"></tbody>
@@ -495,10 +438,11 @@
         <!-- ===== ACCIDENTS PANEL ===== -->
         <div class="panel" id="panel-accidents">
             <div class="import-panel" style="background: linear-gradient(135deg, #fff5f0, #ffe8e0);">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; width:100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; width:100%; gap:8px;">
                     <div style="font-weight:bold; font-size:14px;">💥 Vehicle Accident Records</div>
                     <button class="btn btn-accident" onclick="openAddAccidentModal()">➕ Add Accident</button>
                     <button class="btn btn-blue" onclick="exportAccidentsToExcel()">📊 Export to Excel</button>
+                    <button class="btn btn-green" onclick="openImportAccidentsModal()">📥 Import from Excel</button>
                 </div>
             </div>
             <div class="summary-stats" id="accidentStatsContainer"></div>
@@ -560,13 +504,7 @@
                 <table id="leaveRecordsTable">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Plate</th>
-                            <th>Start</th>
-                            <th>Return</th>
-                            <th>Days Left</th>
-                            <th>Reason</th>
-                            <th>Actions</th>
+                            <th>#</th><th>Plate</th><th>Start</th><th>Return</th><th>Days Left</th><th>Reason</th><th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="leaveRecordsBody"></tbody>
@@ -596,15 +534,8 @@
                 <table id="leaveHistoryTable">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Date Logged</th>
-                            <th>Plate</th>
-                            <th>Start Date</th>
-                            <th>Expected Return</th>
-                            <th>Duration (Days)</th>
-                            <th>Actual Return</th>
-                            <th>Reason</th>
-                            <th>Status</th>
+                            <th>#</th><th>Date Logged</th><th>Plate</th><th>Start Date</th><th>Expected Return</th>
+                            <th>Duration (Days)</th><th>Actual Return</th><th>Reason</th><th>Status</th>
                         </tr>
                     </thead>
                     <tbody id="leaveHistoryBody"></tbody>
@@ -733,22 +664,13 @@
                     <button class="btn btn-green" onclick="openAddReserveVehicleModal()">➕ Add Reserve</button>
                     <button class="btn btn-reset-reserve" onclick="resetAllReserveAssignments()">🔄 Free All</button>
                 </div>
-                <div style="font-size:10px; color:#999; margin-top:6px;">
-                    ⚡ <strong>Available</strong> = Can be assigned | <strong>Assigned</strong> = Currently in use
-                </div>
             </div>
             <div class="table-wrapper">
                 <table id="reserveVehicleTable">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Plate No</th>
-                            <th>Category</th>
-                            <th>Internal No</th>
-                            <th>Vehicle Type</th>
-                            <th>Status</th>
-                            <th>Assigned To</th>
-                            <th>Actions</th>
+                            <th>#</th><th>Plate No</th><th>Category</th><th>Internal No</th><th>Vehicle Type</th>
+                            <th>Status</th><th>Assigned To</th><th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="reserveVehicleBody"></tbody>
@@ -857,7 +779,6 @@
         </div>
     </div>
 
-    <!-- Delete Leave Record Modal -->
     <div id="deleteLeaveModal" class="modal">
         <div class="modal-content">
             <div class="modal-header"><span>Return Vehicle from Leave</span><button class="icon-btn" onclick="closeDeleteLeaveModal()">&times;</button></div>
@@ -889,7 +810,6 @@
             <div class="form-group">
                 <label>Select Excel File</label>
                 <input type="file" id="employeeExcelFile" accept=".xlsx, .xls">
-                <p style="font-size: 12px; color: #999; margin-top: 5px;">Default path: C:\Users\c.abdulbasit.gul\OneDrive - Abu Dhabi Municipality\Desktop\ADM VEHICLE\الاستلام الدائم.xlsx</p>
             </div>
             <div id="employeePreview" style="margin-top: 15px; max-height: 300px; overflow-y: auto;"></div>
             <div style="display:flex; gap:12px; margin-top:20px;">
@@ -900,8 +820,12 @@
     </div>
 
     <div id="toastMsg" class="toast"></div>
+
+    <!-- ✅ Hidden file inputs -->
     <input type="file" id="importFile" style="display:none" accept=".json" onchange="handleImport(event)">
     <input type="file" id="inactiveImportFile" style="display:none" accept=".json" onchange="handleInactiveImport(event)">
+    <!-- ✅ NEW: Hidden input for Accidents Excel import -->
+    <input type="file" id="accidentsImportFile" style="display:none" accept=".xlsx,.xls" onchange="handleImportAccidents(event)">
 
     <script>
         // =============================================
@@ -949,12 +873,8 @@
         let currentLeaveHistorySearchTerm = '';
         let zeroMovementHistory = [];
         let currentZeroMovementReport = null;
-        let statusChart = null,
-            makeChart = null,
-            familyChart = null,
-            accidentChart = null,
-            accidentTrendChart = null,
-            topAccidentVehiclesChart = null;
+        let statusChart = null, makeChart = null, familyChart = null,
+            accidentChart = null, accidentTrendChart = null, topAccidentVehiclesChart = null;
 
         const WA_ACCESS_TOKEN = "EAANFcgKwZB9sBQ8Yx1K7wPhZBjBMwT6ZA55ZAL7JLzZCtJ5Ro8mylV76LZC501jHL4ecZCE9n3ri98wdgFNIoMpfTRtLPZB8oyK2jz0ryIMd6NCJctFp7F5gZC9jscyX4S3GwHo3O7eyX2p0qEh1ZCxBUogdLAm0XYmPAZBZBwDCfF6FFR0KRI84lXua4hgW53hOs4ZCxlwZDZD";
         const WA_PHONE_NUMBER_ID = "957302247475352";
@@ -967,7 +887,6 @@
             siteUrl: 'https://emiratestrans.sharepoint.com',
             listId: 'b1a3f835-3c71-4d1c-9c45-b66ec6cdaca1'
         };
-
         const ACCIDENT_LIST_ID = 'Bec002e7c-8e77-47e5-ba96-06afbbeeb772';
 
         async function getRequestDigest() {
@@ -979,10 +898,7 @@
                 });
                 const data = await response.json();
                 return data.d.GetContextWebInformation.FormDigestValue;
-            } catch (error) {
-                console.error('Error getting request digest:', error);
-                throw error;
-            }
+            } catch (error) { console.error('Error getting request digest:', error); throw error; }
         }
 
         async function loadFromSharePoint() {
@@ -1026,10 +942,7 @@
                 refreshAll();
                 showToast(`✅ Loaded ${vehicles.length} vehicles from SharePoint`, '#27AE60');
                 return true;
-            } catch (error) {
-                console.error('SharePoint error:', error);
-                return false;
-            }
+            } catch (error) { console.error('SharePoint error:', error); return false; }
         }
 
         async function loadAccidents() {
@@ -1042,16 +955,22 @@
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    accidents = data.d.results.map(item => ({
+                    const spAccidents = data.d.results.map(item => ({
                         id: item.Id, incidentDate: item.IncidentDate || '', plateNo: item.PlateNo || '',
                         cat: item.Cat || '', internalNo: item.InternalNo || '', claimNo: item.ClaimNo || '',
                         vehicleType: item.VehicleType || '', classification: item.Classification || '',
                         location: item.Location || '', checkInDate: item.CheckInDate || '',
                         description: item.Description || '', notes: item.Notes || ''
                     }));
-                    console.log(`✅ Loaded ${accidents.length} accidents from SharePoint`);
+                    // ✅ Only replace local data if SharePoint actually returned records
+                    if (spAccidents.length > 0) {
+                        accidents = spAccidents;
+                        console.log(`✅ Loaded ${accidents.length} accidents from SharePoint`);
+                    } else {
+                        console.log(`⚠️ SharePoint returned 0 accidents - keeping local data (${accidents.length})`);
+                    }
                     renderAccidentTable(); updateAccidentStats(); updateDashboard();
-                    return true;
+                    return accidents.length > 0;
                 }
                 return false;
             } catch (error) { console.error('❌ Error loading accidents:', error); return false; }
@@ -1067,13 +986,25 @@
         }
 
         async function loadAccidentsWithFallback() {
+            // Load local FIRST so we never lose it
+            loadAccidentsFromLocal();
+            // Then try SharePoint
             const loaded = await loadAccidents();
-            if (!loaded) { console.log('📦 Using local accident data as fallback'); loadAccidentsFromLocal(); }
+            if (loaded && accidents.length > 0) {
+                console.log('✅ Accidents loaded from SharePoint:', accidents.length);
+            } else if (!loaded) {
+                console.log('📦 Using local accident data (SharePoint unavailable)');
+            }
         }
 
         async function saveAccidents() {
-            for (const accident of accidents) { await saveAccidentToSP(accident); }
+            // ✅ Save locally FIRST (always works)
             localStorage.setItem(ACCIDENT_STORAGE_KEY, JSON.stringify(accidents));
+            // Then try to sync each accident to SharePoint
+            for (const accident of accidents) {
+                try { await saveAccidentToSP(accident); }
+                catch (e) { console.warn('⚠️ Could not save accident to SharePoint (saved locally):', e); }
+            }
         }
 
         async function saveAccidentToSP(accident) {
@@ -1132,9 +1063,7 @@
             } else { leaveHistory = []; }
         }
 
-        function saveLeaveHistory() {
-            localStorage.setItem(LEAVE_HISTORY_KEY, JSON.stringify(leaveHistory));
-        }
+        function saveLeaveHistory() { localStorage.setItem(LEAVE_HISTORY_KEY, JSON.stringify(leaveHistory)); }
 
         function openLeaveHistoryModal() {
             document.getElementById('leaveHistoryModal').style.display = 'flex';
@@ -1143,9 +1072,7 @@
             renderLeaveHistoryModal();
         }
 
-        function closeLeaveHistoryModal() {
-            document.getElementById('leaveHistoryModal').style.display = 'none';
-        }
+        function closeLeaveHistoryModal() { document.getElementById('leaveHistoryModal').style.display = 'none'; }
 
         function renderLeaveHistoryModal() {
             let filtered = leaveHistory.slice();
@@ -1156,29 +1083,21 @@
                     (h.status || '').toLowerCase().includes(currentLeaveHistorySearchTerm)
                 );
             }
-
             document.getElementById('leaveHistorySearchCount').innerHTML = `${filtered.length} records`;
-
             const totalRecords = filtered.length;
             const stillOnLeave = filtered.filter(h => !h.returned).length;
             const returnedCount = filtered.filter(h => h.returned).length;
-
             document.getElementById('leaveHistoryStatsContainer').innerHTML = `
                 <div class="stat-card"><div class="stat-number">${totalRecords}</div><div class="stat-label">Total Records</div></div>
                 <div class="stat-card"><div class="stat-number" style="color:#8B4513">${stillOnLeave}</div><div class="stat-label">Currently On Leave</div></div>
                 <div class="stat-card"><div class="stat-number" style="color:#27AE60">${returnedCount}</div><div class="stat-label">Returned</div></div>
             `;
-
             if (filtered.length === 0) {
-                document.getElementById('leaveHistoryBody').innerHTML =
-                    '<tr><td colspan="9" style="text-align:center;padding:40px;">🏖️ No leave history records found.</td></tr>';
+                document.getElementById('leaveHistoryBody').innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;">🏖️ No leave history records found.</td></tr>';
                 return;
             }
-
             document.getElementById('leaveHistoryBody').innerHTML = filtered.map((h, i) => {
-                const statusBadge = h.returned
-                    ? `<span class="status-done">✅ Returned</span>`
-                    : `<span class="status-on-leave">🚗 On Leave</span>`;
+                const statusBadge = h.returned ? `<span class="status-done">✅ Returned</span>` : `<span class="status-on-leave">🚗 On Leave</span>`;
                 return `<tr class="${h.returned ? '' : 'row-on-leave'}">
                             <td>${i+1}</td>
                             <td>${new Date(h.timestamp).toLocaleString()}</td>
@@ -1194,10 +1113,7 @@
         }
 
         function exportLeaveHistoryToExcel() {
-            if (leaveHistory.length === 0) {
-                showToast("No leave history to export", "#C0392B");
-                return;
-            }
+            if (leaveHistory.length === 0) { showToast("No leave history to export", "#C0392B"); return; }
             const data = leaveHistory.map((h, i) => ({
                 "S.No": i + 1,
                 "Date Logged": new Date(h.timestamp).toLocaleString(),
@@ -1222,19 +1138,13 @@
                 const now = new Date();
                 const endDate = new Date(record.endDate);
                 const daysLeft = Math.max(0, Math.ceil((endDate - now) / (1000 * 60 * 60 * 24)));
-                return { onLeave: true, startDate: record.startDate, endDate: record.endDate, daysLeft: daysLeft,
-                    reason: record.reason, id: record.id };
+                return { onLeave: true, startDate: record.startDate, endDate: record.endDate, daysLeft: daysLeft, reason: record.reason, id: record.id };
             }
             return { onLeave: false };
         }
 
-        function isVehicleOnLeave(plateNo) {
-            return vehiclesOnLeave.some(l => l.plateNo === plateNo && !l.returned);
-        }
-
-        function getActiveLeaveCount() {
-            return vehiclesOnLeave.filter(l => !l.returned).length;
-        }
+        function isVehicleOnLeave(plateNo) { return vehiclesOnLeave.some(l => l.plateNo === plateNo && !l.returned); }
+        function getActiveLeaveCount() { return vehiclesOnLeave.filter(l => !l.returned).length; }
 
         function updateLeaveUI() {
             const active = getActiveLeaveCount();
@@ -1258,9 +1168,7 @@
             renderLeaveRecords();
         }
 
-        function closeLeaveModal() {
-            document.getElementById('leaveModal').style.display = 'none';
-        }
+        function closeLeaveModal() { document.getElementById('leaveModal').style.display = 'none'; }
 
         function populateLeaveVehicleDropdown() {
             const select = document.getElementById('leaveVehicleSelect');
@@ -1276,9 +1184,7 @@
             });
             if (select.options.length === 1) {
                 const opt = document.createElement('option');
-                opt.value = '';
-                opt.textContent = '-- No available vehicles --';
-                opt.disabled = true;
+                opt.value = ''; opt.textContent = '-- No available vehicles --'; opt.disabled = true;
                 select.appendChild(opt);
             }
         }
@@ -1298,27 +1204,15 @@
             }
 
             const leaveRecord = {
-                id: nextLeaveId++,
-                plateNo: plate,
-                startDate: startDate,
-                endDate: endDate,
-                reason: reason || 'No reason provided',
-                returned: false,
-                createdDate: new Date().toISOString()
+                id: nextLeaveId++, plateNo: plate, startDate: startDate, endDate: endDate,
+                reason: reason || 'No reason provided', returned: false, createdDate: new Date().toISOString()
             };
-
             vehiclesOnLeave.push(leaveRecord);
 
             leaveHistory.unshift({
-                timestamp: new Date().toISOString(),
-                plateNo: plate,
-                startDate: startDate,
-                endDate: endDate,
+                timestamp: new Date().toISOString(), plateNo: plate, startDate: startDate, endDate: endDate,
                 duration: Math.max(1, Math.round((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))),
-                reason: reason || 'No reason provided',
-                returned: false,
-                returnedDate: '',
-                status: 'On Leave'
+                reason: reason || 'No reason provided', returned: false, returnedDate: '', status: 'On Leave'
             });
             saveLeaveHistory();
 
@@ -1330,19 +1224,16 @@
         function renderLeaveRecords() {
             const active = vehiclesOnLeave.filter(l => !l.returned);
             active.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
-
             const tbody = document.getElementById('leaveRecordsBody');
             if (active.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;">✅ No vehicles currently on leave</td></tr>';
                 return;
             }
-
             tbody.innerHTML = active.map((l, i) => {
                 const now = new Date();
                 const endDate = new Date(l.endDate);
                 const daysLeft = Math.max(0, Math.ceil((endDate - now) / (1000 * 60 * 60 * 24)));
                 const isOverdue = daysLeft === 0 && endDate < now;
-
                 return `<tr class="${isOverdue ? 'row-overdue' : 'row-on-leave'}">
                             <td>${i+1}</td>
                             <td><strong>${l.plateNo}</strong></td>
@@ -1359,15 +1250,11 @@
 
         function returnLeaveVehicle(id, plate) {
             deleteLeaveId = id;
-            document.getElementById('deleteLeaveMsg').innerHTML =
-                `Return <strong>${plate}</strong> from leave?<br><small>This will mark the vehicle as available again.</small>`;
+            document.getElementById('deleteLeaveMsg').innerHTML = `Return <strong>${plate}</strong> from leave?<br><small>This will mark the vehicle as available again.</small>`;
             document.getElementById('deleteLeaveModal').style.display = 'flex';
         }
 
-        function closeDeleteLeaveModal() {
-            document.getElementById('deleteLeaveModal').style.display = 'none';
-            deleteLeaveId = null;
-        }
+        function closeDeleteLeaveModal() { document.getElementById('deleteLeaveModal').style.display = 'none'; deleteLeaveId = null; }
 
         function confirmReturnLeave() {
             if (deleteLeaveId) {
@@ -1375,11 +1262,8 @@
                 if (record) {
                     record.returned = true;
                     record.returnedDate = new Date().toISOString();
-
                     const histIdx = leaveHistory.findIndex(h =>
-                        h.plateNo === record.plateNo &&
-                        h.startDate === record.startDate &&
-                        h.returned === false
+                        h.plateNo === record.plateNo && h.startDate === record.startDate && h.returned === false
                     );
                     if (histIdx !== -1) {
                         leaveHistory[histIdx].returned = true;
@@ -1387,10 +1271,8 @@
                         leaveHistory[histIdx].status = 'Returned';
                         saveLeaveHistory();
                     }
-
                     const v = vehicles.find(veh => veh.plateNo === record.plateNo);
                     if (v) updateVehicle(v);
-
                     saveLeaveRecords();
                     refreshAll();
                     showToast(`✅ ${record.plateNo} has been returned from leave`, '#2D6A4F');
@@ -1407,18 +1289,14 @@
                 active.forEach(l => {
                     l.returned = true;
                     l.returnedDate = new Date().toISOString();
-
                     const histIdx = leaveHistory.findIndex(h =>
-                        h.plateNo === l.plateNo &&
-                        h.startDate === l.startDate &&
-                        h.returned === false
+                        h.plateNo === l.plateNo && h.startDate === l.startDate && h.returned === false
                     );
                     if (histIdx !== -1) {
                         leaveHistory[histIdx].returned = true;
                         leaveHistory[histIdx].returnedDate = l.returnedDate;
                         leaveHistory[histIdx].status = 'Returned';
                     }
-
                     const v = vehicles.find(veh => veh.plateNo === l.plateNo);
                     if (v) updateVehicle(v);
                 });
@@ -1748,9 +1626,7 @@
             const available = reserveVehicles.filter(v => getReserveStatus(v).status === 'Available');
             if (available.length === 0) {
                 const opt = document.createElement('option');
-                opt.value = '';
-                opt.textContent = '-- No available reserves --';
-                opt.disabled = true;
+                opt.value = ''; opt.textContent = '-- No available reserves --'; opt.disabled = true;
                 select.appendChild(opt);
                 return;
             }
@@ -1767,20 +1643,6 @@
                     const option = document.createElement('option');
                     option.value = v.plateNo;
                     option.textContent = `${v.plateNo} (${v.internalNo})`;
-                    optgroup.appendChild(option);
-                });
-                select.appendChild(optgroup);
-            }
-            const assigned = reserveVehicles.filter(v => getReserveStatus(v).status === 'Assigned');
-            if (assigned.length > 0) {
-                const optgroup = document.createElement('optgroup');
-                optgroup.label = '── Assigned (Not Available) ──';
-                optgroup.style.color = '#999';
-                assigned.forEach(v => {
-                    const option = document.createElement('option');
-                    option.value = v.plateNo;
-                    option.textContent = `${v.plateNo} (Assigned to ${v.assignedTo})`;
-                    option.disabled = true;
                     optgroup.appendChild(option);
                 });
                 select.appendChild(optgroup);
@@ -2039,24 +1901,20 @@
             return [
                 { id: 1, plateNo: "6-41542", internalNo: "C0074886", make: "TOYOTA", family: "RAV4", yearModel: 2025,
                     currentOdometer: 61373, lastOilChangeKM: 51144, lastCServiceKM: 40000, lastReplacementVehicle: "69508",
-                    serviceStartDate: "", serviceEndDate: "", serviceNo: "", serviceType: "", status: "",
-                    keyHandoverStatus: "handed" },
+                    serviceStartDate: "", serviceEndDate: "", serviceNo: "", serviceType: "", status: "", keyHandoverStatus: "handed" },
                 { id: 2, plateNo: "17-64984", internalNo: "C0075259", make: "TOYOTA", family: "RAV4", yearModel: 2025,
                     currentOdometer: 15187, lastOilChangeKM: 0, lastCServiceKM: 0, lastReplacementVehicle: "",
-                    serviceStartDate: "", serviceEndDate: "", serviceNo: "", serviceType: "", status: "",
-                    keyHandoverStatus: "handed" },
+                    serviceStartDate: "", serviceEndDate: "", serviceNo: "", serviceType: "", status: "", keyHandoverStatus: "handed" },
                 { id: 3, plateNo: "21-80921", internalNo: "C0075196", make: "TOYOTA", family: "RAV4", yearModel: 2025,
                     currentOdometer: 10053, lastOilChangeKM: 0, lastCServiceKM: 0, lastReplacementVehicle: "",
-                    serviceStartDate: "", serviceEndDate: "", serviceNo: "", serviceType: "", status: "",
-                    keyHandoverStatus: "handed" },
+                    serviceStartDate: "", serviceEndDate: "", serviceNo: "", serviceType: "", status: "", keyHandoverStatus: "handed" },
                 { id: 4, plateNo: "8-24741", internalNo: "C0074566", make: "TOYOTA", family: "RAV4", yearModel: 2025,
                     currentOdometer: 38824, lastOilChangeKM: 29171, lastCServiceKM: 40000, lastReplacementVehicle: "42403",
                     serviceStartDate: "", serviceEndDate: "2026-03-25", serviceNo: "0", serviceType: "3rd Oil Change",
                     status: "Done", keyHandoverStatus: "handed" },
                 { id: 5, plateNo: "6-23850", internalNo: "C0074506", make: "TOYOTA", family: "RAV4", yearModel: 2025,
                     currentOdometer: 10237, lastOilChangeKM: 0, lastCServiceKM: 0, lastReplacementVehicle: "",
-                    serviceStartDate: "", serviceEndDate: "", serviceNo: "", serviceType: "", status: "",
-                    keyHandoverStatus: "handed" }
+                    serviceStartDate: "", serviceEndDate: "", serviceNo: "", serviceType: "", status: "", keyHandoverStatus: "handed" }
             ];
         }
 
@@ -2357,6 +2215,7 @@
             } else { accidents.push(accidentData); showToast("Added", "#2D6A4F"); }
             saveAccidents();
             closeAccidentModal();
+            renderAccidentTable(); updateAccidentStats(); updateDashboard();
         }
 
         function editAccident(id) {
@@ -2390,6 +2249,7 @@
                 showToast("Deleted", "#C0392B");
                 closeDeleteAccidentModal();
                 deleteAccidentId = null;
+                renderAccidentTable(); updateAccidentStats(); updateDashboard();
             }
         }
 
@@ -2397,11 +2257,124 @@
 
         function exportAccidentsToExcel() {
             if (!accidents.length) { showToast("No records", "#C0392B"); return; }
-            const ws = XLSX.utils.json_to_sheet(accidents);
+            const data = accidents.map(a => ({
+                "Date": a.incidentDate || '',
+                "Plate": a.plateNo || '',
+                "Cat": a.cat || '',
+                "Int No": a.internalNo || '',
+                "Claim No": a.claimNo || '',
+                "Vehicle": a.vehicleType || '',
+                "Classification": a.classification || '',
+                "Location": a.location || '',
+                "Check In": a.checkInDate || '',
+                "Description": a.description || '',
+                "Notes": a.notes || ''
+            }));
+            const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Accidents");
             XLSX.writeFile(wb, `accidents_${new Date().toISOString().split('T')[0]}.xlsx`);
             showToast("Exported", "#2D6A4F");
+        }
+
+        // =============================================
+        //  ✅ NEW: IMPORT ACCIDENTS FROM EXCEL
+        // =============================================
+        window.openImportAccidentsModal = function() {
+            const el = document.getElementById('accidentsImportFile');
+            if (!el) { alert("Import input not found!"); return; }
+            el.click();
+        };
+
+        window.handleImportAccidents = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                try {
+                    const data = new Uint8Array(ev.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+                    if (!rows || rows.length === 0) {
+                        showToast("❌ Excel file is empty", "#C0392B");
+                        return;
+                    }
+
+                    console.log('📋 Columns found in Excel:', Object.keys(rows[0]));
+
+                    const imported = [];
+                    rows.forEach((row) => {
+                        const plate = row['Plate'] || row['plateNo'] || row['PlateNo'] || row['plate'] || '';
+                        if (!plate) return;
+                        imported.push({
+                            id: nextAccidentId++,
+                            incidentDate: normalizeDate(row['Date'] || row['incidentDate'] || row['IncidentDate'] || ''),
+                            plateNo: String(plate).trim(),
+                            cat: String(row['Cat'] || row['cat'] || '').trim(),
+                            internalNo: String(row['Int No'] || row['internalNo'] || row['InternalNo'] || '').trim(),
+                            claimNo: String(row['Claim No'] || row['claimNo'] || row['ClaimNo'] || '').trim(),
+                            vehicleType: String(row['Vehicle'] || row['vehicleType'] || row['VehicleType'] || '').trim(),
+                            classification: String(row['Classification'] || row['classification'] || '').trim(),
+                            location: String(row['Location'] || row['location'] || '').trim(),
+                            checkInDate: normalizeDate(row['Check In'] || row['checkInDate'] || row['CheckInDate'] || ''),
+                            description: String(row['Description'] || row['description'] || '').trim(),
+                            notes: String(row['Notes'] || row['notes'] || '').trim()
+                        });
+                    });
+
+                    if (imported.length === 0) {
+                        alert("No valid rows found. Columns were: " + Object.keys(rows[0]).join(', '));
+                        showToast("❌ Need a 'Plate' column in the Excel", "#C0392B");
+                        return;
+                    }
+
+                    const replace = confirm(
+                        `Found ${imported.length} accident record(s).\n\n` +
+                        `OK = REPLACE all existing accidents\n` +
+                        `Cancel = APPEND to existing accidents`
+                    );
+
+                    if (replace) {
+                        accidents = imported;
+                    } else {
+                        accidents = accidents.concat(imported);
+                    }
+
+                    saveAccidents();
+                    renderAccidentTable();
+                    updateAccidentStats();
+                    updateDashboard();
+                    refreshAll();
+
+                    showToast(`✅ Imported ${imported.length} accident record(s)${replace ? ' (replaced)' : ' (appended)'}`, "#27AE60");
+                } catch (err) {
+                    console.error('Import error:', err);
+                    alert("Import error: " + err.message);
+                    showToast("❌ Import failed: " + err.message, "#C0392B");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+            e.target.value = '';
+        };
+
+        function normalizeDate(val) {
+            if (!val && val !== 0) return '';
+            if (typeof val === 'number') {
+                const excelEpoch = new Date(Date.UTC(1899, 11, 30));
+                const d = new Date(excelEpoch.getTime() + val * 86400000);
+                return d.toISOString().split('T')[0];
+            }
+            if (typeof val === 'string') {
+                const m = val.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+                if (m) return `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+                const d = new Date(val);
+                if (!isNaN(d.getTime())) return d.toISOString().split('T')[0];
+                return val;
+            }
+            return String(val);
         }
 
         function filterAccidents() {
@@ -2497,13 +2470,8 @@
                                 <table class="service-category-table">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Plate</th>
-                                            <th>Make/Family</th>
-                                            <th>Odometer</th>
-                                            <th>Last Oil KM</th>
-                                            <th>Remain KM</th>
-                                            <th>Action</th>
+                                            <th>#</th><th>Plate</th><th>Make/Family</th><th>Odometer</th>
+                                            <th>Last Oil KM</th><th>Remain KM</th><th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -2535,9 +2503,6 @@
                 makeCategoryHTML('C-SERVICE DUE (@40,000 km)', '🔵', cService, 'cservice', '✨ No C-Service vehicles');
         }
 
-        // =============================================
-        //  HISTORY TABLE
-        // =============================================
         function renderHistoryTable() {
             let filtered = serviceHistory.slice();
             if (currentHistorySearchTerm) {
@@ -2652,9 +2617,6 @@
             document.getElementById('plateList').innerHTML = vehicles.map(v => `<option value="${v.plateNo}">`).join('');
         }
 
-        // =============================================
-        //  DASHBOARD
-        // =============================================
         function updateDashboard() {
             if (!vehicles.length) return;
             let total = vehicles.length;
@@ -2817,9 +2779,6 @@
             document.getElementById('lastUpdate').innerText = new Date().toLocaleString();
         }
 
-        // =============================================
-        //  EMPLOYEE REPORT
-        // =============================================
         function showEmployeeReport() {
             let filtered = vehicles;
             if (filtered.length === 0) { alert("No vehicles found."); return; }
@@ -2848,11 +2807,8 @@
                     th { background-color: #4472C4; color: white; padding: 12px; text-align: left; border: 1px solid #ddd; }
                     td { padding: 10px; border: 1px solid #ddd; text-align: left; }
                     tr:nth-child(even) { background-color: #f2f2f2; }
-                    tr:hover { background-color: #e8f0ff; }
-                    tr.hidden { display: none; }
+                    tr.hover { background-color: #e8f0ff; }
                     .total { font-weight: bold; margin-top: 15px; font-size: 14px; color: #2E5090; }
-                    .status-on-leave { color: #8B4513; font-weight: bold; }
-                    .status-underprocess { color: #856404; font-weight: bold; }
                     </style>
                     </head><body>
                     <h2>👤 Employee Vehicle Report</h2>
@@ -2954,9 +2910,6 @@
             updateLeaveUI();
         }
 
-        // =============================================
-        //  EXCEL UPDATE (GPS Odometer)
-        // =============================================
         function updateMileageFromExcel() {
             const fileInput = document.getElementById('excelFileInput');
             if (!fileInput.files || fileInput.files.length === 0) { showToast("Select file", "#C0392B"); return; }
@@ -3149,9 +3102,6 @@
             switchTab('service');
         };
 
-        // =============================================
-        //  OTHER CRUD OPERATIONS
-        // =============================================
         window.deleteVehicle = function(id, plate) {
             deleteId = id;
             document.getElementById('deleteMsg').innerHTML = `Delete <strong>${plate}</strong>?`;
@@ -3225,32 +3175,22 @@
         };
 
         // =============================================
-        //  SAVE FUNCTION - Direct save to folder (remembers last folder)
+        //  SAVE FUNCTION
         // =============================================
         let lastDirectoryHandle = null;
 
         window.exportBackupJSON = async function() {
             const backupData = {
-                vehicles,
-                serviceHistory,
-                backupLog,
-                nextId,
-                accidents,
-                reserveVehicles,
-                reminders,
-                vehiclesOnLeave,
-                messageHistory,
-                leaveHistory
+                vehicles, serviceHistory, backupLog, nextId,
+                accidents, reserveVehicles, reminders,
+                vehiclesOnLeave, messageHistory, leaveHistory
             };
-
             const jsonStr = JSON.stringify(backupData, null, 2);
             const fileName = `backup_${new Date().toISOString().split('T')[0]}.json`;
             const blob = new Blob([jsonStr], { type: 'application/json' });
 
-            // Try File System Access API
             if (window.showDirectoryPicker) {
                 try {
-                    // If we have a saved folder, try to reuse it silently
                     if (lastDirectoryHandle) {
                         try {
                             const opts = { mode: 'readwrite' };
@@ -3259,41 +3199,30 @@
                                 const writable = await fileHandle.createWritable();
                                 await writable.write(blob);
                                 await writable.close();
-                                showToast(`✅ Saved to previous folder: ${fileName}`, "#27AE60");
+                                showToast(`✅ Saved: ${fileName}`, "#27AE60");
                                 addBackupLog('Backup Saved', 'All Data', fileName);
                                 return;
                             }
-                        } catch (e) {
-                            console.log('Saved folder permission lost, asking user to pick again');
-                        }
+                        } catch (e) { console.log('Saved folder permission lost'); }
                     }
-
-                    // No saved folder yet - ask user to pick
                     showToast("📁 Please select the Backup folder (only once)...", "#1A5C8A");
                     const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
                     lastDirectoryHandle = dirHandle;
-
                     const opts = { mode: 'readwrite' };
                     if ((await dirHandle.requestPermission(opts)) !== 'granted') {
-                        showToast("❌ Permission denied to save to this folder", "#C0392B");
+                        showToast("❌ Permission denied", "#C0392B");
                         return;
                     }
-
                     const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
                     const writable = await fileHandle.createWritable();
                     await writable.write(blob);
                     await writable.close();
-
-                    showToast(`✅ Saved: ${fileName} (folder remembered for next time)`, "#27AE60");
+                    showToast(`✅ Saved: ${fileName} (folder remembered)`, "#27AE60");
                     addBackupLog('Backup Saved', 'All Data', fileName);
                     return;
-                } catch (err) {
-                    console.log('Save dialog cancelled or error:', err);
-                    // User cancelled - fall through to download method
-                }
+                } catch (err) { console.log('Save dialog cancelled:', err); }
             }
 
-            // Fallback: download via browser
             const a = document.createElement('a');
             a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(jsonStr);
             a.download = fileName;
@@ -3302,7 +3231,6 @@
             addBackupLog('Backup Downloaded', 'All Data', fileName);
         };
 
-        // Ctrl+S shortcut
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 's') {
                 e.preventDefault();
@@ -3445,19 +3373,15 @@
             if (!v) { showToast("Vehicle not found", "#C0392B"); return; }
             let foundPhone = (v.contact || '').toString().trim();
             let foundName = (v.username || '').toString().trim();
-            if (!foundPhone || foundPhone === '-') { showToast("No contact number found for this vehicle", "#C0392B"); return; }
+            if (!foundPhone || foundPhone === '-') { showToast("No contact number found", "#C0392B"); return; }
             if (!foundName || foundName === '-') foundName = "Driver";
             foundPhone = foundPhone.replace(/\+/g, '').replace(/\s/g, '').replace(/-/g, '');
             foundName = foundName.replace(/"/g, "'");
             let url = `https://graph.facebook.com/v22.0/${WA_PHONE_NUMBER_ID}/messages`;
             let body = {
                 messaging_product: "whatsapp", to: foundPhone, type: "template",
-                template: {
-                    name: WA_TEMPLATE_NAME, language: { code: "en" },
-                    components: [{
-                        type: "body",
-                        parameters: [{ type: "text", text: foundName }, { type: "text", text: plate }]
-                    }]
+                template: { name: WA_TEMPLATE_NAME, language: { code: "en" },
+                    components: [{ type: "body", parameters: [{ type: "text", text: foundName }, { type: "text", text: plate }] }]
                 }
             };
             showToast("Sending message...", "#1A5C8A");
@@ -3468,30 +3392,21 @@
                     body: JSON.stringify(body)
                 });
                 let data = await res.json();
-                let entry = {
-                    timestamp: new Date().toISOString(), plateNo: plate, name: foundName,
-                    phone: foundPhone, template: WA_TEMPLATE_NAME, status: "", messageId: ""
-                };
+                let entry = { timestamp: new Date().toISOString(), plateNo: plate, name: foundName, phone: foundPhone, template: WA_TEMPLATE_NAME, status: "", messageId: "" };
                 if (data && data.messages && data.messages[0] && data.messages[0].id) {
-                    entry.status = "Sent";
-                    entry.messageId = data.messages[0].id;
-                    messageHistory.unshift(entry);
-                    saveMessageHistory();
-                    showToast(`✅ Message sent to ${foundName} (${foundPhone})`, "#27AE60");
+                    entry.status = "Sent"; entry.messageId = data.messages[0].id;
+                    messageHistory.unshift(entry); saveMessageHistory();
+                    showToast(`✅ Message sent to ${foundName}`, "#27AE60");
                 } else {
                     entry.status = "Failed";
                     entry.messageId = JSON.stringify(data && data.error ? data.error : data);
-                    messageHistory.unshift(entry);
-                    saveMessageHistory();
-                    showToast("❌ Failed to send. Check console for details.", "#C0392B");
+                    messageHistory.unshift(entry); saveMessageHistory();
+                    showToast("❌ Failed to send.", "#C0392B");
                 }
             } catch (err) {
                 console.error(err);
                 showToast("❌ Error: " + err.message, "#C0392B");
-                messageHistory.unshift({
-                    timestamp: new Date().toISOString(), plateNo: plate, name: foundName,
-                    phone: foundPhone, template: WA_TEMPLATE_NAME, status: "Failed", messageId: err.message
-                });
+                messageHistory.unshift({ timestamp: new Date().toISOString(), plateNo: plate, name: foundName, phone: foundPhone, template: WA_TEMPLATE_NAME, status: "Failed", messageId: err.message });
                 saveMessageHistory();
             }
         };
@@ -3519,9 +3434,6 @@
             ).join('');
         }
 
-        // =============================================
-        //  FILTER & SEARCH FUNCTIONS
-        // =============================================
         window.filterVehicles = function() {
             currentSearchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             renderMainTable();
@@ -3548,9 +3460,6 @@
             renderLeaveHistoryModal();
         });
 
-        // =============================================
-        //  TAB SWITCHING
-        // =============================================
         window.switchTab = function(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -3581,9 +3490,6 @@
         window.closeEmployeeModal = closeEmployeeModal;
         window.processEmployeeData = processEmployeeData;
 
-        // =============================================
-        //  INITIALIZATION
-        // =============================================
         function loadFromLocalStorage() {
             let saved = localStorage.getItem(STORAGE_KEY);
             if (saved) {
@@ -3629,7 +3535,6 @@
         loadLeaveHistory();
         renderMessageLog();
 
-        // Handle manual entry for replacement
         document.getElementById('replacementVehicle').addEventListener('change', function() {
             if (this.value) document.getElementById('replacementVehicleManual').value = '';
         });
@@ -3638,7 +3543,6 @@
             if (this.value) document.getElementById('replacementVehicle').value = '';
         });
 
-        // Auto-check reminders every minute
         setInterval(function() {
             const due = getDueReminders();
             if (due.length > 0) {
@@ -3648,7 +3552,6 @@
             }
         }, 60000);
 
-        // Start the app with SharePoint integration
         initializeApp();
     </script>
 </body>
