@@ -247,10 +247,13 @@
 
             <div class="service-panel" style="background: linear-gradient(135deg, #f5ecff, #e8d5f5);">
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width:100%;">
-                    <span style="font-weight:600; color:#6C3483;">🚗 Reserve Vehicles Management</span>
+                    <span style="font-weight:600; color:#6C3483;"></span>
                     <button class="btn btn-reserve" onclick="openReserveVehiclesModal()">📋 View Reserve Vehicles</button>
                     <button class="btn btn-green" onclick="openAddReserveVehicleModal()">➕ Add Reserve Vehicle</button>
                     <button class="btn btn-reset-reserve" onclick="resetAllReserveAssignments()">🔄 Free All Reserve Vehicles</button>
+                     <button class="btn btn-email-copy" onclick="copyEmailToClipboard()">📋 Copy Email</button>
+                      <button class="btn btn-maintenance-msg" onclick="sendMaintenanceTemplateMsg()">📨 Send Maintenance Msg</button>
+
                     <span style="font-size:11px; color:#666; margin-left:auto;" id="reserveCountDisplay">Total: 0 | Available: 0 | Assigned: 0</span>
                 </div>
             </div>
@@ -258,17 +261,11 @@
             <div class="service-panel" style="background: linear-gradient(135deg, #e8f0fe, #d4e4f7);">
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width:100%;">
                     <div class="service-field" style="flex:1; min-width:120px;">
-                        <label>📱 WhatsApp</label>
-                        <input type="text" id="whatsappPhone" placeholder="971xxxxxxxx" style="width:100%;">
+                       
                     </div>
-                    <div class="service-field" style="flex:2; min-width:200px;">
-                        <label>💬 Message</label>
-                        <input type="text" id="whatsappMsg" placeholder="Enter message..." style="width:100%;">
                     </div>
                     <div class="btn-group" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding-top:4px;">
-                        <button class="btn btn-whatsapp" onclick="sendWhatsApp()">📱 WhatsApp</button>
-                        <button class="btn btn-email-copy" onclick="copyEmailToClipboard()">📋 Copy Email</button>
-                        <button class="btn btn-maintenance-msg" onclick="sendMaintenanceTemplateMsg()">📨 Send Maintenance Msg</button>
+                       
                     </div>
                 </div>
             </div>
@@ -361,9 +358,9 @@
                 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                     <div class="service-field"><label>Select Excel File</label><input type="file" id="inactiveExcelFileInput" accept=".xlsx, .xls"></div>
                     <button class="btn btn-gold" onclick="analyzeMovement()">🔍 Find Zero Movement</button>
-                    <button class="btn btn-blue" onclick="downloadInactiveTemplate()">📄 Download Template</button>
+                   
                 </div>
-                <small>Shows vehicles from YOUR FLEET that have Total Travelled Distance = 0 km in the report.</small>
+               </small>
             </div>
             <div class="summary-stats" id="inactiveStatsContainer"></div>
             <div class="search-container"><input type="text" id="inactiveSearchInput" class="search-input" placeholder="🔍 Search..." onkeyup="filterInactiveVehicles()"><button class="search-clear" onclick="clearInactiveSearch()">Clear</button><span id="inactiveSearchCount"></span></div>
