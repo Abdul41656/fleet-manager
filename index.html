@@ -46,6 +46,8 @@
         .btn-email-copy { background: #1A5C8A; color: white; }
         .btn-email-copy:hover { background: #124568; }
         .btn-maintenance-msg { background: #008080; color: white; }
+	.btn-service-complete { background: #1E8449; color: white; }
+	.btn-service-complete:hover { background: #145A32; }
         .btn-maintenance-msg:hover { background: #006666; }
         .btn-general { background: #F39C12; color: white; }
         .btn-general:hover { background: #E67E22; }
@@ -302,6 +304,7 @@
                     <button class="btn btn-reset-reserve" onclick="resetAllReserveAssignments()">🔄 Free All Reserve Vehicles</button>
                     <button class="btn btn-email-copy" onclick="copyEmailToClipboard()">📋 Copy Email</button>
                     <button class="btn btn-maintenance-msg" onclick="sendMaintenanceTemplateMsg()">📨 Send Maintenance Msg</button>
+		    <button class="btn btn-service-complete" onclick="sendServiceCompleteTemplateMsg()">✅ Send Service Complete Msg</button>
                     <span style="font-size:11px; color:#666; margin-left:auto;" id="reserveCountDisplay">Total: 0 | Available: 0 | Assigned: 0</span>
                 </div>
             </div>
@@ -908,6 +911,7 @@
         const WA_ACCESS_TOKEN = "EAANFcgKwZB9sBQ8Yx1K7wPhZBjBMwT6ZA55ZAL7JLzZCtJ5Ro8mylV76LZC501jHL4ecZCE9n3ri98wdgFNIoMpfTRtLPZB8oyK2jz0ryIMd6NCJctFp7F5gZC9jscyX4S3GwHo3O7eyX2p0qEh1ZCxBUogdLAm0XYmPAZBZBwDCfF6FFR0KRI84lXua4hgW53hOs4ZCxlwZDZD";
         const WA_PHONE_NUMBER_ID = "957302247475352";
         const WA_TEMPLATE_NAME = "maintenance_msg";
+	const WA_TEMPLATE_NAME_SERVICE_COMPLETE = "service_complete_msg";
 
         const SHAREPOINT_CONFIG = {
             siteUrl: 'https://emiratestrans.sharepoint.com',
@@ -3507,6 +3511,18 @@ window.copyEmailToClipboard = function() {
 
 
 
+	
+
+
+
+
+
+
+
+
+
+
+
 
 
         window.sendMaintenanceTemplateMsg = async function() {
@@ -3553,6 +3569,117 @@ window.copyEmailToClipboard = function() {
                 saveMessageHistory();
             }
         };
+
+
+
+
+
+
+
+window.sendServiceCompleteTemplateMsg = async function() {
+    let plate = document.getElementById('servicePlate').value.trim();
+    if (!plate) { showToast("Select a vehicle plate first", "#C0392B"); return; }
+
+    let v = vehicles.find(x => x.plateNo === plate);
+    if (!v) { showToast("Vehicle not found", "#C0392B"); return; }
+
+    let foundPhone = (v.contact || '').toString().trim();
+    let foundName = (v.username || '').toString().trim();
+
+    if (!foundPhone || foundPhone === '-') { showToast("No contact number found", "#C0392B"); return; }
+    if (!foundName || foundName === '-') foundName = "Driver";
+
+    foundPhone = foundPhone.replace(/\+/g, '').replace(/\s/g, '').replace(/-/g, '');
+    foundName  = foundName.replace(/"/g, "'");
+
+    // Completion date: use serviceEndDate if present, else today
+    let completionDate = v.serviceEndDate && v.serviceEndDate.trim() !== ''
+        ? v.serviceEndDate
+        : new Date().toISOString().split('T')[0];
+
+    let url = `https://graph.facebook.com/v22.0/${WA_PHONE_NUMBER_ID}/messages`;
+
+    let body = {
+        messaging_product: "whatsapp",
+        to: foundPhone,
+        type: "template",
+        template: {
+            name: WA_TEMPLATE_NAME_SERVICE_COMPLETE,
+            language: { code: "ar" },
+            components: [{
+                type: "body",
+                parameters: [
+                    { type: "text", text: foundName },
+                    { type: "text", text: plate },
+                    { type: "text", text: completionDate }
+                ]
+            }]
+        }
+    };
+
+    showToast("Sending service complete message...", "#1A5C8A");
+
+    try {
+        let res = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + WA_ACCESS_TOKEN
+            },
+            body: JSON.stringify(body)
+        });
+
+        let data = await res.json();
+
+        let entry = {
+            timestamp: new Date().toISOString(),
+            plateNo: plate,
+            name: foundName,
+            phone: foundPhone,
+            template: WA_TEMPLATE_NAME_SERVICE_COMPLETE,
+            status: "",
+            messageId: ""
+        };
+
+        if (data && data.messages && data.messages[0] && data.messages[0].id) {
+            entry.status = "Sent";
+            entry.messageId = data.messages[0].id;
+            messageHistory.unshift(entry);
+            saveMessageHistory();
+            showToast(`✅ Service complete msg sent to ${foundName}`, "#27AE60");
+        } else {
+            entry.status = "Failed";
+            entry.messageId = JSON.stringify(data && data.error ? data.error : data);
+            messageHistory.unshift(entry);
+            saveMessageHistory();
+            showToast("❌ Failed to send.", "#C0392B");
+        }
+    } catch (err) {
+        console.error(err);
+        showToast("❌ Error: " + err.message, "#C0392B");
+        messageHistory.unshift({
+            timestamp: new Date().toISOString(),
+            plateNo: plate,
+            name: foundName,
+            phone: foundPhone,
+            template: WA_TEMPLATE_NAME_SERVICE_COMPLETE,
+            status: "Failed",
+            messageId: err.message
+        });
+        saveMessageHistory();
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
 
         function renderMessageLog() {
             let term = document.getElementById('msgSearchInput') ? document.getElementById('msgSearchInput').value.toLowerCase().trim() : '';
