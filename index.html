@@ -3540,7 +3540,7 @@ window.copyEmailToClipboard = function() {
             let url = `https://graph.facebook.com/v22.0/${WA_PHONE_NUMBER_ID}/messages`;
             let body = {
                 messaging_product: "whatsapp", to: foundPhone, type: "template",
-                template: { name: WA_TEMPLATE_NAME, language: { code: "ar" },
+                template: { name: WA_TEMPLATE_NAME, language: { code: "en" },
                     components: [{ type: "body", parameters: [{ type: "text", text: foundName }, { type: "text", text: plate }] }]
                 }
             };
