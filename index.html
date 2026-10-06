@@ -305,6 +305,7 @@
                     <button class="btn btn-email-copy" onclick="copyEmailToClipboard()">📋 Copy Email</button>
                     <button class="btn btn-maintenance-msg" onclick="sendMaintenanceTemplateMsg()">📨 Send Maintenance Msg</button>
 		    <button class="btn btn-service-complete" onclick="sendServiceCompleteTemplateMsg()">✅ Send Service Complete Msg</button>
+		    <button class="btn btn-teal" onclick="sendKeyHandoverReminderMsg()">🔑 Send Key Handover Reminder</button>
                     <span style="font-size:11px; color:#666; margin-left:auto;" id="reserveCountDisplay">Total: 0 | Available: 0 | Assigned: 0</span>
                 </div>
             </div>
@@ -3672,6 +3673,96 @@ window.sendServiceCompleteTemplateMsg = async function() {
 
 
 
+
+
+
+window.sendKeyHandoverReminderMsg = async function() {
+    let plate = document.getElementById('servicePlate').value.trim();
+    if (!plate) { showToast("Select a vehicle plate first", "#C0392B"); return; }
+
+    let v = vehicles.find(x => x.plateNo === plate);
+    if (!v) { showToast("Vehicle not found", "#C0392B"); return; }
+
+    let foundPhone = (v.contact || '').toString().trim();
+    let foundName = (v.username || '').toString().trim();
+
+    if (!foundPhone || foundPhone === '-') { showToast("No contact number found", "#C0392B"); return; }
+    if (!foundName || foundName === '-') foundName = "Driver";
+
+    foundPhone = foundPhone.replace(/\+/g, '').replace(/\s/g, '').replace(/-/g, '');
+    foundName  = foundName.replace(/"/g, "'");
+
+    let url = `https://graph.facebook.com/v22.0/${WA_PHONE_NUMBER_ID}/messages`;
+
+    let body = {
+        messaging_product: "whatsapp",
+        to: foundPhone,
+        type: "template",
+        template: {
+            name: "key_handover_reminder",
+            language: { code: "en" },
+            components: [{
+                type: "body",
+                parameters: [
+                    { type: "text", text: foundName },
+                    { type: "text", text: plate }
+                ]
+            }]
+        }
+    };
+
+    showToast("Sending key handover reminder...", "#1A5C8A");
+
+    try {
+        let res = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + WA_ACCESS_TOKEN
+            },
+            body: JSON.stringify(body)
+        });
+
+        let data = await res.json();
+
+        let entry = {
+            timestamp: new Date().toISOString(),
+            plateNo: plate,
+            name: foundName,
+            phone: foundPhone,
+            template: "key_handover_reminder",
+            status: "",
+            messageId: ""
+        };
+
+        if (data && data.messages && data.messages[0] && data.messages[0].id) {
+            entry.status = "Sent";
+            entry.messageId = data.messages[0].id;
+            messageHistory.unshift(entry);
+            saveMessageHistory();
+            showToast(`✅ Key handover reminder sent to ${foundName}`, "#27AE60");
+        } else {
+            entry.status = "Failed";
+            entry.messageId = JSON.stringify(data && data.error ? data.error : data);
+            messageHistory.unshift(entry);
+            saveMessageHistory();
+            showToast("❌ Failed to send.", "#C0392B");
+        }
+    } catch (err) {
+        console.error(err);
+        showToast("❌ Error: " + err.message, "#C0392B");
+        messageHistory.unshift({
+            timestamp: new Date().toISOString(),
+            plateNo: plate,
+            name: foundName,
+            phone: foundPhone,
+            template: "key_handover_reminder",
+            status: "Failed",
+            messageId: err.message
+        });
+        saveMessageHistory();
+    }
+};
 
 
 
