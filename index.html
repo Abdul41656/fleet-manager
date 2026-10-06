@@ -3823,7 +3823,7 @@ window.sendKeyHandoverReminderMsg = async function() {
         window.switchTab = function(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            const idx = { main: 0, service: 1, msglog: 2, history: 3, backup: 4, inactive: 5, accidents: 6, dashboard: 7 } [tab];
+            const idx = { main: 0, service: 1, msglog: 2, history: 3, inactive: 4, accidents: 5, dashboard: 6 } [tab];
             if (idx !== undefined) document.querySelectorAll('.tab')[idx].classList.add('active');
             document.getElementById(`panel-${tab}`).classList.add('active');
             if (tab === 'main') renderMainTable();
