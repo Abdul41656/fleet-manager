@@ -3540,7 +3540,7 @@ window.copyEmailToClipboard = function() {
             let url = `https://graph.facebook.com/v22.0/${WA_PHONE_NUMBER_ID}/messages`;
             let body = {
                 messaging_product: "whatsapp", to: foundPhone, type: "template",
-                template: { name: WA_TEMPLATE_NAME, language: { code: "en" },
+                template: { name: WA_TEMPLATE_NAME, language: { code: "ar" },
                     components: [{ type: "body", parameters: [{ type: "text", text: foundName }, { type: "text", text: plate }] }]
                 }
             };
@@ -3699,8 +3699,8 @@ window.sendKeyHandoverReminderMsg = async function() {
         to: foundPhone,
         type: "template",
         template: {
-            name: "key_handover_reminder",
-            language: { code: "en" },
+            name: "final_reminder_msg",
+            language: { code: "ar" },
             components: [{
                 type: "body",
                 parameters: [
@@ -3730,7 +3730,7 @@ window.sendKeyHandoverReminderMsg = async function() {
             plateNo: plate,
             name: foundName,
             phone: foundPhone,
-            template: "key_handover_reminder",
+            template: "final_reminder_msg",
             status: "",
             messageId: ""
         };
@@ -3756,14 +3756,13 @@ window.sendKeyHandoverReminderMsg = async function() {
             plateNo: plate,
             name: foundName,
             phone: foundPhone,
-            template: "key_handover_reminder",
+            template: "final_reminder_msg",
             status: "Failed",
             messageId: err.message
         });
         saveMessageHistory();
     }
 };
-
 
 
 
