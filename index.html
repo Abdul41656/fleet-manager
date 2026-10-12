@@ -3126,7 +3126,12 @@
             if (v) {
                 document.getElementById('replacementVehicle').value = v.lastReplacementVehicle || '';
                 document.getElementById('replacementVehicleManual').value = '';
-                document.getElementById('oilChangeKM').value = v.lastOilChangeKM || 0;
+                // Check if the vehicle is currently Under Process (has a start date but no end date)
+                var isUnderProcess = v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "");
+
+                // If Under Process, show the CURRENT odometer (what End Service will record)
+                // Otherwise, show the last oil change KM (for reference)
+                document.getElementById('oilChangeKM').value = isUnderProcess ? (v.currentOdometer || 0) : (v.lastOilChangeKM || 0);
                 document.getElementById('serviceStartDate').value = v.serviceStartDate || '';
                 document.getElementById('serviceEndDate').value = v.serviceEndDate || '';
                 document.getElementById('serviceType').value = v.serviceType || '';
@@ -3349,19 +3354,7 @@
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(document.getElementById('whatsappMsg').value || "Vehicle service due")}`, '_blank');
         };
 
-
-
-
-
-
-
-
-
-
-
-
-
-window.copyEmailToClipboard = function() {
+        window.copyEmailToClipboard = function() {
     var plate = document.getElementById('servicePlate').value.trim();
     if (!plate) { showToast("Select a vehicle plate first", "#C0392B"); return; }
     var v = vehicles.find(function(x) { return x.plateNo === plate; });
@@ -3418,11 +3411,7 @@ window.copyEmailToClipboard = function() {
         'Issue           : ' + issueLines.join(' | ') + '\n\n' +
         'Regards,';
 
-    // ============================================
-    //  COPY RICH HTML DIRECTLY — no popup
-    // ============================================
     function copyRichNow() {
-        // Method A: Modern Clipboard API (works on HTTPS / localhost)
         if (navigator.clipboard && window.ClipboardItem && window.isSecureContext) {
             try {
                 var htmlBlob = new Blob([fullHtml], { type: 'text/html' });
@@ -3443,8 +3432,6 @@ window.copyEmailToClipboard = function() {
                 console.warn('ClipboardItem threw, using legacy method:', e);
             }
         }
-        // Method B: Legacy execCommand on hidden contenteditable div
-        // Works on file://, http://, and inside iframes
         legacyCopyRich();
     }
 
@@ -3479,7 +3466,6 @@ window.copyEmailToClipboard = function() {
         if (success) {
             showToast('\u2705 Email copied! Open Outlook and press Ctrl + V.', '#27AE60');
         } else {
-            // Last-resort fallback: open tiny popup with the text pre-selected
             showToast('\u26A0\uFE0F Auto-copy blocked by browser. Copy manually below.', '#C0392B');
             var w = window.open('', '_blank', 'width=700,height=500,scrollbars=yes');
             if (w) {
@@ -3503,28 +3489,6 @@ window.copyEmailToClipboard = function() {
 
     copyRichNow();
 };
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
 
         window.sendMaintenanceTemplateMsg = async function() {
             let plate = document.getElementById('servicePlate').value.trim();
@@ -3571,12 +3535,6 @@ window.copyEmailToClipboard = function() {
             }
         };
 
-
-
-
-
-
-
 window.sendServiceCompleteTemplateMsg = async function() {
     let plate = document.getElementById('servicePlate').value.trim();
     if (!plate) { showToast("Select a vehicle plate first", "#C0392B"); return; }
@@ -3593,7 +3551,6 @@ window.sendServiceCompleteTemplateMsg = async function() {
     foundPhone = foundPhone.replace(/\+/g, '').replace(/\s/g, '').replace(/-/g, '');
     foundName  = foundName.replace(/"/g, "'");
 
-    // Completion date: use serviceEndDate if present, else today
     let completionDate = v.serviceEndDate && v.serviceEndDate.trim() !== ''
         ? v.serviceEndDate
         : new Date().toISOString().split('T')[0];
@@ -3670,11 +3627,6 @@ window.sendServiceCompleteTemplateMsg = async function() {
         saveMessageHistory();
     }
 };
-
-
-
-
-
 
 window.sendKeyHandoverReminderMsg = async function() {
     let plate = document.getElementById('servicePlate').value.trim();
@@ -3763,13 +3715,6 @@ window.sendKeyHandoverReminderMsg = async function() {
         saveMessageHistory();
     }
 };
-
-
-
-
-
-
-
 
         function renderMessageLog() {
             let term = document.getElementById('msgSearchInput') ? document.getElementById('msgSearchInput').value.toLowerCase().trim() : '';
