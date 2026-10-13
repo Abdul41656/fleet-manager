@@ -268,7 +268,7 @@
                         <option value="">-- Select --</option>
                         <option value="NO_REPLACEMENT">🚫 No Replacement Needed</option>
                     </select>
-                    <input type="text" id="replacementVehicleManual" placeholder="Or type manually..." style="width:160px; margin-top:4px;">
+                    
                 </div>
                 <div class="service-field"><label>Oil Change KM</label><input type="number" id="oilChangeKM"></div>
                 <div class="service-field"><label>Service Start Date</label><input type="date" id="serviceStartDate"></div>
@@ -282,7 +282,7 @@
                         <option value="General Services">General Services</option>
                     </select>
                 </div>
-                <div class="service-field"><label>Service No.</label><input type="text" id="serviceNo"></div>
+                <div class="service-field"><label>Service Type.</label><input type="text" id="serviceNo"></div>
                 <div class="service-field" style="flex-direction:row; gap:6px; align-items:center;">
                     <button class="btn btn-primary" onclick="updateService()">✅ Update</button>
                     <button class="btn btn-blue" onclick="endService()">🏁 End Service</button>
@@ -303,14 +303,12 @@
                     <button class="btn btn-green" onclick="openAddReserveVehicleModal()">➕ Add Reserve Vehicle</button>
                     <button class="btn btn-reset-reserve" onclick="resetAllReserveAssignments()">🔄 Free All Reserve Vehicles</button>
                     <button class="btn btn-email-copy" onclick="copyEmailToClipboard()">📋 Copy Email</button>
-                    <button class="btn btn-maintenance-msg" onclick="sendMaintenanceTemplateMsg()">📨 Send Maintenance Msg</button>
-		    <button class="btn btn-service-complete" onclick="sendServiceCompleteTemplateMsg()">✅ Send Service Complete Msg</button>
-		    <button class="btn btn-teal" onclick="sendKeyHandoverReminderMsg()">🔑 Send Key Handover Reminder</button>
+                    <button class="btn btn-maintenance-msg" onclick="sendMaintenanceTemplateMsg()">📨 Maintenance Msg</button>
+		    <button class="btn btn-service-complete" onclick="sendServiceCompleteTemplateMsg()">✅ Service Complete Msg</button>
+		    <button class="btn btn-teal" onclick="sendKeyHandoverReminderMsg()">🔑 Maintenance Reminder Msg</button>
                     <span style="font-size:11px; color:#666; margin-left:auto;" id="reserveCountDisplay">Total: 0 | Available: 0 | Assigned: 0</span>
                 </div>
-            </div>
-
-            <div class="service-panel" style="background: linear-gradient(135deg, #e8f0fe, #d4e4f7);">
+            
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width:100%;">
                     <div class="service-field" style="flex:1; min-width:120px;"></div>
                     <div class="btn-group" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding-top:4px;"></div>
