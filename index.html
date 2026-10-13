@@ -420,17 +420,13 @@
         <div class="panel" id="panel-dashboard">
             <div class="dashboard-container">
                 <div class="kpi-grid" id="kpiGrid"></div>
-                <div style="margin: 15px 0 5px 0;"><hr><h3 style="color:#8B0000; margin: 10px 0;">💥 Accident Statistics</h3></div>
-                <div class="kpi-grid" id="accidentKpiGrid"></div>
+
                 <div class="charts-row">
                     <div class="chart-card"><div class="chart-title">📊 Maintenance Status</div><canvas id="statusChart"></canvas></div>
-                    <div class="chart-card"><div class="chart-title">💥 Accident Classification</div><canvas id="accidentChart"></canvas></div>
                     <div class="chart-card"><div class="chart-title">🚙 Vehicles by Family</div><canvas id="familyChart"></canvas></div>
                 </div>
                 <div class="charts-row">
                     <div class="chart-card"><div class="chart-title">🏭 Vehicles by Make</div><canvas id="makeChart"></canvas></div>
-                    <div class="chart-card"><div class="chart-title">📅 Accidents by Month</div><canvas id="accidentTrendChart"></canvas></div>
-                    <div class="chart-card"><div class="chart-title">🚗 Top Accident Vehicles</div><canvas id="topAccidentVehiclesChart"></canvas></div>
                 </div>
                 <div class="progress-section">
                     <div class="progress-bar-container"><div class="progress-fill" id="utilFill">0% Healthy</div></div>
@@ -478,7 +474,7 @@
         <!-- ===== ACCIDENTS PANEL ===== -->
         <div class="panel" id="panel-accidents">
             <div class="import-panel" style="background: linear-gradient(135deg, #fff5f0, #ffe8e0);">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; width:100%; gap:8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; width:40%;">
                     <div style="font-weight:bold; font-size:14px;">💥 Vehicle Accident Records</div>
                     <button class="btn btn-accident" onclick="openAddAccidentModal()">➕ Add Accident</button>
                     <button class="btn btn-blue" onclick="exportAccidentsToExcel()">📊 Export to Excel</button>
@@ -904,8 +900,7 @@
         let currentLeaveHistorySearchTerm = '';
         let zeroMovementHistory = [];
         let currentZeroMovementReport = null;
-        let statusChart = null, makeChart = null, familyChart = null,
-            accidentChart = null, accidentTrendChart = null, topAccidentVehiclesChart = null;
+        let statusChart = null, makeChart = null, familyChart = null;
 
         const WA_ACCESS_TOKEN = "EAANFcgKwZB9sBQ8Yx1K7wPhZBjBMwT6ZA55ZAL7JLzZCtJ5Ro8mylV76LZC501jHL4ecZCE9n3ri98wdgFNIoMpfTRtLPZB8oyK2jz0ryIMd6NCJctFp7F5gZC9jscyX4S3GwHo3O7eyX2p0qEh1ZCxBUogdLAm0XYmPAZBZBwDCfF6FFR0KRI84lXua4hgW53hOs4ZCxlwZDZD";
         const WA_PHONE_NUMBER_ID = "957302247475352";
@@ -993,7 +988,7 @@
                     if (spAccidents.length > 0) {
                         accidents = spAccidents;
                     }
-                    renderAccidentTable(); updateAccidentStats(); updateDashboard();
+                    renderAccidentTable(); updateAccidentStats();
                     return accidents.length > 0;
                 }
                 return false;
@@ -1006,7 +1001,7 @@
                 accidents = JSON.parse(saved);
                 nextAccidentId = Math.max(...accidents.map(a => a.id), 0) + 1;
             } else { accidents = []; nextAccidentId = 1; }
-            renderAccidentTable(); updateAccidentStats(); updateDashboard();
+            renderAccidentTable(); updateAccidentStats();
         }
 
         async function loadAccidentsWithFallback() {
@@ -2247,7 +2242,7 @@
             } else { accidents.push(accidentData); showToast("Added", "#2D6A4F"); }
             saveAccidents();
             closeAccidentModal();
-            renderAccidentTable(); updateAccidentStats(); updateDashboard();
+            renderAccidentTable(); updateAccidentStats();
         }
 
         function editAccident(id) {
@@ -2281,7 +2276,7 @@
                 showToast("Deleted", "#C0392B");
                 closeDeleteAccidentModal();
                 deleteAccidentId = null;
-                renderAccidentTable(); updateAccidentStats(); updateDashboard();
+                renderAccidentTable(); updateAccidentStats();
             }
         }
 
@@ -2378,7 +2373,6 @@
                     saveAccidents();
                     renderAccidentTable();
                     updateAccidentStats();
-                    updateDashboard();
                     refreshAll();
 
                     showToast(`✅ Imported ${imported.length} accident record(s)${replace ? ' (replaced)' : ' (appended)'}`, "#27AE60");
@@ -2673,7 +2667,7 @@
                         <div class="kpi-card"><div class="kpi-value" style="color:#1A5C8A">${cService}</div><div class="kpi-label">C-Service</div></div>
                         <div class="kpi-card"><div class="kpi-value" style="color:#8B4513">${onLeave}</div><div class="kpi-label">On Leave</div></div>
                         <div class="kpi-card"><div class="kpi-value" style="color:#27AE60">${healthy}</div><div class="kpi-label">Healthy</div></div>`;
-            document.getElementById('accidentKpiGrid').innerHTML = `<div class="kpi-card" style="background:#fff5f0;"><div class="kpi-value" style="color:#8B0000">${accidents.length}</div><div class="kpi-label">Total Accidents</div></div>`;
+            
             if (statusChart) statusChart.destroy();
             statusChart = new Chart(document.getElementById('statusChart'), {
                 type: 'doughnut',
@@ -2682,13 +2676,7 @@
                         backgroundColor: ['#C0392B', '#F39C12', '#E67E22', '#1A5C8A', '#FFD700', '#27AE60'] }] },
                 options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
             });
-            if (accidentChart) accidentChart.destroy();
-            accidentChart = new Chart(document.getElementById('accidentChart'), {
-                type: 'pie',
-                data: { labels: ['Accidents'],
-                    datasets: [{ data: [accidents.length, Math.max(1, total - accidents.length)], backgroundColor: ['#8B0000', '#e0e4e8'] }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
-            });
+            
             let makeCount = {};
             vehicles.forEach(v => { makeCount[v.make] = (makeCount[v.make] || 0) + 1; });
             let mLabels = Object.keys(makeCount).slice(0, 6), mData = mLabels.map(m => makeCount[m]);
@@ -2717,36 +2705,7 @@
                     plugins: { legend: { position: 'top' },
                         tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw} vehicles (${Math.round(ctx.raw/total*100)}%)` } } } }
             });
-            let monthCount = {};
-            accidents.forEach(a => {
-                if (a.incidentDate) {
-                    let month = a.incidentDate.substring(0, 7);
-                    monthCount[month] = (monthCount[month] || 0) + 1;
-                }
-            });
-            let sortedMonths = Object.keys(monthCount).sort(), monthData = sortedMonths.map(m => monthCount[m]);
-            if (accidentTrendChart) accidentTrendChart.destroy();
-            accidentTrendChart = new Chart(document.getElementById('accidentTrendChart'), {
-                type: 'line',
-                data: { labels: sortedMonths,
-                    datasets: [{ label: 'Accidents', data: monthData, borderColor: '#8B0000',
-                        backgroundColor: 'rgba(139,0,0,0.1)', fill: true, tension: 0.3 }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'top' } } }
-            });
-            let vehicleAccidentCount = {};
-            accidents.forEach(a => {
-                if (a.plateNo) vehicleAccidentCount[a.plateNo] = (vehicleAccidentCount[a.plateNo] || 0) + 1;
-            });
-            let topVehicles = Object.entries(vehicleAccidentCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
-            if (topAccidentVehiclesChart) topAccidentVehiclesChart.destroy();
-            topAccidentVehiclesChart = new Chart(document.getElementById('topAccidentVehiclesChart'), {
-                type: 'bar',
-                data: { labels: topVehicles.map(v => v[0]),
-                    datasets: [{ label: 'Number of Accidents', data: topVehicles.map(v => v[1]),
-                        backgroundColor: '#8B0000', borderRadius: 8 }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Accident Count' } } } }
-            });
+            
             let util = Math.round(healthy / total * 100);
             let fillDiv = document.getElementById('utilFill');
             fillDiv.style.width = util + '%';
