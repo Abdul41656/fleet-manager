@@ -1399,56 +1399,73 @@
         }
 
         function renderReminders() {
-            let filtered = reminders;
-            if (currentReminderSearchTerm) {
-                filtered = filtered.filter(r =>
-                    r.plateNo.toLowerCase().includes(currentReminderSearchTerm) ||
-                    r.note.toLowerCase().includes(currentReminderSearchTerm) ||
-                    (r.type || '').toLowerCase().includes(currentReminderSearchTerm)
-                );
-            }
-            const dueReminders = getDueReminders();
-            filtered.sort((a, b) => {
-                const aDue = dueReminders.some(r => r.id === a.id);
-                const bDue = dueReminders.some(r => r.id === b.id);
-                if (aDue && !bDue) return -1;
-                if (!aDue && bDue) return 1;
-                return new Date(b.createdDate) - new Date(a.createdDate);
-            });
-            document.getElementById('reminderSearchCount').innerHTML = `${filtered.length} reminders`;
-            const tbody = document.getElementById('reminderBody');
-            if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;">⏰ No reminders set. Click "Add Reminder" to create one.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = filtered.map((r, i) => {
-                const vehicle = vehicles.find(v => v.plateNo === r.plateNo);
-                const isDue = dueReminders.some(d => d.id === r.id);
-                let currentDisplay = r.type === 'distance' ?
-                    (vehicle ? vehicle.currentOdometer : r.currentValue) :
-                    Math.floor((new Date() - new Date(r.createdDate)) / (1000 * 60 * 60 * 24));
-                if (r.type === 'distance') currentDisplay = (currentDisplay || 0).toLocaleString() + ' km';
-                else currentDisplay = currentDisplay + ' days';
-                const statusBadge = r.completed ?
-                    `<span class="status-done">✅ Completed</span>` :
-                    (isDue ? `<span class="status-reminder-due">🔴 DUE!</span>` : `<span class="status-underprocess">⏳ Active</span>`);
-                return `<tr class="${isDue && !r.completed ? 'row-overdue' : ''}">
-                    <td>${i+1}</td>
-                    <td><strong>${r.plateNo}</strong>${vehicle ? `<br><small>${vehicle.family || ''}</small>` : ''}</td>
-                    <td>${r.type === 'distance' ? '📏 Distance (KM)' : '📅 Days'}</td>
-                    <td>${r.type === 'distance' ? r.triggerValue.toLocaleString() + ' KM' : r.triggerValue + ' days'}</td>
-                    <td>${currentDisplay}</td>
-                    <td>${statusBadge}</td>
-                    <td style="max-width:250px; white-space:normal; text-align:left;">${r.note}</td>
-                    <td>${new Date(r.createdDate).toLocaleDateString()}</td>
-                    <td class="action-btns">
-                        ${!r.completed ? `<button class="icon-btn" onclick="completeReminder(${r.id})" title="Mark Complete">✅</button>` : ''}
-                        <button class="icon-btn" onclick="editReminder(${r.id})" title="Edit">✏️</button>
-                        <button class="icon-btn" onclick="deleteReminder(${r.id},'${r.plateNo}')" title="Delete">🗑️</button>
-                    </td>
-                </tr>`;
-            }).join('');
-        }
+    // Read search term directly from input (avoids stale global variable bug)
+    var searchInput = document.getElementById('reminderSearchInput');
+    if (searchInput) {
+        currentReminderSearchTerm = (searchInput.value || '').toLowerCase().trim();
+    }
+
+    let filtered = reminders.slice();
+    if (currentReminderSearchTerm) {
+        filtered = filtered.filter(r => {
+            const plate = String(r.plateNo || '').toLowerCase();
+            const note = String(r.note || '').toLowerCase();
+            const type = String(r.type || '').toLowerCase();
+            return plate.includes(currentReminderSearchTerm) ||
+                   note.includes(currentReminderSearchTerm) ||
+                   type.includes(currentReminderSearchTerm);
+        });
+    }
+
+    const dueReminders = getDueReminders();
+    filtered.sort((a, b) => {
+        const aDue = dueReminders.some(r => r.id === a.id);
+        const bDue = dueReminders.some(r => r.id === b.id);
+        if (aDue && !bDue) return -1;
+        if (!aDue && bDue) return 1;
+        return new Date(b.createdDate) - new Date(a.createdDate);
+    });
+
+    const countEl = document.getElementById('reminderSearchCount');
+    if (countEl) countEl.innerHTML = `${filtered.length} reminders`;
+
+    const tbody = document.getElementById('reminderBody');
+    if (!tbody) return;
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;">⏰ No reminders set. Click "Add Reminder" to create one.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = filtered.map((r, i) => {
+        const vehicle = vehicles.find(v => v.plateNo === r.plateNo);
+        const isDue = dueReminders.some(d => d.id === r.id);
+        let currentDisplay = r.type === 'distance' ?
+            (vehicle ? vehicle.currentOdometer : r.currentValue) :
+            Math.floor((new Date() - new Date(r.createdDate)) / (1000 * 60 * 60 * 24));
+        if (r.type === 'distance') currentDisplay = (currentDisplay || 0).toLocaleString() + ' km';
+        else currentDisplay = currentDisplay + ' days';
+        const statusBadge = r.completed ?
+            `<span class="status-done">✅ Completed</span>` :
+            (isDue ? `<span class="status-reminder-due">🔴 DUE!</span>` : `<span class="status-underprocess">⏳ Active</span>`);
+        return `<tr class="${isDue && !r.completed ? 'row-overdue' : ''}">
+            <td>${i+1}</td>
+            <td><strong>${r.plateNo || '-'}</strong>${vehicle ? `<br><small>${vehicle.family || ''}</small>` : ''}</td>
+            <td>${r.type === 'distance' ? '📏 Distance (KM)' : '📅 Days'}</td>
+            <td>${r.type === 'distance' ? (r.triggerValue || 0).toLocaleString() + ' KM' : (r.triggerValue || 0) + ' days'}</td>
+            <td>${currentDisplay}</td>
+            <td>${statusBadge}</td>
+            <td style="max-width:250px; white-space:normal; text-align:left;">${r.note || '-'}</td>
+            <td>${r.createdDate ? new Date(r.createdDate).toLocaleDateString() : '-'}</td>
+            <td class="action-btns">
+                ${!r.completed ? `<button class="icon-btn" onclick="completeReminder(${r.id})" title="Mark Complete">✅</button>` : ''}
+                <button class="icon-btn" onclick="editReminder(${r.id})" title="Edit">✏️</button>
+                <button class="icon-btn" onclick="deleteReminder(${r.id},'${r.plateNo || ''}')" title="Delete">🗑️</button>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
 
         function updateReminderStats() {
             const total = reminders.length;
