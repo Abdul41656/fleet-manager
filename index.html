@@ -2969,12 +2969,14 @@
         function processImport() { closeImportModal(); }
 
         window.updateService = function() {
-            let plate = document.getElementById('servicePlate').value.trim();
-            let v = vehicles.find(v => v.plateNo === plate);
-            if (!v) return showToast("Not found", "#C0392B");
-            let rep = document.getElementById('replacementVehicle').value.trim();
-            let repManual = document.getElementById('replacementVehicleManual').value.trim();
-            let finalRep = (rep === 'NO_REPLACEMENT') ? '' : (repManual || rep);
+  	  let plate = document.getElementById('servicePlate').value.trim();
+    	let v = vehicles.find(v => v.plateNo === plate);
+     if (!v) return showToast("Vehicle not found. Please select a plate first.", "#C0392B");
+   	    let repEl = document.getElementById('replacementVehicle');
+    	    let rep = repEl ? repEl.value.trim() : '';
+    	    let repManualEl = document.getElementById('replacementVehicleManual');
+    	    let repManual = repManualEl ? repManualEl.value.trim() : '';
+    	    let finalRep = (rep === 'NO_REPLACEMENT') ? '' : (repManual || rep);
             let oil = document.getElementById('oilChangeKM').value.trim();
             let start = document.getElementById('serviceStartDate').value.trim();
             let end = document.getElementById('serviceEndDate').value.trim();
@@ -3095,25 +3097,33 @@
         };
 
         window.selectForService = function(plate) {
-            document.getElementById('servicePlate').value = plate;
-            let v = vehicles.find(v => v.plateNo === plate);
-            if (v) {
-                document.getElementById('replacementVehicle').value = v.lastReplacementVehicle || '';
-                document.getElementById('replacementVehicleManual').value = '';
-                // Check if the vehicle is currently Under Process (has a start date but no end date)
-                var isUnderProcess = v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "");
+    document.getElementById('servicePlate').value = plate;
+    let v = vehicles.find(v => v.plateNo === plate);
+    if (v) {
+        var repEl = document.getElementById('replacementVehicle');
+        if (repEl) repEl.value = v.lastReplacementVehicle || '';
+        var repManualEl = document.getElementById('replacementVehicleManual');
+        if (repManualEl) repManualEl.value = '';
+        // Check if the vehicle is currently Under Process (has a start date but no end date)
+        var isUnderProcess = v.serviceStartDate && v.serviceStartDate.trim() !== "" && (!v.serviceEndDate || v.serviceEndDate.trim() === "");
 
-                // If Under Process, show the CURRENT odometer (what End Service will record)
-                // Otherwise, show the last oil change KM (for reference)
-                document.getElementById('oilChangeKM').value = isUnderProcess ? (v.currentOdometer || 0) : (v.lastOilChangeKM || 0);
-                document.getElementById('serviceStartDate').value = v.serviceStartDate || '';
-                document.getElementById('serviceEndDate').value = v.serviceEndDate || '';
-                document.getElementById('serviceType').value = v.serviceType || '';
-                document.getElementById('serviceNo').value = v.serviceNo || '';
-                document.getElementById('keyHandoverStatus').value = v.keyHandoverStatus || 'handed';
-            }
-            switchTab('service');
-        };
+        // If Under Process, show the CURRENT odometer (what End Service will record)
+        // Otherwise, show the last oil change KM (for reference)
+        var oilEl = document.getElementById('oilChangeKM');
+        if (oilEl) oilEl.value = isUnderProcess ? (v.currentOdometer || 0) : (v.lastOilChangeKM || 0);
+        var startEl = document.getElementById('serviceStartDate');
+        if (startEl) startEl.value = v.serviceStartDate || '';
+        var endEl = document.getElementById('serviceEndDate');
+        if (endEl) endEl.value = v.serviceEndDate || '';
+        var typeEl = document.getElementById('serviceType');
+        if (typeEl) typeEl.value = v.serviceType || '';
+        var noEl = document.getElementById('serviceNo');
+        if (noEl) noEl.value = v.serviceNo || '';
+        var keyEl = document.getElementById('keyHandoverStatus');
+        if (keyEl) keyEl.value = v.keyHandoverStatus || 'handed';
+    }
+    switchTab('service');
+};
 
         window.deleteVehicle = function(id, plate) {
             deleteId = id;
