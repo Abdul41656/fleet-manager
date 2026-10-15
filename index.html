@@ -3186,16 +3186,19 @@
         };
 
         window.exportToExcel = function() {
-            let ws = XLSX.utils.json_to_sheet(vehicles.map(v => ({
-                "Plate": v.plateNo, "Internal": v.internalNo, "Make": v.make, "Family": v.family,
-                "Year": v.yearModel, "Odometer": v.currentOdometer, "Due Status": v.dueStatus,
-                "Status": v.status || "", "On Leave": isVehicleOnLeave(v.plateNo) ? "Yes" : "No"
-            })));
-            let wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Fleet");
-            XLSX.writeFile(wb, `fleet_${new Date().toISOString().split('T')[0]}.xlsx`);
-            showToast("Exported", "#2D6A4F");
-        };
+    let ws = XLSX.utils.json_to_sheet(vehicles.map(v => ({
+        "Plate": v.plateNo, "Internal": v.internalNo, "Make": v.make, "Family": v.family,
+        "Year": v.yearModel, "Odometer": v.currentOdometer,
+        "Last Oil Change KM": v.lastOilChangeKM || 0,
+        "Last C-Service KM": v.lastCServiceKM || 0,
+        "Due Status": v.dueStatus,
+        "Status": v.status || "", "On Leave": isVehicleOnLeave(v.plateNo) ? "Yes" : "No"
+    })));
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Fleet");
+    XLSX.writeFile(wb, `fleet_${new Date().toISOString().split('T')[0]}.xlsx`);
+    showToast("Exported", "#2D6A4F");
+};
 
         let lastDirectoryHandle = null;
 
